@@ -1,0 +1,246 @@
+# This file contains all the queries of the database
+---
+
+# table headers
+employee_detail_header : ["EMP ID", "Name", "Age", "Gender", "Mobile No", "Email Address", "Username", "Role", "Status"]
+customer_detail_header : ["Customer ID", "Name", "Mobile No", "Vehicle No", "Vehicle Type Name"]
+parking_slot_detail_header : ["Parking Slot No.", "Vehicle Type", "status"]
+slot_booking_detail_header : ["Customer ID", "Name", "Mobile No", "Vehicle No", "Vehicle Type", "Booking ID", "Parking Slot No", "In Date", "In Time", "Out Date", "Out Time", "Hours", "Charges"]
+vehicle_type_detail_header : ["Type ID", "Type Name", "Price Per Hour"]
+
+# queries for authentication table
+authentication_table_creation : |
+  CREATE TABLE IF NOT EXISTS authentication(
+    emp_id TEXT PRIMARY KEY,
+    username TEXT UNIQUE,
+    password TEXT,
+    role TEXT,
+    password_type TEXT DEFAULT "default"
+  )
+create_employee_credentials : |
+  INSERT INTO authentication(
+    emp_id,
+    username,
+    password,
+    role
+  ) VALUES(?, ?, ?, ?)
+fetch_employee_credentials : |
+  SELECT password, role, password_type
+  FROM authentication INNER JOIN employee
+  ON authentication.emp_id = employee.emp_id
+  WHERE authentication.username = ? and employee.status = ?
+fetch_authentication_table : SELECT * FROM authentication
+fetch_default_password_from_emp_id : |
+  SELECT password_type, password FROM authentication
+  WHERE emp_id = ?
+fetch_emp_id_from_username : |
+  SELECT emp_id FROM authentication
+  WHERE username = ?
+fetch_emp_id_from_role_and_status : |
+  SELECT authentication.emp_id FROM authentication
+  INNER JOIN employee ON
+  authentication.emp_id = employee.emp_id
+  WHERE authentication.role = ? and employee.status = ?
+update_default_password : |
+  UPDATE authentication SET password = ?, 
+  password_type = ? WHERE username = ?
+update_employee_credential_from_emp_id : |
+  UPDATE authentication SET 
+  {} = ? WHERE emp_id = ?
+
+# queries for employee table
+employee_table_creation : |
+  CREATE TABLE IF NOT EXISTS employee(
+    emp_id TEXT PRIMARY KEY,
+    name TEXT,
+    age INTEGER,
+    gender TEXT,
+    mobile_no TEXT UNIQUE,
+    email_address TEXT UNIQUE,
+    status TEXT DEFAULT "active",
+    FOREIGN KEY(emp_id) REFERENCES authentication(emp_id) ON DELETE CASCADE
+  )
+create_employee_details : |
+  INSERT INTO employee(
+    emp_id,
+    name,
+    age,
+    gender,
+    mobile_no,
+    email_address
+  ) VALUES(?, ?, ?, ?, ?, ?)
+fetch_emp_id_and_status_from_email: |
+  SELECT emp_id, status FROM employee
+  WHERE email_address = ?
+update_employee_detail_from_empid : |
+  UPDATE employee SET 
+  {} = ? WHERE emp_id = ?
+view_employee_detail : |
+  SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
+  FROM employee INNER JOIN authentication ON
+  employee.emp_id = authentication.emp_id
+view_single_employee_detail : |
+  SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
+  FROM employee INNER JOIN authentication ON
+  employee.emp_id = authentication.emp_id
+  WHERE employee.emp_id = ?
+
+# queries for vehicle_type table
+vehicle_type_table_creation : |
+  CREATE TABLE IF NOT EXISTS vehicle_type(
+    type_id TEXT PRIMARY KEY,
+    type_name TEXT UNIQUE,
+    price_per_hour REAL
+  )
+create_vehicle_type : |
+  INSERT INTO vehicle_type(
+    type_id,
+    type_name,
+    price_per_hour
+  ) VALUES(?, ?, ?)
+fetch_vehicle_type : SELECT * FROM vehicle_type
+fetch_price_per_hour_from_type_id : |
+  SELECT price_per_hour FROM vehicle_type
+  WHERE type_id = ?
+fetch_vehicle_type_id_from_type_name : |
+  SELECT type_id FROM vehicle_type
+  WHERE type_name = ?
+fetch_vehicle_type_from_type_name : |
+  SELECT * FROM vehicle_type
+  WHERE type_name = ?
+update_vehicle_type_detail_from_type_id : |
+  UPDATE vehicle_type SET
+  {} = ? WHERE type_id = ?
+
+# queries for parking_slot table
+parking_slot_table_creation : |
+  CREATE TABLE IF NOT EXISTS parking_slot(
+    parking_slot_no TEXT PRIMARY KEY,
+    type_id TEXT,
+    status TEXT DEFAULT "vacant",
+    FOREIGN KEY(type_id) REFERENCES vehicle_type(type_id) ON DELETE CASCADE
+  )
+create_parking_slot : |
+  INSERT INTO parking_slot(
+    parking_slot_no,
+    type_id
+  ) VALUES(?, ?)
+fetch_parking_slot_detail_from_parking_slot_no : |
+  SELECT * FROM parking_slot
+  WHERE parking_slot_no = ?
+fetch_parking_slot_no_for_booking : |
+  SELECT parking_slot_no FROM parking_slot
+  WHERE type_id = ? and status = ?
+update_parking_slot_detail_from_parking_slot_no : |
+  UPDATE parking_slot SET 
+  {} = ? WHERE parking_slot_no = ?
+view_parking_slot_detail : |
+  SELECT parking_slot_no, type_name, status
+  FROM parking_slot INNER JOIN vehicle_type ON
+  parking_slot.type_id = vehicle_type.type_id
+delete_parking_slot_from_parking_slot_no : |
+  DELETE FROM parking_slot
+  WHERE parking_slot_no = ?
+
+# queries for customer table 
+customer_table_creation : |
+  CREATE TABLE IF NOT EXISTS customer(
+    customer_id TEXT PRIMARY KEY,
+    name TEXT,
+    mobile_no TEXT,
+    vehicle_no TEXT UNIQUE,
+    type_id TEXT,
+    FOREIGN KEY(type_id) REFERENCES vehicle_type(type_id) ON DELETE CASCADE
+  ) 
+create_customer : |
+  INSERT INTO customer(
+    customer_id,
+    name,
+    mobile_no,
+    vehicle_no,
+    type_id
+  ) VALUES (?, ?, ?, ?, ?)
+fetch_customer_id_and_type_id_from_vehicle_no : |
+  SELECT customer_id, type_id FROM customer
+  WHERE vehicle_no = ?
+update_customer_detail : |
+  UPDATE customer SET
+  {} = ? WHERE customer_id = ?
+view_customer_detail : |
+  SELECT customer_id, name, mobile_no, vehicle_no, type_name
+  FROM customer INNER JOIN vehicle_type ON
+  customer.type_id = vehicle_type.type_id
+
+# queries for slot_booking table
+slot_booking_table_creation : |
+  CREATE TABLE IF NOT EXISTS slot_booking(
+    booking_id TEXT PRIMARY KEY,
+    customer_id TEXT,
+    parking_slot_no TEXT,
+    in_date TEXT,
+    in_time TEXT,
+    out_date TEXT,
+    out_time TEXT DEFAULT "XX:XX",
+    hours REAL DEFAULT 0.0,
+    charges REAL DEFAULT 0.0,
+    FOREIGN KEY(customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
+    FOREIGN KEY(parking_slot_no) REFERENCES parking_slot(parking_slot_no) ON DELETE CASCADE
+  )
+create_slot_booking : |
+  INSERT INTO slot_booking(
+    booking_id,
+    customer_id,
+    parking_slot_no,
+    in_date,
+    in_time,
+    out_date
+  ) VALUES(?, ?, ?, ?, ?, ?)
+fetch_booking_detail_from_customer_id: |
+  SELECT * FROM slot_booking 
+  WHERE customer_id = ?
+fetch_booking_detail_from_booking_id: |
+  SELECT * FROM slot_booking 
+  WHERE booking_id = ?
+fetch_detail_for_vacating_parking_slot : |
+  SELECT booking_id, parking_slot_no, in_date, in_time FROM slot_booking INNER JOIN customer
+  ON slot_booking.customer_id = customer.customer_id 
+  WHERE customer.vehicle_no = ?
+fetch_type_id_from_booking_id : |
+  SELECT type_id
+  FROM slot_booking INNER JOIN customer
+  ON slot_booking.customer_id = customer.customer_id
+  WHERE slot_booking.booking_id = ?
+fetch_current_date_record : |
+  SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+  booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
+  FROM customer INNER JOIN vehicle_type
+  ON customer.type_id=vehicle_type.type_id
+  INNER JOIN slot_booking ON
+  customer.customer_id=slot_booking.customer_id
+  WHERE in_date = ?
+fetch_past_year_record : |
+  SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+  booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
+  FROM customer INNER JOIN vehicle_type
+  ON customer.type_id=vehicle_type.type_id
+  INNER JOIN slot_booking ON
+  customer.customer_id=slot_booking.customer_id
+  WHERE in_date LIKE ?
+fetch_out_time_from_customer_id : |
+  SELECT out_time FROM slot_booking
+  WHERE customer_id = ?
+update_slot_booking_detail : |
+  UPDATE slot_booking SET
+  {} = ? WHERE booking_id = ?
+update_detail_for_vacating_parking_slot : |
+  UPDATE slot_booking SET
+  out_date = ?, out_time = ?, hours = ?, charges = ?
+  WHERE booking_id = ?
+view_slot_booking_detail : |
+  SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+  booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
+  FROM customer INNER JOIN vehicle_type
+  ON customer.type_id=vehicle_type.type_id
+  INNER JOIN slot_booking ON
+  customer.customer_id=slot_booking.customer_id
+...

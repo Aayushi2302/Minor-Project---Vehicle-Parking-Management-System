@@ -1,0 +1,28 @@
+# This yaml file store all the logging prompts of the project
+---
+# main logs
+project_starting_info : Starting with vehicle parking management system.
+creating_database_connection_debug : Creating database connection.
+closing_database_connection_debug : Closing database connection.
+wrong_file_run_debug : Wrong file run. Run main.py for running the program.
+
+# authentication logs
+first_login_info : First Login into the system successful.Change password.
+successful_login_info : Successful login into the system.
+invalid_login_info : Invalid Login into the system.
+successful_logout_info : Successful logout of the system.
+
+# query_executer logs
+successful_authentication_table_creation_info : authentication table created successfully.
+data_fetched_from_database_successful_info : Data fetched from database successfully.
+data_saved_to_database_successful_info : Data saved to database successfully.
+successful_employee_table_creation_info : employee table created successfully.
+successful_vehicle_type_table_creation_info : vehicle_type table created successfully.
+successful_parking_slot_table_creation_info : parking_slot table created successfully.
+successful_customer_table_creation_info : customer table created successfully.
+successful_slot_booking_table_creation_info : slot_booking table created successfully.
+
+# validatior logs
+invalid_input_exception_info : Invalid input by user.
+
+...
