@@ -12,6 +12,7 @@ tabulate = "*"
 pytz = "*"
 pytest = "*"
 pytest-cov = "*"
+coverage = "*"
 
 [dev-packages]
 

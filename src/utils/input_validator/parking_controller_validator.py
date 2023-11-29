@@ -2,7 +2,7 @@
 from datetime import datetime
 import logging
 
-from config.prompts import Prompts
+from config.prompts.prompts import Prompts
 from config.regex_pattern import RegexPattern
 from utils.common_helper import CommonHelper
 

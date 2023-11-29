@@ -51,7 +51,7 @@ class AdminController(VehicleType, ParkingSlot):
             Parameter -> self
             Return type -> bool
         """
-        self.employee_update_views_obj.employee_update_operations()
+        # self.employee_update_views_obj.employee_update_operations()
                           
     def view_employee_details(self) -> bool:
         """

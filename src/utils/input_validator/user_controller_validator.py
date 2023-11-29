@@ -81,7 +81,7 @@ class UserControllerValidator:
                 print(Prompts.INVALID_INPUT + "\n")
             
     @staticmethod
-    def input_role(role: Union[str, None]) -> str:
+    def input_role(role: Union[str, None] = None) -> str:
         """ 
             Validation of role using regular expression.
             Parameter -> role: Union[str, None]

@@ -73,6 +73,7 @@ class CommonHelper:
                     print(Prompts.PASSWORD_NOT_MATCH + "\n")
                     continue
                 hashed_password = hashlib.sha256(confirm_password.encode('utf-8')).hexdigest()
+                print(hashed_password)
                 self.db_helper_obj.update_password(
                     hashed_password,
                     AppConfig.PERMANENT_PASSWORD,
