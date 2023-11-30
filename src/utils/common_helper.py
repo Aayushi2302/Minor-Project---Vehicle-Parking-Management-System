@@ -43,6 +43,7 @@ class CommonHelper:
         """
         logger.info("Checking if admin exist in the system.")
         user_data = self.db_helper_obj.get_employee(AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
+        print(user_data)
         if user_data:
             return True
         else:
@@ -66,14 +67,16 @@ class CommonHelper:
             if not is_strong_password:
                 logger.info("Strong password requirements not met.")
                 print(Prompts.WEAK_PASSWORD_INPUT + "\n")
+
             else:
+
                 confirm_password = maskpass.askpass(Prompts.INPUT_CONFIRM_PASSWORD)
                 if input_password != confirm_password:
                     logger.info("New password and Confirm password do not match.")
                     print(Prompts.PASSWORD_NOT_MATCH + "\n")
                     continue
                 hashed_password = hashlib.sha256(confirm_password.encode('utf-8')).hexdigest()
-                print(hashed_password)
+                
                 self.db_helper_obj.update_password(
                     hashed_password,
                     AppConfig.PERMANENT_PASSWORD,

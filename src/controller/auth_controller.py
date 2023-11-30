@@ -29,7 +29,7 @@ class AuthController:
     def __init__(self):
         self.db_helper_obj = DBHelper()
 
-    def __first_login(self, username: str, password: str, actual_password: str) -> bool:
+    def valid_first_login(self, username: str, password: str, actual_password: str) -> bool:
         """
             Method for changing default password on first valid login.
             Parameter -> self, username: str, password: str, actual_password: str
@@ -42,7 +42,7 @@ class AuthController:
             CommonHelper.create_new_password(username)
             return True
 
-    def __role_based_access(self, role: str, username: str) -> None:
+    def role_based_access(self, role: str, username: str) -> bool:
         """
             Method to assign role to user based on the credentials after authentication.
             Parameter -> self, role: str, username: str
@@ -52,11 +52,14 @@ class AuthController:
             # TODO : add enter as admin in admin menu 
             admin_views_obj = AdminViews(username)
             admin_views_obj.admin_menu_operations()
-        else:
+            return True
+        elif role == AppConfig.ATTENDANT_ROLE:
             # TODO : same with employee menu
             # employee_handler_obj = EmployeeViews(username)
-            # employee_handler_obj.employee_menu()
-            pass
+            # employee_handler_obj.employee_menu_operations()
+            return True
+        else:
+            return False
     
     def authenticate_user(self, username: str, password: str) -> bool:
         """
@@ -70,11 +73,10 @@ class AuthController:
             role = user_data[0][1]
             password_type = user_data[0][2]
             if password_type == AppConfig.DEFAULT_PASSWORD:
-                return self.__first_login(username, password, actual_password)
+                return self.valid_first_login(username, password, actual_password)
             else:
                 hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
                 if hashed_password == actual_password:
-                    self.__role_based_access(role, username)
-                    return True
+                    return self.role_based_access(role, username)
         return False
                     

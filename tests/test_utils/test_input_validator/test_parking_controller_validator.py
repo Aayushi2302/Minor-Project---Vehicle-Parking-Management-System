@@ -1,5 +1,5 @@
 """Module for testing parking controller input."""
-
+from datetime import datetime
 import unittest
 from unittest.mock import Mock, patch
 from src.utils.input_validator.parking_controller_validator import ParkingControllerValidator
@@ -77,8 +77,6 @@ class TestParkingControllerValidator(unittest.TestCase):
         mock_input_validation.side_effect = [False, False, True]
         self.assertEqual(ParkingControllerValidator.input_vehicle_number(), "RJ-02-AB-1974")
 
-    # @patch("src.utils.input_validator.parking_controller_validator.datetime.strptime")
-    # @patch("src.utils.input_validator.parking_controller_validator.datetime.now")
     @patch("builtins.input")
     def test_input_out_date(self, mock_input: Mock) -> bool:
         """
@@ -86,10 +84,10 @@ class TestParkingControllerValidator(unittest.TestCase):
             Parameter -> self, mock_input: Mock, mock_input_validation: Mock
             Return type -> bool
         """
-        mock_input.side_effect = ["12-22-2023", "29-11-2023"]
-        # mock_datetime_now.return_value = "28-11-2023"
-        # mock_datetime_strptime.return_value = "29-11-2023"
-        self.assertEqual(ParkingControllerValidator.input_out_date(), "29-11-2023")
+        current_date = datetime.now().date()
+        current_date = current_date.strftime("%d-%m-%Y")
+        mock_input.side_effect = ["12-22-2023", "27-11-2023", current_date]
+        self.assertEqual(ParkingControllerValidator.input_out_date(), current_date)
 
 if __name__ == '__main__':
     unittest.main()

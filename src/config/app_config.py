@@ -10,6 +10,7 @@ class AppConfig:
     
     # role specific constants
     ADMIN_ROLE = "admin"
+    ATTENDANT_ROLE = "attendant"
 
     # status specific constants
     STATUS_ACTIVE = "active"
