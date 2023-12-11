@@ -16,6 +16,12 @@ class AppConfig:
     STATUS_ACTIVE = "active"
     STATUS_INACTIVE = "inactive"
 
+    # parking_slot table status constants
+    PARKING_SLOT_STATUS_VACANT = "vacant"
+    PARKING_SLOT_STATUS_INACTIVE = "inactive"
+    PARKING_SLOT_STATUS_DELETED = "deleted"
+    PARKING_SLOT_STATUS_BOOKED = "booked"
+
     # password type specific constants
     DEFAULT_PASSWORD = "default"
     PERMANENT_PASSWORD = "permanent"
@@ -33,3 +39,4 @@ class AppConfig:
     EMAIL_ADDRESS_ATTR = "email_address"
     USERNAME_ATTR = "username"
     ROLE_ATTR = "role"
+    PRICE_PER_HOUR_ATTR = "price_per_hour"

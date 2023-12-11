@@ -10,10 +10,10 @@ from tabulate import tabulate
 
 from config.app_config import AppConfig
 from config.prompts.prompts import Prompts
-from config.regex_pattern import RegexPattern
+from config.query import QueryConfig
 from config.query import TableHeader
+from config.regex_pattern import RegexPattern
 from models.database import db
-from models.db_helper import DBHelper
 
 logger = logging.getLogger(__name__)
 
@@ -32,8 +32,6 @@ class CommonHelper:
         clear_screen() -> Method to clear screen.
 
     """
-    def __init__(self):
-        self.db_helper_obj = DBHelper()
 
     def is_admin_registered(self) -> bool:
         """
@@ -42,8 +40,10 @@ class CommonHelper:
             Return type -> bool
         """
         logger.info("Checking if admin exist in the system.")
-        user_data = self.db_helper_obj.get_employee(AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
-        print(user_data)
+        user_data = db.fetch_data_from_database(
+                    QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,
+                    (AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
+                )
         if user_data:
             return True
         else:
@@ -77,10 +77,9 @@ class CommonHelper:
                     continue
                 hashed_password = hashlib.sha256(confirm_password.encode('utf-8')).hexdigest()
                 
-                self.db_helper_obj.update_password(
-                    hashed_password,
-                    AppConfig.PERMANENT_PASSWORD,
-                    username
+                db.save_data_to_database(
+                    QueryConfig.UPDATE_DEFAULT_PASSWORD,
+                    (hashed_password, AppConfig.PERMANENT_PASSWORD, username)
                 )
                 logger.info("Password changed successfully.")
                 print(Prompts.PASSWORD_CHANGE_SUCCESSFUL + "\n")
@@ -94,9 +93,12 @@ class CommonHelper:
         """
         logger.info("Viewing individual employee details.")
         print(Prompts.DETAILS_FOR_GIVEN_EMPLOYEE.format(username))
-        emp_data =  self.db_helper_obj.get_single_employee_details(username)
-        headers = TableHeader.EMPLOYEE_DETAIL_HEADER
-        CommonHelper.display_table(emp_data, headers)
+        emp_data =  db.fetch_data_from_database(
+                        QueryConfig.VIEW_SINGLE_EMPLOYEE_DETAIL,
+                        (username, )
+                    )
+        header = TableHeader.EMPLOYEE_DETAIL_HEADER
+        CommonHelper.display_table(emp_data, header)
 
     @staticmethod
     def display_table(data: list, headers: list) -> None:
@@ -114,7 +116,7 @@ class CommonHelper:
                 tablefmt = "simple_grid"
             )
         )
-   
+
     @staticmethod
     def input_validation(regular_exp: str, input_field: str) -> bool:
         """
@@ -144,7 +146,7 @@ class CommonHelper:
         curr_date = current.strftime('%d-%m-%Y')
         logger.info("Getting current date and time in IST format.")
         return (curr_date, curr_time)
-    
+   
     @staticmethod
     def clear_screen() -> None:
         """
@@ -155,4 +157,3 @@ class CommonHelper:
         if input("\n" + Prompts.PRESS_KEY_TO_CONTINUE + "\n"):
             logger.info("Clearing screen when moving to any next functionality.")
             os.system('cls')
-

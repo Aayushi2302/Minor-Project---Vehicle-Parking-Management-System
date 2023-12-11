@@ -97,7 +97,6 @@ class ParkingControllerValidator:
         while True:
             out_date = input(Prompts.CUSTOMER_OUT_DATE_INPUT).strip()
             present = datetime.now().date()
-            print(present)
             try:
                 out_date = datetime.strptime(out_date, "%d-%m-%Y").date()
                 if out_date < present:

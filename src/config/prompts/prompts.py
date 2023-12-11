@@ -276,8 +276,9 @@ class Prompts:
         cls.PARKING_SLOT_DELETED = data["PARKING_SLOT_DELETED"]
         cls.CANNOT_VACATE_PARKING_SLOT = data["CANNOT_VACATE_PARKING_SLOT"]
         cls.INPUT_DETAIL_TO_VACATE_PARKING_SLOT = data["INPUT_DETAIL_TO_VACATE_PARKING_SLOT"]
+        
 
-        # employee_controller module prompts
+        # employee_controller modul prompts
         cls.CUSTOMER_DETAILS_INPUT = data["CUSTOMER_DETAILS_INPUT"]
         cls.VEHICLE_NUMBER_INPUT = data["VEHICLE_NUMBER_INPUT"]
         cls.CUSTOMER_CREATION_SUCCESSFUL = data["CUSTOMER_CREATION_SUCCESSFUL"]

@@ -203,11 +203,12 @@ MANAGE_VEHICLE_TYPE_MENU : |
 
 MANAGE_PARKING_SLOT_MENU : |
   You can do the following tasks :
-    1. Add or activate a parking slot
-    2. Deactivate parking slot
-    3. See parking slots
-    4. Remove parking slot
-    5. Back to main menu
+    1. Register a parking slot
+    2. Activate a parking slot
+    3. Deactivate parking slot
+    4. See parking slots
+    5. Remove parking slot
+    6. Back to main menu
 
 EMPLOYEE_MENU : |
   You can perform the following tasks :

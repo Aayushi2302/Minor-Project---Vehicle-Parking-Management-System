@@ -8,7 +8,8 @@ import logging
 
 from config.app_config import AppConfig
 from config.log_prompts.log_prompts import LogPrompts
-from models.db_helper import DBHelper
+from config.query import QueryConfig
+from models.database import db
 from utils.common_helper import CommonHelper
 from views.admin_views import AdminViews
 from views.employee_views import EmployeeViews
@@ -27,7 +28,7 @@ class AuthController:
         authenticate_user() -> Method for validating user based on credentials.
     """
     def __init__(self):
-        self.db_helper_obj = DBHelper()
+        self.common_helper_obj = CommonHelper()
 
     def valid_first_login(self, username: str, password: str, actual_password: str) -> bool:
         """
@@ -35,11 +36,11 @@ class AuthController:
             Parameter -> self, username: str, password: str, actual_password: str
             Return type -> bool
         """
-        logging.info(LogPrompts.FIRST_LOGIN_INFO)
+        logger.info(LogPrompts.FIRST_LOGIN_INFO)
         if actual_password != password:
             return False
         else:
-            CommonHelper.create_new_password(username)
+            self.common_helper_obj.create_new_password(username)
             return True
 
     def role_based_access(self, role: str, username: str) -> bool:
@@ -49,14 +50,12 @@ class AuthController:
             Return type -> None
         """  
         if role == AppConfig.ADMIN_ROLE:
-            # TODO : add enter as admin in admin menu 
             admin_views_obj = AdminViews(username)
             admin_views_obj.admin_menu_operations()
             return True
         elif role == AppConfig.ATTENDANT_ROLE:
-            # TODO : same with employee menu
-            # employee_handler_obj = EmployeeViews(username)
-            # employee_handler_obj.employee_menu_operations()
+            employee_handler_obj = EmployeeViews(username)
+            employee_handler_obj.employee_menu_operations()
             return True
         else:
             return False
@@ -67,11 +66,14 @@ class AuthController:
             Parameter -> username: str, password: str
             Return type -> bool
         """
-        user_data = self.db_helper_obj.get_employee_credentails(username, AppConfig.STATUS_ACTIVE)
-        if user_data:
-            actual_password = user_data[0][0]
-            role = user_data[0][1]
-            password_type = user_data[0][2]
+        data =  db.fetch_data_from_database(
+                    QueryConfig.FETCH_EMPLOYEE_CREDENTIALS,
+                    (username, AppConfig.STATUS_ACTIVE)
+                )
+        if data:
+            actual_password = data[0][0]
+            role = data[0][1]
+            password_type = data[0][2]
             if password_type == AppConfig.DEFAULT_PASSWORD:
                 return self.valid_first_login(username, password, actual_password)
             else:

@@ -5,7 +5,7 @@ class RegexPattern:
     BOOKING_ID_REGEX = r"^BOOK[a-zA-Z0-9]+$"
     EMAIL_REGEX = r"^[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
     MOBILE_NO_REGEX = r"[6-9][0-9]{9}$"
-    NAME_REGEX = r"^([A-Za-z]{2,25}\s*)"
+    NAME_REGEX = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
     PARKING_SLOT_NUMBER_REGEX = r"^PSN[0-9]+$"
     PASSWORD_PATTERN = r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[@#$%&]).{8,}$"
     ROLE_REGEX = r"^([a-z]){5,}$"

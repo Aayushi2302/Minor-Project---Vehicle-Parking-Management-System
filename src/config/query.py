@@ -150,6 +150,7 @@ class QueryConfig:
         FROM employee INNER JOIN authentication ON
         employee.emp_id = authentication.emp_id
         WHERE authentication.username = ?
+        ORDER BY employee.name ASC
     """
 
     # queries for vehicle_type table
@@ -167,13 +168,13 @@ class QueryConfig:
             price_per_hour
         ) VALUES(?, ?, ?)
     """
-    FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type"
+    FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type ORDER BY type_name ASC"
     FETCH_PRICE_PER_HOUR_FROM_TYPE_ID = """
         SELECT price_per_hour FROM vehicle_type
         WHERE type_id = ?
     """
     FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME = """
-        SELECT * FROM vehicle_type
+        SELECT type_id FROM vehicle_type
         WHERE type_name = ?
     """
     UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID = """
@@ -200,6 +201,10 @@ class QueryConfig:
         SELECT * FROM parking_slot
         WHERE parking_slot_no = ?
     """
+    FETCH_STATUS_FROM_PARKING_SLOT_NUMBER = """
+        SELECT status FROM parking_slot
+        WHERE parking_slot_no = ?
+    """
     FETCH_PARKING_SLOT_NO_FOR_BOOKING = """
         SELECT parking_slot_no FROM parking_slot
         WHERE type_id = ? and status = ?
@@ -212,6 +217,7 @@ class QueryConfig:
         SELECT parking_slot_no, type_name, status
         FROM parking_slot INNER JOIN vehicle_type ON
         parking_slot.type_id = vehicle_type.type_id
+        ORDER BY parking_slot.parking_slot_no ASC
     """
     DELETE_PARKING_SLOT_FROM_PARKING_SLOT_NO = """
         DELETE FROM parking_slot
@@ -249,6 +255,7 @@ class QueryConfig:
         SELECT customer_id, name, mobile_no, vehicle_no, type_name
         FROM customer INNER JOIN vehicle_type ON
         customer.type_id = vehicle_type.type_id
+        ORDER BY customer.name ASC
     """
 
     # queries for slot_booking table
@@ -286,7 +293,7 @@ class QueryConfig:
         WHERE booking_id = ?
     """
     FETCH_DETAIL_FOR_VACATING_PARKING_SLOT = """
-        SELECT booking_id, parking_slot_no, in_date, in_time FROM slot_booking INNER JOIN customer
+        SELECT booking_id, parking_slot_no, in_date, in_time, out_time FROM slot_booking INNER JOIN customer
         ON slot_booking.customer_id = customer.customer_id 
         WHERE customer.vehicle_no = ?
     """
