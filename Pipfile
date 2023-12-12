@@ -13,6 +13,8 @@ pytz = "*"
 pytest = "*"
 pytest-cov = "*"
 coverage = "*"
+flake8 = "*"
+pylint = "*"
 
 [dev-packages]
 
