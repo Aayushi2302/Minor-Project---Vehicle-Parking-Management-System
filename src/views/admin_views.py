@@ -63,12 +63,10 @@ class AdminViews:
         print(Prompts.INPUT_EMPLOYEE_DETAILS + "\n")
 
         emp_id = "EMP" + shortuuid.ShortUUID().random(length = 5)
-        print(emp_id)
         emp_name = UserControllerValidator.input_name()
         emp_username = UserControllerValidator.input_username()
         characters = string.ascii_letters + string.digits + "@#$&%"
         emp_password = ''.join(random.choice(characters) for _ in range(8))
-        print(emp_password)
         emp_age = UserControllerValidator.input_age()
         emp_gender = UserControllerValidator.input_gender()
         emp_role = UserControllerValidator.input_role(role)
@@ -97,7 +95,7 @@ class AdminViews:
         print("\n" + Prompts.INPUT_DETAILS_FOR_UPDATION + "\n")
         emp_email = UserControllerValidator.input_email_address()
         data = self.admin_controller_obj.get_employee_data(emp_email)
-
+        
         if not data:
             print(Prompts.DETAILS_NOT_EXIST + "\n")
         else:
