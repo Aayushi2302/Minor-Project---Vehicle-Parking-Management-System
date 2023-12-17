@@ -2,12 +2,13 @@
 from functools import wraps
 import logging
 import sqlite3
+from typing import Callable
 
 from config.prompts.prompts import Prompts
 
 logger = logging.getLogger('error_handler')
 
-def error_handler(func):
+def error_handler(func: Callable):
     """
         Decorator function for handling all types of exception happening in project.
         Parameter : function
@@ -34,13 +35,17 @@ def error_handler(func):
         except sqlite3.Error as error:
             logger.exception(error)
             print(Prompts.GENERAL_EXCEPTION_MESSAGE + "\n")
-        except ValueError as error:
-            logger.exception(error)
-            print(Prompts.INVALID_INPUT + "\n")
-        except TypeError as error:
-            logger.exception(error)
-            print(Prompts.INVALID_INPUT + "\n")
         except Exception as error:
             logger.exception(error)
             print(Prompts.GENERAL_EXCEPTION_MESSAGE + "\n")
     return wrapper
+
+def looper(func: Callable):
+    @wraps(func)
+    def wrapper(*args: tuple, **kwargs: tuple):
+        while True:
+            result = func(*args, **kwargs)
+            if result:
+                return result
+    return wrapper
+    

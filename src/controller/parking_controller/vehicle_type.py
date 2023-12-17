@@ -24,15 +24,24 @@ class VehicleType:
                 )
         return data
 
-    def update_vehicle_type_detail(self, new_data: float, updated_field: str, type_id: str) -> None:
+    def update_vehicle_type_detail(self, type_id: str, updated_field: str, new_data: str) -> bool:
         """Method for updating vehicle price per hour for parking."""
-        query_for_updating_vehicle_type_detail = QueryConfig.UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID.format(updated_field)
+        data = self.get_vehicle_type_data_from_type_id(type_id)
+
+        if not data:
+            return False
+
+        query_for_updating_vehicle_type_detail = QueryConfig.\
+                                                 UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID.\
+                                                 format(updated_field)
         db.save_data_to_database(
             query_for_updating_vehicle_type_detail,
             (new_data, type_id)
         )
-       
+        return True
+
     def get_all_vehicle_type(self) -> list:
         """Method for viewing details of vehicle_type."""
         data = db.fetch_data_from_database(QueryConfig.FETCH_VEHICLE_TYPE)
         return data
+        

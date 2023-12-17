@@ -1,3 +1,4 @@
+from config.app_config import AppConfig
 from config.query import QueryConfig
 from models.database import db
 
@@ -8,7 +9,7 @@ class EmployeeController:
             QueryConfig.CREATE_CUSTOMER,
             cust_data
         )
-    
+
     def get_cust_id_from_vehicle_no(self, vehicle_no: str) -> list:
         data =  db.fetch_data_from_database(
                     QueryConfig.FETCH_CUSTOMER_ID_AND_TYPE_ID_FROM_VEHICLE_NO,
@@ -20,13 +21,41 @@ class EmployeeController:
         """Method to view customer details."""
         data =  db.fetch_data_from_database(QueryConfig.VIEW_CUSTOMER_DETAIL)
         return data
-    
-    def update_customer_details(self, updated_field: str, new_data: str, cust_id: str) -> None:
-        query_for_updating_customer_data = QueryConfig.UPDATE_CUSTOMER_DETAIL.format(updated_field)
-        db.save_data_to_database(
-            query_for_updating_customer_data,
-            (new_data, cust_id)
-        )
+
+    def update_customer_details(self, cust_vehicle_no: str,
+                                updated_field: str, new_data: str) -> int:
+        data = self.get_cust_id_from_vehicle_no(cust_vehicle_no)
+        if not data:
+            return -1
+
+        cust_id = data[0][0]
+
+        if updated_field in (AppConfig.NAME_ATTR, AppConfig.MOBILE_NO_ATTR):
+            query_for_updation = QueryConfig.UPDATE_CUSTOMER_DETAIL.format(updated_field)
+            db.save_data_to_database(
+                    query_for_updation,
+                    (new_data, cust_id)
+                )
+            return 2
+
+        else:
+            data = self.get_booking_details_from_cust_id(cust_id)
+            if not data:
+                return 0
+
+            booking_id = data[len(data)-1][0]
+            out_time = data[len(data)-1][1]
+
+            if out_time != AppConfig.DEFAULT_OUT_TIME:
+                return 1
+            else:
+                query_for_updation = QueryConfig.UPDATE_SLOT_BOOKING_DETAIL.format(updated_field)
+
+                db.save_data_to_database(
+                        query_for_updation,
+                        (new_data, booking_id)
+                    )
+                return 2
 
     def get_booking_details_from_cust_id(self, cust_id: str) -> list:
         data =  db.fetch_data_from_database(
@@ -34,10 +63,3 @@ class EmployeeController:
                     (cust_id, )
                 )
         return data
-    
-    def update_out_date(self, updated_field: str, new_data: str, booking_id: str) -> None:
-        query_for_updating_out_date = QueryConfig.UPDATE_SLOT_BOOKING_DETAIL.format(updated_field)
-        db.save_data_to_database(
-            query_for_updating_out_date,
-            (new_data, booking_id)
-        )

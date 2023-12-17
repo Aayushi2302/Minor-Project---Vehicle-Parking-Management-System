@@ -51,11 +51,11 @@ class AuthController:
         """  
         if role == AppConfig.ADMIN_ROLE:
             admin_views_obj = AdminViews(username)
-            admin_views_obj.admin_menu_operations()
+            admin_views_obj.admin_menu()
             return True
         elif role == AppConfig.ATTENDANT_ROLE:
             employee_handler_obj = EmployeeViews(username)
-            employee_handler_obj.employee_menu_operations()
+            employee_handler_obj.employee_menu()
             return True
         else:
             return False

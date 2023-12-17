@@ -17,7 +17,7 @@ class ParkingStatus:
                     (curr_date, )
                 )
         return data
-            
+
     def get_current_year_status(self) -> None:
         """Method to see current year booking details."""
         time_zone = pytz.timezone('Asia/Kolkata')

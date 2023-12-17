@@ -1,7 +1,9 @@
-"""Module for handling admin menu related logic and user interactions."""
+"""Module containing views logic of admin controller."""
+
 import logging
 import random
 import string
+from typing import Optional
 import shortuuid
 
 from config.app_config import AppConfig
@@ -9,8 +11,9 @@ from config.prompts.prompts import Prompts
 from config.query import TableHeader
 from controller.admin_controller import AdminController
 from utils.common_helper import CommonHelper
-from utils.error_handler import error_handler
+from utils.decorators import error_handler, looper
 from utils.input_validator.user_controller_validator import UserControllerValidator
+from views.employee_views import EmployeeViews
 from views.parking_views.parking_slot_views import ParkingSlotViews
 from views.parking_views.parking_status_views import ParkingStatusViews
 from views.parking_views.vehicle_type_views import VehicleTypeViews
@@ -19,47 +22,52 @@ logger = logging.getLogger(__name__)
 
 class AdminViews:
     """
-        Class for performing admin menu related interactions.
+        Class contaning views for admin controller.
         ...
         Attributes
         ----------
+        updated_field : str
         username : str
+        new_data : str
         admin_controller_obj : AdminController
         common_helper_obj : CommonHelper
-        parking_status_obj = ParkingStatus
+        employee_views_obj : EmployeeViews
+        parking_slot_views_obj : ParkingSlotViews
+        vehicle_type_views_obj : VehicleTypeViews
+        parking_status_views_obj : ParkingStatusViews
 
         Methods
         -------
-        admin_menu_operations() -> Method to perform admin tasks.
-        admin_menu() -> Method for managing admin menu.
-        vehicle_type_menu() -> Method for managing vehcile type menu.
-        parking_slot_menu() -> Method for managing parking slot menu.
-        parking_status_menu() -> Method for managing parking status menu.
-        manage_profile_menu() -> Method for managing profile menu.
+        employee_registration_form() -> method for taking input for regestering employee.
+        view_employee_details() -> method for viewing employee details.
+        employee_updation_form() -> method to take inputs to update employee details.
+        view_default_password() -> method to view default password of employee.
+        employee_removal_form() -> method to remove employee.
+        admin_menu() -> menu to handle admin operations.
+        employee_update_menu() -> menu to handle employee update operations.
     """
-    def __init__(self, username: str = None) -> None:
+    def __init__(self, username: Optional[str] = None) -> None:
+        """
+            Method to construct admin views object.
+            Parameter -> self, username: str, None
+            Return type -> None
+        """
         self.updated_field = None
         self.username = username
         self.new_data = None
         self.admin_controller_obj = AdminController()
         self.common_helper_obj = CommonHelper()
+        self.employee_views_obj = EmployeeViews(self.username)
         self.parking_slot_views_obj = ParkingSlotViews()
         self.vehicle_type_views_obj = VehicleTypeViews()
         self.parking_status_views_obj = ParkingStatusViews()
 
-    def admin_menu_operations(self) -> None:
+    def employee_registration_form(self, emp_role: Optional[str] = None) -> None:
         """
-            Method to perfrom admin tasks.
-            Parameter -> self
+            Method to take input for regestering employee.
+            Parameter -> self, emp_role: str, None
             Return type -> None
         """
-        print("\n" + Prompts.ADMIN_MENU_WELCOME_MESSAGE + "\n")
-        while True:
-            print("\n" + Prompts.ADMIN_MENU)
-            if self.admin_menu():
-                break
-    
-    def employee_registration_form(self, role: str = None) -> None:
         print(Prompts.INPUT_EMPLOYEE_DETAILS + "\n")
 
         emp_id = "EMP" + shortuuid.ShortUUID().random(length = 5)
@@ -69,16 +77,23 @@ class AdminViews:
         emp_password = ''.join(random.choice(characters) for _ in range(8))
         emp_age = UserControllerValidator.input_age()
         emp_gender = UserControllerValidator.input_gender()
-        emp_role = UserControllerValidator.input_role(role)
+        if not emp_role:
+            emp_role = UserControllerValidator.input_role()
         emp_mobile_number = UserControllerValidator.input_mobile_number()
         emp_email_address = UserControllerValidator.input_email_address()
-        
+
         auth_data = (emp_id, emp_username, emp_password, emp_role)
-        employee_data = (emp_id, emp_name, emp_age, emp_gender, emp_mobile_number, emp_email_address)
+        employee_data = (emp_id, emp_name, emp_age, emp_gender,
+                            emp_mobile_number, emp_email_address)
         self.admin_controller_obj.register_employee(auth_data, employee_data)
         print(Prompts.EMPLOYEE_REGISTRATION_SUCCESSFUL + "\n")
 
     def view_employee_details(self) -> None:
+        """
+            Method to view employee details.
+            Parameter -> self
+            Return type -> None
+        """
         data = self.admin_controller_obj.get_all_employees()
         if not data:
             print(Prompts.ZERO_RECORD.format("Employee"))
@@ -86,41 +101,47 @@ class AdminViews:
             header = TableHeader.EMPLOYEE_DETAIL_HEADER
             self.common_helper_obj.display_table(data, header)
 
-    def employee_updation_form(self) -> None:
+    @error_handler
+    def employee_updation_form(self) -> bool:
+        """
+            Method to take inputs to update employee details.
+            Parameter -> self
+            Return type -> None
+        """
         if not self.admin_controller_obj.get_all_employees():
             print(Prompts.CANNOT_UPDATE_RECORD + "\n")
             return
-            
+
         self.view_employee_details()
         print("\n" + Prompts.INPUT_DETAILS_FOR_UPDATION + "\n")
         emp_email = UserControllerValidator.input_email_address()
-        data = self.admin_controller_obj.get_employee_data(emp_email)
-        
-        if not data:
-            print(Prompts.DETAILS_NOT_EXIST + "\n")
-        else:
-            emp_id = data[0][0]
-            status = data[0][1]
-            role = data[0][2]
-    
-            if role == AppConfig.ADMIN_ROLE:
+
+        while True:
+            if self.employee_update_menu():
+                break
+
+            result = self.admin_controller_obj.\
+                        update_employee_details(emp_email, self.updated_field, self.new_data)
+
+            if result == -1:
+                print(Prompts.DETAILS_NOT_EXIST + "\n")
+            elif result == -2:
                 print(Prompts.CANNOT_UPDATE_ADMIN + "\n")
-                return
-            if status == AppConfig.STATUS_INACTIVE:
+            elif result == -3:
                 print(Prompts.UPDATE_DETAILS_FOR_INACTIVE_STATUS + "\n")
             else:
-                while True:
-                    if self.employee_update_menu():
-                        break
-                    self.admin_controller_obj.update_employee_details(self.updated_field, self.new_data, emp_id)
-                    print(Prompts.EMPLOYEE_UPDATION_SUCCESSFUL + "\n")
+                print(Prompts.EMPLOYEE_UPDATION_SUCCESSFUL + "\n")
 
-    
     def view_default_password(self) -> None:
+        """
+            Method to view default password of employee.
+            Parameter -> self
+            Return type -> None
+        """
         if not self.admin_controller_obj.get_all_employees():
             print(Prompts.CANNOT_UPDATE_RECORD + "\n")
             return
-            
+
         self.view_employee_details()
         emp_email = UserControllerValidator.input_email_address()
         data = self.admin_controller_obj.get_default_password_for_employee(emp_email)
@@ -136,6 +157,11 @@ class AdminViews:
                 print(Prompts.PRINT_DEFAULT_PASSWORD.format(default_password) + "\n")
 
     def employee_removal_form(self) -> None:
+        """
+            Method to update status for employee removal.
+            Parameter -> self
+            Return type -> None
+        """
         if not self.admin_controller_obj.get_all_employees():
             print(Prompts.CANNOT_PERFORM_DELETION + "\n")
             return
@@ -143,32 +169,29 @@ class AdminViews:
         self.view_employee_details()
         print("\n" + Prompts.INPUT_DETAILS_FOR_REMOVAL + "\n")
         emp_email = UserControllerValidator.input_email_address()
-        data = self.admin_controller_obj.get_employee_data(emp_email)
+        updated_field = AppConfig.STATUS_ATTR
+        new_data = AppConfig.STATUS_INACTIVE
+        result = self.admin_controller_obj.remove_employee(emp_email, updated_field, new_data)
 
-        if not data:
+        if result == -1:
             print(Prompts.DETAILS_NOT_EXIST + "\n")
+        elif result == 0:
+            print(Prompts.CANNOT_REMOVE_ADMIN + "\n")
+        elif result == 1:
+            print(Prompts.UPDATE_DETAILS_FOR_INACTIVE_STATUS + "\n")
         else:
-            emp_id = data[0][0]
-            status = data[0][1]
-            role = data[0][2]
-            
-            if role == AppConfig.ADMIN_ROLE:
-                print(Prompts.CANNOT_REMOVE_ADMIN + "\n")
-                return
-            if status == AppConfig.STATUS_INACTIVE:
-                print(Prompts.UPDATE_DETAILS_FOR_INACTIVE_STATUS)
-            else:
-                status = AppConfig.STATUS_INACTIVE
-                self.admin_controller_obj.remove_employee(AppConfig.STATUS_ATTR, status, emp_id)
-                print(Prompts.EMPLOYEE_REMOVAL_SUCCESSFUL + "\n")
+            print(Prompts.EMPLOYEE_REMOVAL_SUCCESSFUL + "\n")
 
+    @looper
     @error_handler
     def admin_menu(self) -> bool:
         """
-            Method for managing admin menu.
+            Method for managing admin menu operations.
             Parameter -> self
             Return type -> bool
         """
+        print("\n" + Prompts.ADMIN_MENU_WELCOME_MESSAGE + "\n")
+        print("\n" + Prompts.ADMIN_MENU)
         choice = input(Prompts.ENTER_CHOICE)
         match choice:
             case '1':
@@ -182,25 +205,13 @@ class AdminViews:
             case '5':
                 self.employee_removal_form()
             case '6':
-                while True:
-                    print("\n" + Prompts.MANAGE_VEHICLE_TYPE_MENU)
-                    if self.vehicle_type_views_obj.vehicle_type_menu():
-                        break
+                self.vehicle_type_views_obj.vehicle_type_menu()
             case '7':
-                while True:
-                    print("\n" + Prompts.MANAGE_PARKING_SLOT_MENU)
-                    if self.parking_slot_views_obj.parking_slot_menu():
-                        break
+                self.parking_slot_views_obj.parking_slot_menu()
             case '8':
-                while True:
-                    print("\n" + Prompts.VIEW_PARKING_STATUS_MENU + "\n")
-                    if self.parking_status_views_obj.parking_status_menu():
-                        break
+                self.parking_status_views_obj.parking_status_menu()
             case '9':
-                while True:
-                    print("\n" + Prompts.MANAGE_PROFILE_MENU)
-                    if self.manage_profile_menu():
-                        break
+                self.employee_views_obj.manage_profile_menu()
             case '10':
                 print(Prompts.SUCCESSFUL_LOGOUT + "\n")
                 return True
@@ -208,29 +219,10 @@ class AdminViews:
                 print(Prompts.INVALID_INPUT)
         return False
 
-    @error_handler
-    def manage_profile_menu(self) -> bool:
-        """
-            Method for managing profile menu.
-            Parameter -> self
-            Return type -> bool
-        """
-        menu_profile_choice = input(Prompts.ENTER_CHOICE)
-        match menu_profile_choice:
-            case '1':
-                self.common_helper_obj.view_individual_employee_details(self.username)
-            case '2':
-                self.common_helper_obj.create_new_password(self.username)
-            case '3':
-                return True
-            case _:
-                print(Prompts.INVALID_INPUT)
-        return False
 
-    @error_handler
     def employee_update_menu(self) -> bool:
         """
-            Method to manage employee update menu.
+            Method to manage employee update menu operations.
             Parameter -> self
             Return type -> bool
         """

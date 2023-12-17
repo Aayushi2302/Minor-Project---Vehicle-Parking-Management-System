@@ -40,3 +40,4 @@ class AppConfig:
     USERNAME_ATTR = "username"
     ROLE_ATTR = "role"
     PRICE_PER_HOUR_ATTR = "price_per_hour"
+    

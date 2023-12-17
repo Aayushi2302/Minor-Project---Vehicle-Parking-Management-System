@@ -7,7 +7,6 @@ from models.database import db
 class AdminController:
     """
         This class contains all the functionalities that user can perform on Employee.
-        Also this class inherits VehicleType and ParkingSlot class to implement further admin functionalities.
     """
     def register_employee(self, auth_data: tuple, employee_data: tuple) -> None:
         """
@@ -21,21 +20,30 @@ class AdminController:
             query,
             data
         )
-            
-    def update_employee_details(self, updated_field: str, new_data: str, emp_id: str) -> None:
-        """
-            Method to update employee details.
-            Parameter -> self
-            Return type -> bool
-        """
-        if updated_field in (AppConfig.ROLE_ATTR, AppConfig.USERNAME_ATTR):
-            query = QueryConfig.UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID.format(updated_field)
+
+    def update_employee_details(self, emp_email: str, updated_field: str, new_data: str) -> int:
+        data = self.get_employee_data(emp_email)
+        if not data:
+            return -1
+
+        emp_id = data[0][0]
+        status = data[0][1]
+        role = data[0][2]
+
+        if role == AppConfig.ADMIN_ROLE:
+            return -2
+        elif status == AppConfig.STATUS_INACTIVE:
+            return -3
         else:
-            query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
-        db.save_data_to_database(
-            query,
-            (new_data, emp_id)
-        )
+            if updated_field in (AppConfig.ROLE_ATTR, AppConfig.USERNAME_ATTR):
+                query = QueryConfig.UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID.format(updated_field)
+            else:
+                query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
+            db.save_data_to_database(
+                query,
+                (new_data, emp_id)
+            )
+            return 1
 
     def get_all_employees(self) -> list:
         """
@@ -46,20 +54,15 @@ class AdminController:
         data = db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
         return data
 
-    def get_default_password_for_employee(self, emp_email: str) -> list:
-        """
-            Method to return default password of employee to admin.
-            Parameter -> self
-            Return type -> list
-        """
-        emp_id = db.fetch_data_from_database(
+    def get_default_password_for_employee(self, emp_email: str) -> int:
+        data = db.fetch_data_from_database(
                     QueryConfig.FETCH_EMP_ID_FROM_EMAIL,
                     (emp_email, )
                 )
-        if not emp_id:
+        if not data:
             return []
         else:
-            emp_id = emp_id[0][0]
+            emp_id = data[0][0]
             data =  db.fetch_data_from_database(
                         QueryConfig.FETCH_DEFAULT_PASSWORD_FROM_EMPID,
                         (emp_id, )
@@ -77,15 +80,24 @@ class AdminController:
                     (emp_email, )
                 )
         return data
-                
-    def remove_employee(self, updated_field: str, status: str, emp_id: str) -> None:
-        """
-            Method to remove employee detail.
-            Parameter -> self, updated_field: str, status: str, emp_id: str
-            Return type -> None
-        """
-        query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
-        db.save_data_to_database(
-            query,
-            (status, emp_id)
-        )
+
+    def remove_employee(self, emp_email: str, updated_field: str, new_data: str) -> int:
+        data = self.get_employee_data(emp_email)
+        if not data:
+            return -1
+
+        emp_id = data[0][0]
+        status = data[0][1]
+        role = data[0][2]
+
+        if role == AppConfig.ADMIN_ROLE:
+            return 0
+        elif status == new_data:
+            return 1
+        else:
+            query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
+            db.save_data_to_database(
+                query,
+                (new_data, emp_id)
+            )
+            return 2

@@ -228,7 +228,7 @@ class QueryConfig:
         CREATE TABLE IF NOT EXISTS customer(
             customer_id TEXT PRIMARY KEY,
             name TEXT,
-            mobile_no TEXT,
+            mobile_no TEXT UNIQUE,
             vehicle_no TEXT UNIQUE,
             type_id TEXT,
             FOREIGN KEY(type_id) REFERENCES vehicle_type(type_id) ON DELETE CASCADE
@@ -285,7 +285,7 @@ class QueryConfig:
         ) VALUES(?, ?, ?, ?, ?, ?)
     """
     FETCH_BOOKING_DETAIL_FROM_CUSTOMER_ID = """
-        SELECT * FROM slot_booking 
+        SELECT booking_id, out_time FROM slot_booking 
         WHERE customer_id = ?
     """
     FETCH_BOOKING_DETAIL_FROM_BOOKING_ID = """

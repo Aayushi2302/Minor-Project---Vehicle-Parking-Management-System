@@ -7,7 +7,7 @@ from config.app_config import AppConfig
 from config.log_prompts.log_prompts import LogPrompts
 from config.prompts.prompts import Prompts
 from config.query import QueryConfig
-from utils.error_handler import error_handler
+from utils.decorators import error_handler
 
 logger = logging.getLogger('db_helper')
 

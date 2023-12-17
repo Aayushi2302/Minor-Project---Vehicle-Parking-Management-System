@@ -146,6 +146,7 @@ class Prompts:
     EMPLOYEE_MENU = None
     CUSTOMER_DETAIL_UPDATE_MENU = None
     VIEW_PARKING_STATUS_MENU = None
+    CANNOT_VIEW_RECORD = None
 
     @classmethod
     def load(cls) -> None:
@@ -200,6 +201,7 @@ class Prompts:
         cls.CANNOT_PERFORM_DELETION = data["CANNOT_PERFORM_DELETION"]
         cls.CANNOT_UPDATE_RECORD = data["CANNOT_UPDATE_RECORD"]
         cls.CANNOT_DEACTIVATE = data["CANNOT_DEACTIVATE"]
+        cls.CANNOT_VIEW_RECORD = data["CANNOT_VIEW_RECORD"]
 
         # authentication module prompts
         cls.INPUT_CREDENTIAL = data["INPUT_CREDENTIAL"]
