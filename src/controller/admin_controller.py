@@ -6,12 +6,21 @@ from models.database import db
 
 class AdminController:
     """
-        This class contains all the functionalities that user can perform on Employee.
+        Class containing all the functionalities that user can perform on Employee.
+        ...
+        Methods:
+        -------
+        register_employee() -> method to register employees.
+        update_employee_details() -> method to update employee details.
+        get_all_employees() -> method to get employee details.
+        get_default_password_for_employee() -> method to get default password for employees.
+        get_employee_data() -> method to get employee data.
+        remove_employee() -> method to remove employee details.
     """
     def register_employee(self, auth_data: tuple, employee_data: tuple) -> None:
         """
             Method to register employee and save their data to database.
-            Parameter -> self, role: str = None
+            Parameter -> self, auth_data: tuple, employee_data: tuple
             Return type -> None
         """
         query = [QueryConfig.CREATE_EMPLOYEE_CREDENTIALS, QueryConfig.CREATE_EMPLOYEE_DETAILS]
@@ -22,6 +31,11 @@ class AdminController:
         )
 
     def update_employee_details(self, emp_email: str, updated_field: str, new_data: str) -> int:
+        """
+            Method to update employee details.
+            Parameter -> self, emp_email: str, updated_field: str, new_data: str
+            Return type -> int
+        """
         data = self.get_employee_data(emp_email)
         if not data:
             return -1
@@ -47,9 +61,9 @@ class AdminController:
 
     def get_all_employees(self) -> list:
         """
-            Method to display employee details.
+            Method to fetch employee details.
             Parameter -> self
-            Return type -> bool
+            Return type -> list
         """
         data = db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
         return data
@@ -71,8 +85,8 @@ class AdminController:
 
     def get_employee_data(self, emp_email: str) -> list:
         """
-            Method to get employee data to remove employee the employee.
-            Parameter -> self
+            Method to get employee data.
+            Parameter -> self, emp_email: str
             Return type -> list
         """
         data =  db.fetch_data_from_database(
@@ -82,6 +96,11 @@ class AdminController:
         return data
 
     def remove_employee(self, emp_email: str, updated_field: str, new_data: str) -> int:
+        """
+            Method to remove employee.
+            Parameter -> self, emp_email: str, updated_field: str, new_data: str
+            Return type -> int
+        """
         data = self.get_employee_data(emp_email)
         if not data:
             return -1

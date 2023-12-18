@@ -23,7 +23,7 @@ class AuthController:
         ...
         Methods
         -------
-        first_login() -> Method for granting access to user on 1st login.
+        valid_first_login() -> Method for granting access to user on 1st login.
         role_based_access() -> Method for granting role based access to user based on credentails.
         authenticate_user() -> Method for validating user based on credentials.
     """
@@ -47,7 +47,7 @@ class AuthController:
         """
             Method to assign role to user based on the credentials after authentication.
             Parameter -> self, role: str, username: str
-            Return type -> None
+            Return type -> bool
         """  
         if role == AppConfig.ADMIN_ROLE:
             admin_views_obj = AdminViews(username)
