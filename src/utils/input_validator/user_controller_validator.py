@@ -31,6 +31,7 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input name.")
         name = input(Prompts.INPUT_NAME).strip()
         is_valid_name = CommonHelper.input_validation(RegexPattern.NAME_REGEX, name)
         if is_valid_name:
@@ -44,6 +45,7 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input username.")
         print(Prompts.USERNAME_FORMAT)
         username = input(Prompts.INPUT_USERNAME).strip()
         is_valid_username = CommonHelper.input_validation(RegexPattern.USERNAME_REGEX, username)
@@ -58,6 +60,7 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> int
         """
+        logger.info("Enter age.")
         print("\n" + Prompts.AGE_RESTRICTION)
         age = input(Prompts.INPUT_EMPLOYEE_AGE)
         is_valid_age = CommonHelper.input_validation(RegexPattern.AGE_REGEX, age)
@@ -72,13 +75,14 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input gender.")
         gender = input(Prompts.INPUT_EMPLOYEE_GENDER).strip().capitalize()
         if gender == "F":
             return "Female"
         elif gender == "M":
             return "Male"
         else:
-            logger.debug(Prompts.INVALID_INPUT)
+            logger.debug("Invalid input.")
             print(Prompts.INVALID_INPUT + "\n")
 
     @looper
@@ -89,6 +93,7 @@ class UserControllerValidator:
             Parameter -> role: Union[str, None]
             Return type -> str
         """
+        logger.info("Input role.")
         input_role = input(Prompts.INPUT_EMPLOYEE_ROLE).strip().lower()
         if input_role == AppConfig.ADMIN_ROLE:
             print(Prompts.CANNOT_CREATE_ADMIN + "\n")
@@ -105,6 +110,7 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input email address.")
         email = input(Prompts.INPUT_EMPLOYEE_EMAIL).strip()
         is_valid_email = CommonHelper.input_validation(RegexPattern.EMAIL_REGEX, email)
         if is_valid_email:
@@ -118,6 +124,7 @@ class UserControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input mobile number.")
         mobile_number = input(Prompts.INPUT_MOBILE_NUMBER).strip()
         is_valid_mobile_number =    CommonHelper.input_validation(
                                         RegexPattern.MOBILE_NO_REGEX,

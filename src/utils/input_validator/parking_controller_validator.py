@@ -1,6 +1,6 @@
 """Module for validating parking management related inputs."""
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from config.prompts.prompts import Prompts
 from config.regex_pattern import RegexPattern
@@ -30,6 +30,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input vehicle type name.")
         type_name = input(Prompts.INPUT_TYPE_NAME).strip()
         is_valid_type_name = CommonHelper.input_validation(RegexPattern.STRING_REGEX, type_name)
         if is_valid_type_name:
@@ -43,6 +44,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> float
         """
+        logger.info("Input price per hour.")
         price_per_hour = input(Prompts.INPUT_PRICE)
         is_valid_price = CommonHelper.input_validation(RegexPattern.PRICE_REGEX, price_per_hour)
         if is_valid_price:
@@ -56,6 +58,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input vehicle type id.")
         type_id = input(Prompts.INPUT_TYPE_ID).strip()
         is_valid_type_id = CommonHelper.input_validation(RegexPattern.TYPE_ID_REGEX, type_id)
         if is_valid_type_id:
@@ -69,6 +72,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input parking slot number.")
         parking_slot_no = input(Prompts.INPUT_PARKING_SLOT_NUMBER).strip()
         is_valid_parking_slot_no =  CommonHelper.input_validation(
                                         RegexPattern.PARKING_SLOT_NUMBER_REGEX,
@@ -85,6 +89,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input vehicle number.")
         print(Prompts.VEHICLE_NUMBER_FORMAT + "\n")
         vehicle_number = input(Prompts.VEHICLE_NUMBER_INPUT).strip()
         is_valid_vehicle_number =   CommonHelper.input_validation(
@@ -102,6 +107,7 @@ class ParkingControllerValidator:
             Parameter -> None
             Return type -> str
         """
+        logger.info("Input out date.")
         out_date = input(Prompts.CUSTOMER_OUT_DATE_INPUT).strip()
         present = datetime.now().date()
         try:
@@ -111,4 +117,5 @@ class ParkingControllerValidator:
             else:
                 return out_date.strftime("%d-%m-%Y")
         except ValueError:
+            logger.debug("Invalid input")
             print(Prompts.INVALID_INPUT + "\n")

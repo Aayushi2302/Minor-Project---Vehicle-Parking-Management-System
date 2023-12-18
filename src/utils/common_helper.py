@@ -2,7 +2,6 @@
 from datetime import datetime
 import hashlib
 import logging
-import os
 import re
 import maskpass
 import pytz
@@ -29,13 +28,10 @@ class CommonHelper:
         display_table() -> Method to print table using tabulate.
         input_validation() -> Method to validate input on basis of regex.
         get_current_date_and_time() -> Method to get current date and time using datetime library.
-        clear_screen() -> Method to clear screen.
-
     """
-
     def is_admin_registered(self) -> bool:
         """
-            Method for checking whether admin is registered in the database who is the first user of the system.
+            Method for checking whether admin(first user of the system) is registered.
             Parameter -> self
             Return type -> bool
         """
@@ -48,7 +44,7 @@ class CommonHelper:
             return True
         else:
             return False
-    
+
     def create_new_password(self, username: str) -> None:
         """
             Method for creating new password for the user following strong password recommendation.
@@ -65,18 +61,18 @@ class CommonHelper:
                                     input_password
                                 )
             if not is_strong_password:
-                logger.info("Strong password requirements not met.")
+                logger.warning("Strong password requirements not met.")
                 print(Prompts.WEAK_PASSWORD_INPUT + "\n")
 
             else:
 
                 confirm_password = maskpass.askpass(Prompts.INPUT_CONFIRM_PASSWORD)
                 if input_password != confirm_password:
-                    logger.info("New password and Confirm password do not match.")
+                    logger.debug("New password and Confirm password do not match.")
                     print(Prompts.PASSWORD_NOT_MATCH + "\n")
                     continue
                 hashed_password = hashlib.sha256(confirm_password.encode('utf-8')).hexdigest()
-                
+
                 db.save_data_to_database(
                     QueryConfig.UPDATE_DEFAULT_PASSWORD,
                     (hashed_password, AppConfig.PERMANENT_PASSWORD, username)
@@ -84,7 +80,7 @@ class CommonHelper:
                 logger.info("Password changed successfully.")
                 print(Prompts.PASSWORD_CHANGE_SUCCESSFUL + "\n")
                 break
-    
+
     def view_individual_employee_details(self, username: str) -> None:
         """
             Method to display a particular user details.
@@ -130,9 +126,9 @@ class CommonHelper:
             return True
         else:
             print(Prompts.INVALID_INPUT + "\n")
-            logger.info("Invalid input entered.")
+            logger.debug("Invalid input entered.")
             return False
-    
+
     @staticmethod
     def get_current_date_and_time() -> tuple:
         """
@@ -146,14 +142,3 @@ class CommonHelper:
         curr_date = current.strftime('%d-%m-%Y')
         logger.info("Getting current date and time in IST format.")
         return (curr_date, curr_time)
-   
-    @staticmethod
-    def clear_screen() -> None:
-        """
-            Method to clear the screen after a task is performed.
-            Parameter -> None
-            Return type -> None
-        """
-        if input("\n" + Prompts.PRESS_KEY_TO_CONTINUE + "\n"):
-            logger.info("Clearing screen when moving to any next functionality.")
-            os.system('cls')

@@ -1,3 +1,5 @@
+"""Module containing views logic for parking controller slot booking module."""
+
 import shortuuid
 
 from config.app_config import AppConfig
@@ -9,11 +11,35 @@ from utils.common_helper import CommonHelper
 from utils.input_validator.parking_controller_validator import ParkingControllerValidator
 
 class SlotBookingViews:
+    """
+        Class conataining views logic for slot booking module.
+        ...
+        Attributes:
+        ----------
+        slot_booking_obj : SlotBooking
+        common_helper_obj : CommonHelper
+
+        Methods:
+        -------
+        book_parking_slot() -> method to book parking slot for a customer.
+        view_booking_details() -> method to view booking details of customer.
+        vacate_parking_slot() -> method to vacate parking slot booked by a customer.
+    """
     def __init__(self) -> None:
+        """
+            Method for constructing slot booking views object.
+            Parameter -> self
+            Return type -> None
+        """
         self.slot_booking_obj = SlotBooking()
         self.common_helper_obj = CommonHelper()
 
     def book_parking_slot(self) -> None:
+        """
+            Method for booking parking slot for a customer.
+            Parameter -> self
+            Return type -> None
+        """
         print(Prompts.INPUT_DETAILS_FOR_SLOT_BOOKING)
         booking_id = "BOOK" + shortuuid.ShortUUID().random(length = 5)
         cust_vehicle_no = ParkingControllerValidator.input_vehicle_number()
@@ -29,6 +55,11 @@ class SlotBookingViews:
             print(Prompts.PARKING_SLOT_ASSIGNED.format(parking_slot_no) + "\n")
 
     def view_booking_details(self) -> None:
+        """
+            Method to view booking details.
+            Parameter -> self
+            Return type -> None
+        """
         data = self.slot_booking_obj.get_booking_details()
         if not data:
             print(Prompts.ZERO_RECORD.format("Slot Booking"))
@@ -37,6 +68,11 @@ class SlotBookingViews:
             self.common_helper_obj.display_table(data, header)
 
     def vacate_parking_slot(self) -> None:
+        """
+            Method to vacate parking slot booked by a customer.
+            Parameter -> self
+            Return type -> None
+        """
         if not self.slot_booking_obj.get_booking_details():
             print(Prompts.CANNOT_VACATE_PARKING_SLOT + "\n")
             return

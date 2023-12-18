@@ -1,4 +1,4 @@
-"""Module containing decorator for handling all types of exception of project."""
+"""Module containing decorators used throughout the project."""
 from functools import wraps
 import logging
 import sqlite3
@@ -6,20 +6,20 @@ from typing import Callable
 
 from config.prompts.prompts import Prompts
 
-logger = logging.getLogger('error_handler')
+logger = logging.getLogger(__name__)
 
-def error_handler(func: Callable):
+def error_handler(func: Callable) -> Callable:
     """
-        Decorator function for handling all types of exception happening in project.
-        Parameter : function
-        Return type : None
+        Decorator function for handling sqlite3 exceptions happening in project.
+        Parameter -> function: Callable
+        Return type -> wrapper: Callable
     """
     @wraps(func)
     def wrapper(*args: tuple, **kwargs: dict) -> None:
         """
-            Wrapper function for executing the function and raising exception whenever occur.
-            Parameter : *args: tuple, **kwargs: dict
-            Return type : None
+            Wrapper function for executing the function and handling exception whenever occur.
+            Parameter -> *args: tuple, **kwargs: dict
+            Return type -> None
         """
         try:
             return func(*args, **kwargs)
@@ -40,12 +40,24 @@ def error_handler(func: Callable):
             print(Prompts.GENERAL_EXCEPTION_MESSAGE + "\n")
     return wrapper
 
-def looper(func: Callable):
+def looper(func: Callable) -> Callable:
+    """
+        Decorator function for making the func loop until a condition is satisfied.
+        Parameter -> func: Callable
+        Return type -> wrapper: Callable
+    """
     @wraps(func)
-    def wrapper(*args: tuple, **kwargs: tuple):
+    def wrapper(*args: tuple, **kwargs: tuple) -> bool | str | int:
+        """
+            Wrapper function to loop the function until function returns True.
+            Parameter -> *args: tuple, **kwargs: dict
+            Return type -> bool | str | int
+        """
+        logger.info("Entering into loop")
         while True:
             result = func(*args, **kwargs)
             if result:
+                logger.info("Exiting from loop")
                 return result
     return wrapper
     

@@ -28,7 +28,7 @@ class VehicleTypeViews:
     """
     def __init__(self) -> None:
         """
-            Method for constructing vehicle type object.
+            Method for constructing vehicle type views object.
             Parameter -> self
             Return type -> None
         """

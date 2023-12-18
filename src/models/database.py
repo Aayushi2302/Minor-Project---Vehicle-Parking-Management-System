@@ -1,7 +1,7 @@
 """Module for performing database operations on data."""
 import logging
 import sqlite3
-from typing import Union
+from typing import Optional
 
 from config.app_config import AppConfig
 from config.log_prompts.log_prompts import LogPrompts
@@ -22,7 +22,6 @@ class Database:
 
         Methods
         -------
-        __init__() -> Method for creating connection and cursor object.
         create_all_tables() -> Method for creating all database tables.
         save_data_to_database() -> Method for saving data to single or multiple tables in database.
         fetch_data_from_database() -> Method for fetching data from database tables.   
@@ -60,7 +59,7 @@ class Database:
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_SLOT_BOOKING_TABLE_CREATION_INFO)
    
-    def save_data_to_database(self, query: Union[str, list], data: Union[tuple, list]) -> None:
+    def save_data_to_database(self, query: str | list, data: tuple | list) -> None:
         """
             Method for saving data to single or multiple tables in database.
             Paramter -> self, query: Union[str, list], data: Union[tuple, list]
@@ -74,7 +73,7 @@ class Database:
         self.connection.commit()
         logger.info(LogPrompts.DATA_SAVED_TO_DATABASE_SUCCESSFUL_INFO)
 
-    def fetch_data_from_database(self, query: str, data: tuple = None) -> list:
+    def fetch_data_from_database(self, query: str, data: Optional[tuple] = None) -> list:
         """
             Method for fetching data from single or multiple tables in database.
             Paramter -> self, query: str, data: Union[tuple, None]

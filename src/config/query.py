@@ -1,5 +1,5 @@
 """Module for storing queries of the project."""
-# local imports
+
 from config.prompts.prompts import Prompts
 
 Prompts.load()

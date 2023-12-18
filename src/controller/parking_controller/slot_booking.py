@@ -8,11 +8,37 @@ from models.database import db
 from controller.employee_controller import EmployeeController
 
 class SlotBooking:
-    """This class contains methods for maintaing functionalities related to parking slot booking."""
+    """
+        This class contains methods for maintaing functionalities related to parking slot booking.
+        ...
+        Attributes:
+        ----------
+        employee_controller_obj : EmployeeController
+
+        Methods:
+        -------
+        get_vacant_parking_slot() -> method to get vacant pakring slot.
+        save_booking_details() -> method to save booking details.
+        get_booking_details() -> method to get booking details.
+        get_details_for_vacating_parking_slot() -> method to get details for vacating parking slot.
+        calculate_hours_spent_in_parking() -> method to calculate hours spent in paking slot.
+        calculate_charges() -> method to calculate charges.
+        save_vacating_details() -> method to save vacating details.
+    """
     def __init__(self) -> None:
+        """
+            Method to construct slot booking object.
+            Parameter -> self
+            Return type -> None
+        """
         self.employee_controller_obj = EmployeeController()
 
     def get_vacant_parking_slot(self, type_id: str) -> str:
+        """
+            Method to get vacant parking slot.
+            Parameter -> self, type_id: str
+            Return type -> str
+        """
         parking_slot_no =   db.fetch_data_from_database(
                                 QueryConfig.FETCH_PARKING_SLOT_NO_FOR_BOOKING,
                                 (type_id, AppConfig.PARKING_SLOT_STATUS_VACANT)
@@ -23,6 +49,12 @@ class SlotBooking:
 
     def save_booking_details(self, booking_id: str, cust_vehicle_no: str,
                                 cust_in_date: str, cust_in_time: str, cust_out_date: str) -> str:
+        """
+            Method to save booking details.
+            Parameter -> self, booking_id: str, cust_vehicle_no: str, cust_in_date: str,\
+                            cust_in_time: str, cust_out_date: str
+            Return type -> str
+        """
         data = self.employee_controller_obj.get_cust_id_from_vehicle_no(cust_vehicle_no)
 
         if not data:
@@ -50,13 +82,22 @@ class SlotBooking:
         return parking_slot_no
 
     def get_booking_details(self) -> list:
-        """Method to view booking details."""
+        """
+            Method to fetch booking details.
+            Parameter -> self
+            Return type -> list
+        """
         data =  db.fetch_data_from_database(
                     QueryConfig.VIEW_SLOT_BOOKING_DETAIL
                 )
         return data
 
     def get_details_for_vacating_parking_slot(self, vehicle_no: str) -> list:
+        """
+            Method to fetch details for vacating parking slot.
+            Parameter -> self, vehicle_no: str
+            Return type -> list
+        """
         data =  db.fetch_data_from_database(
                     QueryConfig.FETCH_DETAIL_FOR_VACATING_PARKING_SLOT,
                     (vehicle_no, )
@@ -65,7 +106,11 @@ class SlotBooking:
 
     def calculate_hours_spent_in_parking(self, in_date: str, in_time: str,
                                             out_date: str, out_time: str) -> float:
-        """Method to calculate the number of hours spent by vehicle in parking facility."""
+        """
+            Method to calculate the number of hours spent by vehicle in parking facility.
+            Parameter -> self, in_date: str, in_time: str, out_date: str, out_time: str
+            Return type -> float
+        """
         in_date_time = in_date + " " + in_time
         in_date_time_obj = datetime.strptime(in_date_time, "%d-%m-%Y %H:%M")
         out_date_time = out_date + " " + out_time
@@ -76,7 +121,11 @@ class SlotBooking:
         return total_hours_spent
 
     def calculate_charges(self, hours_spent: float, booking_id: str) -> float:
-        """Method for calculating total charges based on the number of hours spent."""
+        """
+            Method for calculating total charges based on the number of hours spent.
+            Parameter -> self, hours_spent: float, booking_id: str
+            Return type -> float
+        """
         type_id =   db.fetch_data_from_database(
                         QueryConfig.FETCH_TYPE_ID_FROM_BOOKING_ID,
                         (booking_id, )
@@ -92,6 +141,11 @@ class SlotBooking:
         return total_charges
 
     def save_vacating_details(self, vehicle_no: str, out_date: str, out_time: str) -> tuple:
+        """
+            Method to save vacating details.
+            Parameter -> self, vehicle_no: str, out_date: str, out_time: str
+            Return type -> tuple
+        """
         data = self.get_details_for_vacating_parking_slot(vehicle_no)
 
         if not data:

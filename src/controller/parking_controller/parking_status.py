@@ -1,4 +1,5 @@
-"""Module for maintaing methods for showing booking status to admin."""
+"""Module containing controller logic for parking status module."""
+
 from datetime import datetime
 import pytz
 
@@ -6,9 +7,20 @@ from config.query import QueryConfig
 from models.database import db
 
 class ParkingStatus:
-    """This class contains methods for displaying different booking status to admin."""
+    """
+        Class contaning methods and attributes for managing parking status module.
+        ...
+        Methods:
+        -------
+        get_current_date_status() -> method to get current date status.
+        get_current_year_status() -> method to get current year status.
+    """
     def get_current_date_status(self) -> list:
-        """Method for view current date booking status."""
+        """
+            Method for view current date booking status.
+            Parameter -> self
+            Return type -> list
+        """
         time_zone = pytz.timezone('Asia/Kolkata')
         current = datetime.now(time_zone)
         curr_date = current.strftime('%d-%m-%Y')
@@ -18,8 +30,12 @@ class ParkingStatus:
                 )
         return data
 
-    def get_current_year_status(self) -> None:
-        """Method to see current year booking details."""
+    def get_current_year_status(self) -> list:
+        """
+            Method to see current year booking details.
+            Parameter -> self
+            Return type -> list
+        """
         time_zone = pytz.timezone('Asia/Kolkata')
         current = datetime.now(time_zone)
         curr_year = int(current.strftime('%Y'))
