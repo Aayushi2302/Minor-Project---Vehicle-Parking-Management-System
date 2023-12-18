@@ -41,60 +41,134 @@ pipenv run python .\src\app.py
 
 ## Folder Structure
 ```bash
-|   .gitignore
-|   Pipfile
-|   Pipfile.lock
-|   readme.md
-|   vehicle_parking_management_requirements.pdf
-|
-+---diagrams
-|       class_diagram.png
-|       db_schema.png
-|       flow_diagram.jpg
-|       use_case_diagram.png
-|
-\---src
-    |   app.py
-    |
-    +---config
-    |       menu.py
-    |       prompts.py
-    |       query.py
-    |
-    +---controller
-    |   |   admin_controller.py
-    |   |   employee_controller.py
-    |   |
-    |   \---handler
-    |           admin_handler.py
-    |           customer_update_handler.py
-    |           employee_handler.py
-    |           employee_update_handler.py
-    |
-    +---database
-    |       db_connector.py
-    |       parking_management.db
-    |       query_executor.py
-    |
-    +---logs
-    |       logs.txt
-    |       log_config.py
-    |
-    +---parking_manager
-    |       parking_charges.py
-    |       parking_slots.py
-    |       parking_status.py
-    |       slot_booking.py
-    |       vehicle_type.py
-    |
-    \---utils
-        |   authentication.py
-        |   common.py
-        |   regex_pattern.py
-        |
-        \---validator
-                parking_manager_input_validation.py
-                user_input_validation.py
+.coverage
+│   .gitignore
+│   logs.log
+│   Pipfile
+│   Pipfile.lock
+│   pytest.ini
+│   readme.md
+│   vehicle_parking_management_requirements.pdf
+│
+├───.vscode
+│
+├───diagrams
+│
+├───htmlcov
+│
+├───src
+│   │   app.py
+│   │   __init__.py
+│   │
+│   ├───config
+│   │   │   app_config.py
+│   │   │   query.py
+│   │   │   regex_pattern.py
+│   │   │   __init__.py
+│   │   │
+│   │   ├───log_prompts
+│   │   │       log_prompts.py
+│   │   │       log_prompts.yaml
+│   │   │       __init__.py
+│   │   │
+│   │   └───prompts
+│   │           prompts.py
+│   │           prompts.yaml
+│   │           __init__.py
+│   │
+│   ├───controller
+│   │   │   admin_controller.py
+│   │   │   auth_controller.py
+│   │   │   employee_controller.py
+│   │   │   __init__.py
+│   │   │
+│   │   └───parking_controller
+│   │           parking_slot.py
+│   │           parking_status.py
+│   │           slot_booking.py
+│   │           vehicle_type.py
+│   │           __init__.py
+│   │
+│   ├───models
+│   │       database.py
+│   │       parking_management.db
+│   │       __init__.py
+│   │
+│   ├───utils
+│   │   │   common_helper.py
+│   │   │   decorators.py
+│   │   │   __init__.py
+│   │   │
+│   │   └───input_validator
+│   │           parking_controller_validator.py
+│   │           user_controller_validator.py
+│   │           __init__.py
+│   │
+│   └───views
+│       │   admin_views.py
+│       │   auth_views.py
+│       │   employee_views.py
+│       │   __init__.py
+│       │
+│       ├───parking_views
+│       │   │   parking_slot_views.py
+│       │   │   parking_status_views.py
+│       │   │   slot_booking_views.py
+│       │   │   vehicle_type_views.py
+│       │   │   __init__.py
+│       │   │
+│       │   └───__pycache__
+│       │           parking_slot_views.cpython-311.pyc
+│       │           parking_status_views.cpython-311.pyc
+│       │           slot_booking_views.cpython-311.pyc
+│       │           vehicle_type_views.cpython-311.pyc
+│       │           __init__.cpython-311.pyc
+│       │
+│       └───__pycache__
+│               admin_views.cpython-311.pyc
+│               auth_views.cpython-311.pyc
+│               employee_update_views.cpython-311.pyc
+│               employee_views.cpython-311.pyc
+│               __init__.cpython-311.pyc
+│
+└───tests
+    │   __init__.py
+    │
+    ├───test_controller
+    │   │   test_admin_controller.py
+    │   │   test_auth_controller.py
+    │   │   test_employee_controller.py
+    │   │   __init__.py
+    │   │
+    │   └───test_parking_controller
+    │           test_parking_slots.py
+    │           test_parking_status.py
+    │           test_slot_booking.py
+    │           test_vehicle_type.py
+    │           __init__.py
+    │
+    ├───test_utils
+    │   │   test_common_helper.py
+    │   │   test_error_handler.py
+    │   │   __init__.py
+    │   │
+    │   └───test_input_validator
+    │           test_parking_controller_validator.py
+    │           test_user_controller_validator.py
+    │           __init__.py
+    │
+    └───test_views
+        │   test_admin_views.py
+        │   test_auth_views.py
+        │   test_employee_views.py
+        │   __init__.py
+        │
+        └───test_parking_views
+                test_parking_slot_views.py
+                test_parking_status_views.py
+                test_slot_booking_views.py
+                test_vehicle_type_views.py
+                __init__.py
 ```
 
 ## UML Diagrams
