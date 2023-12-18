@@ -41,7 +41,7 @@ pipenv run python .\src\app.py
 
 ## Folder Structure
 ```bash
-.coverage
+|   .coverage
 │   .gitignore
 │   logs.log
 │   Pipfile
@@ -51,11 +51,11 @@ pipenv run python .\src\app.py
 │   vehicle_parking_management_requirements.pdf
 │
 ├───.vscode
-│
+│      
 ├───diagrams
-│
+│       
 ├───htmlcov
-│
+│       
 ├───src
 │   │   app.py
 │   │   __init__.py
@@ -110,26 +110,12 @@ pipenv run python .\src\app.py
 │       │   employee_views.py
 │       │   __init__.py
 │       │
-│       ├───parking_views
-│       │   │   parking_slot_views.py
-│       │   │   parking_status_views.py
-│       │   │   slot_booking_views.py
-│       │   │   vehicle_type_views.py
-│       │   │   __init__.py
-│       │   │
-│       │   └───__pycache__
-│       │           parking_slot_views.cpython-311.pyc
-│       │           parking_status_views.cpython-311.pyc
-│       │           slot_booking_views.cpython-311.pyc
-│       │           vehicle_type_views.cpython-311.pyc
-│       │           __init__.cpython-311.pyc
-│       │
-│       └───__pycache__
-│               admin_views.cpython-311.pyc
-│               auth_views.cpython-311.pyc
-│               employee_update_views.cpython-311.pyc
-│               employee_views.cpython-311.pyc
-│               __init__.cpython-311.pyc
+│       └───parking_views
+│               parking_slot_views.py
+│               parking_status_views.py
+│               slot_booking_views.py
+│               vehicle_type_views.py
+│               __init__.py
 │
 └───tests
     │   __init__.py
