@@ -27,7 +27,6 @@ This project offers below mentioned functionalities and features:
 
 ## Getting Started
 To run the project in your system, you have to perfrom following steps:
-
 ```bash
 # Clone the repository using following git command
 git clone https://github.com/Aayushi2302/Minor-Project---Vehicle-Parking-Management-System
