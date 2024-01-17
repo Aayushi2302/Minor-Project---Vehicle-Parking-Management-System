@@ -58,6 +58,7 @@ class Database:
         logger.info(LogPrompts.SUCCESSFUL_VEHICLE_TYPE_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_SLOT_BOOKING_TABLE_CREATION_INFO)
+        # self.connection.commit()
    
     def save_data_to_database(self, query: str | list, data: tuple | list) -> None:
         """

@@ -33,12 +33,14 @@ class TestParkingStatusViews(TestCase):
     @patch('src.views.parking_views.parking_status_views.ParkingStatusViews.view_current_date_status')
     @patch('builtins.input')
     def test_parking_status_menu_negative(self, mock_input: Mock, mock_curr_date_status: Mock, mock_curr_year_status: Mock, mock_view_booking_details: Mock) -> bool:
-        mock_input.side_effect = ['1', '2', '3', 'default']
+        mock_input.side_effect = ['1', '2', '3', 'default', '4']
         mock_curr_date_status.return_value = None
         mock_curr_year_status.return_value = None
         mock_view_booking_details.return_value = None
-        for _ in range(4):
-            self.assertFalse(self.parking_status_views_obj.parking_status_menu())
+        self.assertTrue(self.parking_status_views_obj.parking_status_menu())
+        mock_curr_date_status.assert_called_once()
+        mock_curr_year_status.assert_called_once()
+        mock_view_booking_details.assert_called_once()
 
     @patch('builtins.input')
     def test_parking_status_menu_positive(self, mock_input: Mock) -> bool:

@@ -37,6 +37,7 @@ class AdminController:
             Return type -> int
         """
         data = self.get_employee_data(emp_email)
+        
         if not data:
             return -1
 
