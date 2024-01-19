@@ -47,6 +47,3 @@ class TestCommonHelper(unittest.TestCase):
     def test_input_validation_negative(self, mock_re: Mock)-> bool:
         mock_re.return_value = None
         self.assertFalse(self.common_helper_obj.input_validation("demo_regex", "demo_data"))
-
-if __name__ == '__main__':
-    unittest.main()

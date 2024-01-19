@@ -18,27 +18,42 @@ class TestAdminController(TestCase):
         mock_db.save_data_to_database.assert_called_once()
 
     @patch('src.controller.admin_controller.db')
-    def test_update_employee_details_auth_table(self, mock_db: Mock) -> None:
+    @patch('src.controller.admin_controller.AdminController.get_employee_data')
+    def test_update_employee_details_positive(self, mock_get_employee_data: Mock, mock_db: Mock) -> None:
+        mock_get_employee_data.return_value = [("EMP123", "active", "attendant")]
         mock_db.save_data_to_database.return_value = None
-        self.assertIsNone(self.admin_controller_obj.update_employee_details(
+        self.assertEqual(self.admin_controller_obj.update_employee_details(
+            "demo@gmail.com",
             "role",
-            "attendant",
-            "EMP1234"
-        ))
-        mock_db.save_data_to_database.assert_called_once()
-    
-    @patch('src.controller.admin_controller.db')
-    def test_update_employee_details_employee_table(self, mock_db: Mock) -> None:
-        mock_db.save_data_to_database.return_value = None
-        self.assertIsNone(self.admin_controller_obj.update_employee_details(
+            "admin"
+        ), 1)
+        self.assertEqual(self.admin_controller_obj.update_employee_details(
+            "demo@gmail.com",
             "name",
-            "Aditya Soni",
-            "EMP1234"
-        ))
-        mock_db.save_data_to_database.assert_called_once()
+            "admin"
+        ), 1)
+
+    @patch('src.controller.admin_controller.AdminController.get_employee_data')
+    def test_update_employee_details_negative(self, mock_get_employee_data: Mock) -> None:
+        mock_get_employee_data.side_effect = [[], [("EMP123", "active", "admin")], [("EMP123", "inactive", "attendant")]]
+        self.assertEqual(self.admin_controller_obj.update_employee_details(
+            "demo@gmail.com",
+            "role",
+            "admin"
+        ), -1)
+        self.assertEqual(self.admin_controller_obj.update_employee_details(
+            "demo@gmail.com",
+            "role",
+            "admin"
+        ), -2)
+        self.assertEqual(self.admin_controller_obj.update_employee_details(
+            "demo@gmail.com",
+            "role",
+            "admin"
+        ), -3)
 
     @patch('src.controller.admin_controller.db')
-    def test_get_all_employees(self, mock_db: Mock):
+    def test_get_all_employees(self, mock_db: Mock) -> None:
         mock_db.fetch_data_from_database.return_value = [("employee data", )]
         self.assertEqual(
             self.admin_controller_obj.get_all_employees(),
@@ -63,11 +78,32 @@ class TestAdminController(TestCase):
         mock_db.fetch_data_from_database.assert_called_once()
     
     @patch('src.controller.admin_controller.db')
-    def test_remove_employee(self, mock_db: Mock) -> None:
+    @patch('src.controller.admin_controller.AdminController.get_employee_data')
+    def test_remove_employee_positive(self, mock_get_employee_data: Mock, mock_db: Mock) -> None:
+        mock_get_employee_data.return_value = [("EMP123", "active", "attendant")]
         mock_db.save_data_to_database.return_value = None
-        self.assertIsNone(self.admin_controller_obj.remove_employee(
+        self.assertEqual(self.admin_controller_obj.remove_employee(
+            "demo@gmail.com",
             "status",
-            "inactive",
-            "EMP1234"
-        ))
+            "inactive"
+        ), 2)
         mock_db.save_data_to_database.assert_called_once()
+
+    @patch('src.controller.admin_controller.AdminController.get_employee_data')
+    def test_remove_employee_negative(self, mock_get_employee_data: Mock) -> None:
+        mock_get_employee_data.side_effect = [[],[("EMP123", "active", "admin")], [("EMP123", "inactive", "attendant")]]
+        self.assertEqual(self.admin_controller_obj.remove_employee(
+            "demo@gmail.com",
+            "status",
+            "inactive"
+        ), -1)
+        self.assertEqual(self.admin_controller_obj.remove_employee(
+            "demo@gmail.com",
+            "status",
+            "inactive"
+        ), 0)
+        self.assertEqual(self.admin_controller_obj.remove_employee(
+            "demo@gmail.com",
+            "status",
+            "inactive"
+        ), 1)

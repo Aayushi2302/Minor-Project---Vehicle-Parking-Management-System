@@ -15,7 +15,6 @@ class TestParkingStatus(TestCase):
 
     @patch('src.controller.parking_controller.parking_status.db')
     def test_get_current_year_status(self, mock_db: Mock) -> None:
-       mock_db.fetch_data_from_database.return_value = [("curr year booking data", )]
-       self.assertEqual(self.parking_status_obj.get_current_year_status(), [("curr year booking data", )])
-       mock_db.fetch_data_from_database.assert_called_once()
-
+        mock_db.fetch_data_from_database.return_value = [("curr year booking data", )]
+        self.assertEqual(self.parking_status_obj.get_current_year_status(), [("curr year booking data", )])
+        mock_db.fetch_data_from_database.assert_called_once()

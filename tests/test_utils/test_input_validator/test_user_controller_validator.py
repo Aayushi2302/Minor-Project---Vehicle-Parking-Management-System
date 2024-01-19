@@ -74,17 +74,21 @@ class TestUserControllerValidator(unittest.TestCase):
             Parameter -> self, mock_input: Mock, mock_input_validation: Mock
             Return type -> bool
         """
-        mock_input.side_effect = ["admin", "123", "attendant"]
-        mock_input_validation.side_effect = [False, False, True]
+        mock_input.side_effect = ["123", "attendant"]
+        mock_input_validation.side_effect = [False, True]
         self.assertEqual(UserControllerValidator.input_role(), "attendant")
 
-    def test_input_role_admin(self) -> bool:
+    @patch("src.utils.input_validator.user_controller_validator.CommonHelper.input_validation")
+    @patch("builtins.input")
+    def test_input_role_admin(self, mock_input: Mock, mock_input_validation: Mock) -> bool:
         """
             Method for testing admin role input.
             Parameter -> self
             Return type -> bool
         """
-        self.assertEqual(UserControllerValidator.input_role("admin"), "admin")
+        mock_input.side_effect = ["admin", "staff"]
+        mock_input_validation.return_value = True
+        self.assertEqual(UserControllerValidator.input_role(), "staff")
 
     @patch("src.utils.input_validator.user_controller_validator.CommonHelper.input_validation")
     @patch("builtins.input")
@@ -109,6 +113,3 @@ class TestUserControllerValidator(unittest.TestCase):
         mock_input.side_effect = ["12345", "96874563", "6378964512"]
         mock_input_validation.side_effect = [False, False, True]
         self.assertEqual(UserControllerValidator.input_mobile_number(), "6378964512")
-
-if __name__ == '__main__':
-    unittest.main()
