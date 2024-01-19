@@ -69,7 +69,12 @@ class AdminController:
         data = db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
         return data
 
-    def get_default_password_for_employee(self, emp_email: str) -> int:
+    def get_default_password_for_employee(self, emp_email: str) -> list:
+        """
+            Method to fetch default password for employee.
+            Parameter -> self, emp_email: str
+            Return type -> list
+        """
         data = db.fetch_data_from_database(
                     QueryConfig.FETCH_EMP_ID_FROM_EMAIL,
                     (emp_email, )
