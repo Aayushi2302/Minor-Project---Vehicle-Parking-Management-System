@@ -40,7 +40,7 @@ class AuthController:
         if actual_password != password:
             return False
         else:
-            self.common_helper_obj.create_new_password(username)
+            # self.common_helper_obj.create_new_password(username)
             return True
 
     def role_based_access(self, role: str, username: str) -> bool:
@@ -75,10 +75,11 @@ class AuthController:
             role = data[0][1]
             password_type = data[0][2]
             if password_type == AppConfig.DEFAULT_PASSWORD:
-                return self.valid_first_login(username, password, actual_password)
+                if self.valid_first_login(username, password, actual_password):
+                    return role
             else:
                 hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
                 if hashed_password == actual_password:
-                    return self.role_based_access(role, username)
-        return False
+                    return role
+        return None
                     

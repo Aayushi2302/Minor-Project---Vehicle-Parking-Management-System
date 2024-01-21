@@ -2,10 +2,10 @@
 
 class AppConfig:
     """This class contains all the constants of the project."""
-    DATABASE_PATH = "src\\models\\parking_management.db"
+    DATABASE_PATH = "models\\parking_management.db"
     LOG_FILE_PATH = "logs.log"
-    PROMPTS_FILE_YAML_PATH = "src\\config\\prompts\\prompts.yaml"
-    LOG_FILE_YAML_PATH = "src\\config\\log_prompts\\log_prompts.yaml"
+    PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
+    LOG_FILE_YAML_PATH = "config\\log_prompts\\log_prompts.yaml"
     MAXIMUM_LOGIN_ATTEMPTS = 3
     
     # role specific constants

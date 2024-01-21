@@ -1,40 +1,72 @@
-"""
-    Main module for Vehicle-Parking-Management System. 
-    This is the entry point of the project.
-"""
-import logging
+from flask import Flask, jsonify
+from flask_smorest import Api
+from flask_jwt_extended import JWTManager
 
-from config.app_config import AppConfig
-from config.log_prompts.log_prompts import LogPrompts
-from config.prompts.prompts import Prompts
 from models.database import db
-from views.auth_views import AuthViews
+from resources.auth_resource import blp as AuthBlueprint
+from blocklist import BLOCKLIST
 
-# loading the prompts from yaml to py
-Prompts.load()
-LogPrompts.load()
+BASE_URL = "/parking-management/v1"
 
-# initializing logger for recording logs
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s [%(filename)s %(funcName)s:%(lineno)d] %(message)s',
-    level = logging.DEBUG,
-    filename = AppConfig.LOG_FILE_PATH
-)
-logger = logging.getLogger(__name__)
+def create_app():
+    app = Flask(__name__)
+    # app.register_error_handler - explore about it.
 
-# for creating tables in database
-db.create_all_tables()
+    app.config["PROPAGATE_EXCEPTIONS"] = True
+    app.config["API_TITLE"] = "Vehicle Parking Management System REST API"
+    app.config["API_VERSION"] = "v1"
+    app.config["OPENAPI_VERSION"] = "3.0.3"
+    app.config["OPENAPI_URL_PREFIX"] = "/parking-management/v1"
+    app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+    app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+    db.create_all_tables()
 
-if __name__ == "__main__":
-    logger.info(LogPrompts.SYSTEM_STARTING_INFO)
-    print(Prompts.WELCOME_MESSAGE)
+    api = Api(app)
 
-    # for user authentication and granting role based access
-    auth_obj = AuthViews()
-    auth_obj.login()
+    app.config["JWT_SECRET_KEY"] = "301495134280069334565810139557053278463"
+    jwt = JWTManager(app)
 
-    db.connection.close()
-    print(Prompts.EXIT_MESSAGE)
-    logger.info(LogPrompts.SYSTEM_ENDING_INFO)
-else:
-    logger.debug(LogPrompts.WRONG_FILE_RUN_DEBUG)
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        return (
+            jsonify({"message": "The token has expired.", "error": "token_expired"}),
+            401,
+        )
+
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        return (
+            jsonify(
+                {"message": "Signature verification failed.", "error": "invalid_token"}
+            ),
+            401,
+        )
+
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        return (
+            jsonify(
+                {
+                    "description": "Request does not contain an access token.",
+                    "error": "authorization_required",
+                }
+            ),
+            401,
+        )
+
+    @jwt.token_in_blocklist_loader
+    def check_if_token_in_blocklist(jwt_header, jwt_payload):
+        return jwt_payload["jti"] in BLOCKLIST
+
+    @jwt.revoked_token_loader
+    def revoked_token_callback(jwt_header, jwt_payload):
+        return (
+            jsonify(
+                {"description": "The token has been revoked.", "error": "token_revoked"}
+            ),
+            401,
+        )
+
+    api.register_blueprint(AuthBlueprint, url_prefix= BASE_URL + "/auth/")
+    
+    return app

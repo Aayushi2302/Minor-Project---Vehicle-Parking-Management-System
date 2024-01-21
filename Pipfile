@@ -15,6 +15,10 @@ pytest-cov = "*"
 coverage = "*"
 flake8 = "*"
 pylint = "*"
+flask = "*"
+flask-smorest = "*"
+python-dotenv = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 
