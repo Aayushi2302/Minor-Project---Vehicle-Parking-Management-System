@@ -1,102 +1,128 @@
-"""Module contaning controller logic for managing customer details."""
+"""Module for maintaining all the methods or functionalities of Admin."""
 
 from config.app_config import AppConfig
 from config.query import QueryConfig
 from models.database import db
 
 class EmployeeController:
-    """ 
-        Class containing method for managing employee related operations.
+    """
+        Class containing all the functionalities that user can perform on Employee.
         ...
-
         Methods:
         -------
-        register_customer() -> method to regsiter customer.
-        get_cust_id_from_vehicle_no() -> method to get customer id.
-        get_customer_details() -> method to get customer details.
-        update_customer_details() -> method to update customer details.
-        get_booking_details_from_cust_id() -> method to get booking details from customer id.
+        register_employee() -> method to register employees.
+        update_employee_details() -> method to update employee details.
+        get_all_employees() -> method to get employee details.
+        get_default_password_for_employee() -> method to get default password for employees.
+        get_employee_data() -> method to get employee data.
+        remove_employee() -> method to remove employee details.
     """
-    def register_customer(self, cust_data: tuple) -> None:
+    def register_employee(self, auth_data: tuple, employee_data: tuple) -> None:
         """
-            Method to register customer.
-            Parameter -> self, cust_data: tuple
+            Method to register employee and save their data to database.
+            Parameter -> self, auth_data: tuple, employee_data: tuple
             Return type -> None
         """
+        query = [QueryConfig.CREATE_EMPLOYEE_CREDENTIALS, QueryConfig.CREATE_EMPLOYEE_DETAILS]
+        data =  [auth_data, employee_data]
         db.save_data_to_database(
-            QueryConfig.CREATE_CUSTOMER,
-            cust_data
+            query,
+            data
         )
 
-    def get_cust_id_from_vehicle_no(self, vehicle_no: str) -> list:
+    def update_employee_details(self, emp_email: str, updated_field: str, new_data: str) -> int:
         """
-            Method to get customer id.
-            Parameter -> self, vehicle_no: str
-            Return type -> list
-        """
-        data =  db.fetch_data_from_database(
-                    QueryConfig.FETCH_CUSTOMER_ID_AND_TYPE_ID_FROM_VEHICLE_NO,
-                    (vehicle_no, )
-                )
-        return data
-
-    def get_customer_details(self) -> list:
-        """
-            Method to view customer details.
-            Parameter -> self
-            Return type -> list
-        """
-        data =  db.fetch_data_from_database(QueryConfig.VIEW_CUSTOMER_DETAIL)
-        return data
-
-    def update_customer_details(self, cust_vehicle_no: str,
-                                updated_field: str, new_data: str) -> int:
-        """
-            Method to update customer details.
-            Parameter -> self, cust_vehicle_no: str, updated_field: str, new_data: str
+            Method to update employee details.
+            Parameter -> self, emp_email: str, updated_field: str, new_data: str
             Return type -> int
         """
-        data = self.get_cust_id_from_vehicle_no(cust_vehicle_no)
+        data = self.get_employee_data(emp_email)
+        
         if not data:
             return -1
 
-        cust_id = data[0][0]
+        emp_id = data[0][0]
+        status = data[0][1]
+        role = data[0][2]
 
-        if updated_field in (AppConfig.NAME_ATTR, AppConfig.MOBILE_NO_ATTR):
-            query_for_updation = QueryConfig.UPDATE_CUSTOMER_DETAIL.format(updated_field)
-            db.save_data_to_database(
-                    query_for_updation,
-                    (new_data, cust_id)
-                )
-            return 2
-
+        if role == AppConfig.ADMIN_ROLE:
+            return -2
+        elif status == AppConfig.STATUS_INACTIVE:
+            return -3
         else:
-            data = self.get_booking_details_from_cust_id(cust_id)
-            if not data:
-                return 0
-
-            booking_id = data[len(data)-1][0]
-            out_time = data[len(data)-1][1]
-
-            if out_time != AppConfig.DEFAULT_OUT_TIME:
-                return 1
+            if updated_field in (AppConfig.ROLE_ATTR, AppConfig.USERNAME_ATTR):
+                query = QueryConfig.UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID.format(updated_field)
             else:
-                query_for_updation = QueryConfig.UPDATE_SLOT_BOOKING_DETAIL.format(updated_field)
+                query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
+            db.save_data_to_database(
+                query,
+                (new_data, emp_id)
+            )
+            return 1
 
-                db.save_data_to_database(
-                        query_for_updation,
-                        (new_data, booking_id)
-                    )
-                return 2
-
-    def get_booking_details_from_cust_id(self, cust_id: str) -> list:
+    def get_all_employees(self) -> list:
         """
-            Method to get booking details from customer id.
-            Parameter -> self, cust_id: str
+            Method to fetch employee details.
+            Parameter -> self
+            Return type -> list
+        """
+        data = db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
+        return data
+
+    def get_default_password_for_employee(self, emp_email: str) -> list:
+        """
+            Method to fetch default password for employee.
+            Parameter -> self, emp_email: str
+            Return type -> list
+        """
+        data = db.fetch_data_from_database(
+                    QueryConfig.FETCH_EMP_ID_FROM_EMAIL,
+                    (emp_email, )
+                )
+        if not data:
+            return []
+        else:
+            emp_id = data[0][0]
+            data =  db.fetch_data_from_database(
+                        QueryConfig.FETCH_DEFAULT_PASSWORD_FROM_EMPID,
+                        (emp_id, )
+                    )
+            return data
+
+    def get_employee_data(self, emp_email: str) -> list:
+        """
+            Method to get employee data.
+            Parameter -> self, emp_email: str
             Return type -> list
         """
         data =  db.fetch_data_from_database(
-                    QueryConfig.FETCH_BOOKING_DETAIL_FROM_CUSTOMER_ID,
-                    (cust_id, )
+                    QueryConfig.FETCH_EMP_ID_STATUS_AND_ROLE_FROM_EMAIL,
+                    (emp_email, )
                 )
         return data
+
+    def remove_employee(self, emp_email: str, updated_field: str, new_data: str) -> int:
+        """
+            Method to remove employee.
+            Parameter -> self, emp_email: str, updated_field: str, new_data: str
+            Return type -> int
+        """
+        data = self.get_employee_data(emp_email)
+        if not data:
+            return -1
+
+        emp_id = data[0][0]
+        status = data[0][1]
+        role = data[0][2]
+
+        if role == AppConfig.ADMIN_ROLE:
+            return 0
+        elif status == new_data:
+            return 1
+        else:
+            query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
+            db.save_data_to_database(
+                query,
+                (new_data, emp_id)
+            )
+            return 2

@@ -9,7 +9,7 @@ import shortuuid
 from config.app_config import AppConfig
 from config.prompts.prompts import Prompts
 from config.query import TableHeader
-from controller.admin_controller import AdminController
+from controller.employee_controller import EmployeeController
 from utils.common_helper import CommonHelper
 from utils.decorators import error_handler, looper
 from utils.input_validator.user_controller_validator import UserControllerValidator
@@ -29,7 +29,7 @@ class AdminViews:
         updated_field : str
         username : str
         new_data : str
-        admin_controller_obj : AdminController
+        employee_controller_obj : EmployeeController
         common_helper_obj : CommonHelper
         employee_views_obj : EmployeeViews
         parking_slot_views_obj : ParkingSlotViews
@@ -55,7 +55,7 @@ class AdminViews:
         self.updated_field = None
         self.username = username
         self.new_data = None
-        self.admin_controller_obj = AdminController()
+        self.employee_controller_obj = EmployeeController()
         self.common_helper_obj = CommonHelper()
         self.employee_views_obj = EmployeeViews(self.username)
         self.parking_slot_views_obj = ParkingSlotViews()
@@ -85,7 +85,7 @@ class AdminViews:
         auth_data = (emp_id, emp_username, emp_password, emp_role)
         employee_data = (emp_id, emp_name, emp_age, emp_gender,
                             emp_mobile_number, emp_email_address)
-        self.admin_controller_obj.register_employee(auth_data, employee_data)
+        self.employee_controller_obj.register_employee(auth_data, employee_data)
         print(Prompts.EMPLOYEE_REGISTRATION_SUCCESSFUL + "\n")
 
     def view_employee_details(self) -> None:
@@ -94,7 +94,7 @@ class AdminViews:
             Parameter -> self
             Return type -> None
         """
-        data = self.admin_controller_obj.get_all_employees()
+        data = self.employee_controller_obj.get_all_employees()
         if not data:
             print(Prompts.ZERO_RECORD.format("Employee"))
         else:
@@ -108,7 +108,7 @@ class AdminViews:
             Parameter -> self
             Return type -> None
         """
-        if not self.admin_controller_obj.get_all_employees():
+        if not self.employee_controller_obj.get_all_employees():
             print(Prompts.CANNOT_UPDATE_RECORD + "\n")
             return
 
@@ -120,7 +120,7 @@ class AdminViews:
             if self.employee_update_menu():
                 break
 
-            result = self.admin_controller_obj.\
+            result = self.employee_controller_obj.\
                         update_employee_details(emp_email, self.updated_field, self.new_data)
 
             if result == -1:
@@ -138,13 +138,13 @@ class AdminViews:
             Parameter -> self
             Return type -> None
         """
-        if not self.admin_controller_obj.get_all_employees():
+        if not self.employee_controller_obj.get_all_employees():
             print(Prompts.CANNOT_UPDATE_RECORD + "\n")
             return
 
         self.view_employee_details()
         emp_email = UserControllerValidator.input_email_address()
-        data = self.admin_controller_obj.get_default_password_for_employee(emp_email)
+        data = self.employee_controller_obj.get_default_password_for_employee(emp_email)
 
         if not data:
             print(Prompts.DETAILS_NOT_EXIST + "\n")
@@ -162,7 +162,7 @@ class AdminViews:
             Parameter -> self
             Return type -> None
         """
-        if not self.admin_controller_obj.get_all_employees():
+        if not self.employee_controller_obj.get_all_employees():
             print(Prompts.CANNOT_PERFORM_DELETION + "\n")
             return
 
@@ -171,7 +171,7 @@ class AdminViews:
         emp_email = UserControllerValidator.input_email_address()
         updated_field = AppConfig.STATUS_ATTR
         new_data = AppConfig.STATUS_INACTIVE
-        result = self.admin_controller_obj.remove_employee(emp_email, updated_field, new_data)
+        result = self.employee_controller_obj.remove_employee(emp_email, updated_field, new_data)
 
         if result == -1:
             print(Prompts.DETAILS_NOT_EXIST + "\n")

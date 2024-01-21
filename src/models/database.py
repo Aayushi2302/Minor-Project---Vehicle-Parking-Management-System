@@ -5,7 +5,6 @@ from typing import Optional
 
 from config.app_config import AppConfig
 from config.log_prompts.log_prompts import LogPrompts
-from config.prompts.prompts import Prompts
 from config.query import QueryConfig
 from utils.decorators import error_handler
 
@@ -34,7 +33,7 @@ class Database:
             Return type -> None
         """
         try:
-            self.connection = sqlite3.connect(AppConfig.DATABASE_PATH)
+            self.connection = sqlite3.connect(AppConfig.DATABASE_PATH, check_same_thread=False)
             self.cursor = self.connection.cursor()
             logger.info(LogPrompts.SUCCESSFUL_CONNECTION_ESTABLISHED_INFO)
         except Exception:
