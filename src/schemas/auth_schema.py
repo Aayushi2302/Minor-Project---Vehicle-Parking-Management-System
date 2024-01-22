@@ -1,8 +1,9 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
+from config.regex_pattern import RegexPattern
 
 class LoginRequestSchema(Schema):
-    username = fields.Str(required=True)
-    password = fields.Str(required=True) 
+    username = fields.Str(required=True, validate=validate.Regexp(RegexPattern.USERNAME_REGEX))
+    password = fields.Str(required=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
 
 class LoginResponseSchema(Schema):
     access_token = fields.Str(dump_only=True)

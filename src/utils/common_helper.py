@@ -81,21 +81,6 @@ class CommonHelper:
                 print(Prompts.PASSWORD_CHANGE_SUCCESSFUL + "\n")
                 break
 
-    def view_individual_employee_details(self, username: str) -> None:
-        """
-            Method to display a particular user details.
-            Parameter -> self, username
-            Return type -> None
-        """
-        logger.info("Viewing individual employee details.")
-        print(Prompts.DETAILS_FOR_GIVEN_EMPLOYEE.format(username))
-        emp_data =  db.fetch_data_from_database(
-                        QueryConfig.VIEW_SINGLE_EMPLOYEE_DETAIL,
-                        (username, )
-                    )
-        header = TableHeader.EMPLOYEE_DETAIL_HEADER
-        CommonHelper.display_table(emp_data, header)
-
     @staticmethod
     def display_table(data: list, headers: list) -> None:
         """
@@ -142,3 +127,9 @@ class CommonHelper:
         curr_date = current.strftime('%d-%m-%Y')
         logger.info("Getting current date and time in IST format.")
         return (curr_date, curr_time)
+    
+    @staticmethod
+    def jsonify_data(data: list, keys: list) -> dict:
+        json_data = [dict(zip(keys, record)) for record in data]
+        return json_data
+

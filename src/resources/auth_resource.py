@@ -45,8 +45,8 @@ class Logout(MethodView):
         parameters = [
         {
             'name': 'Authorization', 
-            'in': 'header', 'description': 
-            'Authorization: Bearer <access_token>', 
+            'in': 'header', 
+            'description': 'Authorization: Bearer <access_token>', 
             'required': 'true'
         }
     ])

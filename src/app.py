@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 
 from models.database import db
 from resources.auth_resource import blp as AuthBlueprint
+from resources.user_resource import blp as UserBlueprint
 from blocklist import BLOCKLIST
 
 BASE_URL = "/parking-management/v1"
@@ -67,6 +68,7 @@ def create_app():
             401,
         )
 
-    api.register_blueprint(AuthBlueprint, url_prefix= BASE_URL + "/auth/")
+    api.register_blueprint(AuthBlueprint, url_prefix= BASE_URL)
+    api.register_blueprint(UserBlueprint, url_prefix= BASE_URL)
     
     return app
