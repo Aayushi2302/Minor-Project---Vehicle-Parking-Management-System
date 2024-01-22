@@ -7,6 +7,7 @@ class AppConfig:
     PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
     LOG_FILE_YAML_PATH = "config\\log_prompts\\log_prompts.yaml"
     MAXIMUM_LOGIN_ATTEMPTS = 3
+    PROJECT_DB = "parking_management_system"
     
     # role specific constants
     ADMIN_ROLE = "admin"

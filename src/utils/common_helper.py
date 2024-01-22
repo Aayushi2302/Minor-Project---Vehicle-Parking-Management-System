@@ -45,42 +45,6 @@ class CommonHelper:
         else:
             return False
 
-    def create_new_password(self, username: str) -> None:
-        """
-            Method for creating new password for the user following strong password recommendation.
-            Parameter -> self, username: str
-            Return type -> None
-        """
-        while True:
-            logger.info("Updating password of user.")
-            print(Prompts.CHANGE_PASSWORD + "\n")
-            print(Prompts.STRONG_PASSWORD_REQUIREMENTS + "\n")
-            input_password = maskpass.askpass(Prompts.INPUT_NEW_PASSWORD)
-            is_strong_password = CommonHelper.input_validation(
-                                    RegexPattern.PASSWORD_PATTERN,
-                                    input_password
-                                )
-            if not is_strong_password:
-                logger.warning("Strong password requirements not met.")
-                print(Prompts.WEAK_PASSWORD_INPUT + "\n")
-
-            else:
-
-                confirm_password = maskpass.askpass(Prompts.INPUT_CONFIRM_PASSWORD)
-                if input_password != confirm_password:
-                    logger.debug("New password and Confirm password do not match.")
-                    print(Prompts.PASSWORD_NOT_MATCH + "\n")
-                    continue
-                hashed_password = hashlib.sha256(confirm_password.encode('utf-8')).hexdigest()
-
-                db.save_data_to_database(
-                    QueryConfig.UPDATE_DEFAULT_PASSWORD,
-                    (hashed_password, AppConfig.PERMANENT_PASSWORD, username)
-                )
-                logger.info("Password changed successfully.")
-                print(Prompts.PASSWORD_CHANGE_SUCCESSFUL + "\n")
-                break
-
     @staticmethod
     def display_table(data: list, headers: list) -> None:
         """

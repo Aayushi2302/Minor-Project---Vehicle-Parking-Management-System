@@ -15,4 +15,5 @@ class RegexPattern:
     VEHICLE_NUMBER_REGEX = r"^[A-Z]{2}[-][0-9]{2}[-][A-Z]{2}[-][0-9]{4}$"
     AGE_REGEX = r"(^[1][4-9]$)|(^[2-5][0-9]$)|60"
     PRICE_REGEX = r"(^[0-9]+$)|([0-9]+\.[0-9]+$)"
+    GENDER_REGEX = r"^(Male|Female|Other)$"
     

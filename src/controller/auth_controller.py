@@ -71,9 +71,9 @@ class AuthController:
                     (username, AppConfig.STATUS_ACTIVE)
                 )
         if data:
-            actual_password = data[0][0]
-            role = data[0][1]
-            password_type = data[0][2]
+            actual_password = data[0]["password"]
+            role = data[0]["role"]
+            password_type = data[0]["password_type"]
             if password_type == AppConfig.DEFAULT_PASSWORD:
                 if self.valid_first_login(username, password, actual_password):
                     return role

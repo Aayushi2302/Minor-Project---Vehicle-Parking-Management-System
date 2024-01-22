@@ -1,6 +1,7 @@
 """Module for performing database operations on data."""
 import logging
-import sqlite3
+from mysql import connector
+import os
 from typing import Optional
 
 from config.app_config import AppConfig
@@ -9,6 +10,11 @@ from config.query import QueryConfig
 from utils.decorators import error_handler
 
 logger = logging.getLogger('db_helper')
+
+MYSQL_HOSTNAME = os.getenv("MYSQL_HOSTNAME")
+MYSQL_USERNAME = os.getenv("MYSQL_USERNAME")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+
 
 class Database:
     """
@@ -25,6 +31,9 @@ class Database:
         save_data_to_database() -> Method for saving data to single or multiple tables in database.
         fetch_data_from_database() -> Method for fetching data from database tables.   
     """
+    connection = None
+    cursor = None
+
     @error_handler
     def __init__(self) -> None:
         """
@@ -32,12 +41,20 @@ class Database:
             Parameter -> self
             Return type -> None
         """
-        try:
-            self.connection = sqlite3.connect(AppConfig.DATABASE_PATH, check_same_thread=False)
-            self.cursor = self.connection.cursor()
-            logger.info(LogPrompts.SUCCESSFUL_CONNECTION_ESTABLISHED_INFO)
-        except Exception:
-            raise sqlite3.Error
+        if Database.connection is None :
+            try:
+                Database.connection = connector.connect(
+                    user = MYSQL_USERNAME,
+                    password = MYSQL_PASSWORD,
+                    host = MYSQL_HOSTNAME
+                )
+                Database.cursor = Database.connection.cursor(dictionary=True)
+                Database.cursor.execute(QueryConfig.CREATE_DATABASE.format(AppConfig.PROJECT_DB))
+                Database.cursor.execute(QueryConfig.USE_DATABASE.format(AppConfig.PROJECT_DB))
+
+                logger.info(LogPrompts.SUCCESSFUL_CONNECTION_ESTABLISHED_INFO)
+            except Exception:
+                raise connector.Error
 
     def create_all_tables(self) -> None:
         """ 
@@ -49,12 +66,12 @@ class Database:
         logger.info(LogPrompts.SUCCESSFUL_AUTHENTICATION_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.EMPLOYEE_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_EMPLOYEE_TABLE_CREATION_INFO)
-        self.cursor.execute(QueryConfig.CUSTOMER_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_CUSTOMER_TABLE_CREATION_INFO)
-        self.cursor.execute(QueryConfig.PARKING_SLOT_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_PARKING_SLOT_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.VEHICLE_TYPE_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_VEHICLE_TYPE_TABLE_CREATION_INFO)
+        self.cursor.execute(QueryConfig.PARKING_SLOT_TABLE_CREATION)
+        logger.info(LogPrompts.SUCCESSFUL_PARKING_SLOT_TABLE_CREATION_INFO)
+        self.cursor.execute(QueryConfig.CUSTOMER_TABLE_CREATION)
+        logger.info(LogPrompts.SUCCESSFUL_CUSTOMER_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_SLOT_BOOKING_TABLE_CREATION_INFO)
         # self.connection.commit()
@@ -69,6 +86,7 @@ class Database:
             self.cursor.execute(query, data)
         else:
             for i in range(len(query)):
+                print(query[i], data[i])
                 self.cursor.execute(query[i], data[i])
         self.connection.commit()
         logger.info(LogPrompts.DATA_SAVED_TO_DATABASE_SUCCESSFUL_INFO)

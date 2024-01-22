@@ -1,9 +1,10 @@
 """Module containing decorators used throughout the project."""
-from flask_smorest import abort
-from functools import wraps
 import logging
-import sqlite3
+from mysql import connector
 from typing import Callable
+from functools import wraps
+from flask_smorest import abort
+from flask_jwt_extended import verify_jwt_in_request, get_jwt
 
 from config.prompts.prompts import Prompts
 
@@ -24,23 +25,19 @@ def error_handler(func: Callable) -> Callable:
         """
         try:
             return func(*args, **kwargs)
-        except sqlite3.IntegrityError as error:
+        except connector.IntegrityError as error:
             logger.exception(error)
             print(Prompts.INTEGRITY_ERROR_MESSAGE + "\n")
             abort(409, message=Prompts.INTEGRITY_ERROR_MESSAGE)
-        except sqlite3.OperationalError as error:
+        except connector.OperationalError as error:
             logger.exception(error)
             print(Prompts.OPERATIONAL_ERROR_MESSAGE + "\n")
             abort(500, message="Something wrong with the server. Please try again after some time.")
-        except sqlite3.ProgrammingError as error:
+        except connector.ProgrammingError as error:
             logger.exception(error)
             print(Prompts.PROGRAMMING_ERROR_MESSAGE + "\n")
             abort(500, message="Something wrong with the server. Please try again after some time.")
-        except sqlite3.Error as error:
-            logger.exception(error)
-            print(Prompts.GENERAL_EXCEPTION_MESSAGE + "\n")
-            abort(500, message="Something wrong with the server. Please try again after some time.")
-        except Exception as error:
+        except connector.Error as error:
             logger.exception(error)
             print(Prompts.GENERAL_EXCEPTION_MESSAGE + "\n")
             abort(500, message="Something wrong with the server. Please try again after some time.")
@@ -66,4 +63,16 @@ def looper(func: Callable) -> Callable:
                 logger.info("Exiting from loop")
                 return result
     return wrapper
-    
+
+def role_based_access(allowed_roles: tuple):
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims["usr"] not in allowed_roles:
+                abort(403, message="You don't have permission to access this functionality.")
+            else:
+                return func(*args, **kwargs)
+        return inner
+    return wrapper

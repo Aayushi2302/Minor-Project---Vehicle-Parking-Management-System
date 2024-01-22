@@ -2,7 +2,7 @@
 
 from config.app_config import AppConfig
 from config.query import QueryConfig
-from models.database import db
+from models.database import Database
 
 class EmployeeController:
     """
@@ -17,6 +17,9 @@ class EmployeeController:
         get_employee_data() -> method to get employee data.
         remove_employee() -> method to remove employee details.
     """
+    def __init__(self, db: Database):
+        self.db = db
+    
     def register_employee(self, auth_data: tuple, employee_data: tuple) -> None:
         """
             Method to register employee and save their data to database.
@@ -25,38 +28,32 @@ class EmployeeController:
         """
         query = [QueryConfig.CREATE_EMPLOYEE_CREDENTIALS, QueryConfig.CREATE_EMPLOYEE_DETAILS]
         data =  [auth_data, employee_data]
-        db.save_data_to_database(
+        self.db.save_data_to_database(
             query,
             data
         )
 
-    def update_employee_details(self, emp_email: str, updated_field: str, new_data: str) -> int:
+    def update_employee_details(self, emp_id: str, auth_table: tuple, employee_table: tuple) -> int:
         """
             Method to update employee details.
             Parameter -> self, emp_email: str, updated_field: str, new_data: str
             Return type -> int
         """
-        data = self.get_employee_data(emp_email)
+        data = self.get_employee_data(emp_id)
         
         if not data:
             return -1
 
-        emp_id = data[0][0]
-        status = data[0][1]
-        role = data[0][2]
+        status = data[0]["status"]
 
-        if role == AppConfig.ADMIN_ROLE:
-            return -2
-        elif status == AppConfig.STATUS_INACTIVE:
-            return -3
+        if status == AppConfig.STATUS_INACTIVE:
+            return 0
         else:
-            if updated_field in (AppConfig.ROLE_ATTR, AppConfig.USERNAME_ATTR):
-                query = QueryConfig.UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID.format(updated_field)
-            else:
-                query = QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID.format(updated_field)
-            db.save_data_to_database(
+            query = [ QueryConfig.UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID, QueryConfig.UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID]
+            data = [auth_table, employee_table]
+            self.db.save_data_to_database(
                 query,
-                (new_data, emp_id)
+                data
             )
             return 1
 
@@ -66,7 +63,7 @@ class EmployeeController:
             Parameter -> self
             Return type -> list
         """
-        data = db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
+        data = self.db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
         return data
 
     def get_default_password_for_employee(self, emp_email: str) -> list:
@@ -89,15 +86,15 @@ class EmployeeController:
                     )
             return data
 
-    def get_employee_data(self, emp_email: str) -> list:
+    def get_employee_data(self, emp_id: str) -> list:
         """
             Method to get employee data.
             Parameter -> self, emp_email: str
             Return type -> list
         """
-        data =  db.fetch_data_from_database(
-                    QueryConfig.FETCH_EMP_ID_STATUS_AND_ROLE_FROM_EMAIL,
-                    (emp_email, )
+        data =  self.db.fetch_data_from_database(
+                    QueryConfig.FETCH_EMP_FROM_EMP_ID,
+                    (emp_id, )
                 )
         return data
 

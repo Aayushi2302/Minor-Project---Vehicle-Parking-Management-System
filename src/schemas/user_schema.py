@@ -11,3 +11,8 @@ class UserProfileSchema(Schema):
     username = fields.Str(dump_only=True)
     role = fields.Str(dump_only=True)
     status = fields.Str(dump_only=True)
+
+class ChangePasswordSchema(Schema):
+    new_password = fields.Str(load_only=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
+    confirm_password = fields.Str(load_only=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
+    message = fields.Str(dump_only=True)
