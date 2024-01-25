@@ -90,6 +90,10 @@ class QueryConfig:
         SELECT emp_id FROM authentication
         WHERE username = %s
     """
+    FETCH_PASSWORD_FROM_USERNAME = """
+        SELECT password, password_type FROM authentication
+        WHERE username = %s
+    """
     FETCH_EMPID_FROM_ROLE_AND_STATUS = """
         SELECT authentication.emp_id FROM authentication
         INNER JOIN employee ON

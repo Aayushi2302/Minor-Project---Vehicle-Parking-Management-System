@@ -63,6 +63,11 @@ class CommonHelper:
         )
 
     @staticmethod
+    def hash_password(password) -> str:
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        return hashed_password
+
+    @staticmethod
     def input_validation(regular_exp: str, input_field: str) -> bool:
         """
             Method to validate input on basis of regex.
