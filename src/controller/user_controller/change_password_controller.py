@@ -9,7 +9,7 @@ class ChangePasswordController:
         self.token_obj = token_obj
 
     @custom_error_handler
-    def change_user_password(self, user_data) -> dict:
+    def change_user_password(self, user_data: dict) -> dict:
         username = self.token_obj.get_user_identity()
 
         current_password = user_data["current_password"]

@@ -16,3 +16,9 @@ class PasswordNotMatch(CustomBaseException):
 
 class DataAlreadyExists(CustomBaseException):
     ...
+
+class DataNotFound(CustomBaseException):
+    ...
+
+class InvalidRegex(CustomBaseException):
+    ...

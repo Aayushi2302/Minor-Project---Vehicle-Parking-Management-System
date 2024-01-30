@@ -6,6 +6,7 @@ from models.database import db
 from resources.auth_resource import blp as AuthBlueprint
 from resources.user_resource import blp as UserBlueprint
 from resources.employee_resource import blp as EmployeeBlueprint
+from resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 from blocklist import BLOCKLIST
 
 BASE_URL = "/parking-management/v1"
@@ -72,5 +73,6 @@ def create_app():
     api.register_blueprint(AuthBlueprint, url_prefix = BASE_URL)
     api.register_blueprint(UserBlueprint, url_prefix = BASE_URL)
     api.register_blueprint(EmployeeBlueprint, url_prefix = BASE_URL)
+    api.register_blueprint(VehicleTypeBlueprint, url_prefix = BASE_URL)
     
     return app

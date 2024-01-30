@@ -16,4 +16,5 @@ class RegexPattern:
     AGE_REGEX = r"(^[1][4-9]$)|(^[2-5][0-9]$)|60"
     PRICE_REGEX = r"(^[0-9]+$)|([0-9]+\.[0-9]+$)"
     GENDER_REGEX = r"^(Male|Female|Other)$"
-    
+    EMPLOYEE_ID_REGEX = r"^EMP[a-zA-Z0-9]{5}$"
+    TYPE_NAME_REGEX = r"^[a-zA-Z -]{3,20}$"

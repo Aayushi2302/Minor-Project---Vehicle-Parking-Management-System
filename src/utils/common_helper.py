@@ -3,15 +3,15 @@ from datetime import datetime
 import hashlib
 import logging
 import re
-import maskpass
+import string
+import random
 import pytz
+import shortuuid
 from tabulate import tabulate
 
 from config.app_config import AppConfig
 from config.prompts.prompts import Prompts
 from config.query import QueryConfig
-from config.query import TableHeader
-from config.regex_pattern import RegexPattern
 from models.database import db
 
 logger = logging.getLogger(__name__)
@@ -98,7 +98,20 @@ class CommonHelper:
         return (curr_date, curr_time)
     
     @staticmethod
-    def jsonify_data(data: list, keys: list) -> dict:
-        json_data = [dict(zip(keys, record)) for record in data]
-        return json_data
+    def generate_shortuuid(prefix: str) -> str:
+        id = prefix + shortuuid.ShortUUID().random(length = 5)
+        return id
 
+    @staticmethod
+    def generate_random_password() -> str:
+        characters = string.ascii_letters + string.digits + "@#$&%"
+        emp_password = ''.join(random.choice(characters) for _ in range(8))
+        return emp_password
+
+    @staticmethod
+    def get_constraint_failed_attribute(error_msg: str) -> str:
+        msg = error_msg.split(" ")
+        msg = msg[-1].strip("'")
+        msg = msg.split(".")[-1]
+        error_column = msg.replace("_", " ").capitalize()
+        return error_column

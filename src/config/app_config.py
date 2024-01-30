@@ -8,6 +8,9 @@ class AppConfig:
     LOG_FILE_YAML_PATH = "config\\log_prompts\\log_prompts.yaml"
     MAXIMUM_LOGIN_ATTEMPTS = 3
     PROJECT_DB = "parking_management_system"
+
+    # constants fr shortuuid
+    VEHICLE_TYPE = "TYPE"
     
     # role specific constants
     ADMIN_ROLE = "admin"
@@ -41,4 +44,8 @@ class AppConfig:
     USERNAME_ATTR = "username"
     ROLE_ATTR = "role"
     PRICE_PER_HOUR_ATTR = "price_per_hour"
+    TYPE_ID_ATTR = "type_id"
+    TYPE_NAME_ATTR = "type_name",
+    PRICE_PER_HOUR_ATTR = "price_per_hour"
+    PARKING_SLOT_NO_ATTR = "parking_slot_no"
     

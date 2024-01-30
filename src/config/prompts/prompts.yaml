@@ -237,4 +237,26 @@ VIEW_PARKING_STATUS_MENU : |
     2. View current year vehicle entries
     3. View total vehicle entries
     4. Back to main menu
+
+# API prompts starts here
+ERROR_STATUS_400 : Bad request
+ERROR_STATUS_404 : Not found
+ERROR_STATUS_409 : Conflict
+ERROR_STATUS_422 : Unprocessable Entity
+ERROR_STATUS_500 : Internal server error
+
+VEHICLE_TYPE_CONFLICT_MSG : Vehicle {} already exist
+INTERNAL_SERVER_ERROR_MSG : Something went wrong with the server
+VEHICLE_TYPE_NOT_FOUND : Vehicle type not found
+VEHICLE_TYPE_REGISTER_SUCCESS : Vehicle type registered successfully
+VEHICLE_TYPE_GET_SUCCESS : Vehicle types fetched successfully
+VEHICLE_TYPE_UPDATE_SUCCESS : Vehicle type updated successfully
+CANNOT_UPDATE_VEHICLE_TYPE_NAME : Vehicle type name cannot be updated
+VEHICLE_TYPE_ID_REGEX_INVALID : Vehicle Type ID is not as per required standard
+PARKING_SLOT_CONFLICT_MSG : Parking slot no already exist
+PARKING_SLOT_NOT_FOUND : Parking slot not found
+PARKING_SLOT_REGISTER_SUCCESS : Parking slot registered successfully
+PARKING_SLOT_GET_SUCCESS : Parking slots fetched successfully
+PARKING_SLOT_UPDATE_SUCCESS : Parking slot updated successfully
+PARKING_SLOT_DELETE_SUCCESS : Parking slot deleted successfully
 ...

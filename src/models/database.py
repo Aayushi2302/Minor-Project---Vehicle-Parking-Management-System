@@ -86,7 +86,6 @@ class Database:
             self.cursor.execute(query, data)
         else:
             for i in range(len(query)):
-                print(query[i], data[i])
                 self.cursor.execute(query[i], data[i])
         self.connection.commit()
         logger.info(LogPrompts.DATA_SAVED_TO_DATABASE_SUCCESSFUL_INFO)

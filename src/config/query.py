@@ -70,8 +70,8 @@ class QueryConfig:
     CREATE_EMPLOYEE_CREDENTIALS = """
         INSERT INTO authentication(
             emp_id,
-            username,
             password,
+            username,
             role
         ) VALUES(%s, %s, %s, %s)
     """
@@ -136,11 +136,16 @@ class QueryConfig:
         WHERE email_address = %s
     """
     FETCH_EMP_FROM_EMP_ID = """
-        SELECT status FROM employee
-        WHERE employee_id = %s
+        SELECT status, authentication.role from employee
+        INNER JOIN authentication ON
+        employee.emp_id = authentication.emp_id
+        WHERE employee.emp_id = %s
     """
     UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID = """
         UPDATE employee SET name = %s, age = %s, gender = %s, mobile_no = %s, email_address = %s WHERE emp_id = %s
+    """
+    DELETE_EMPLOYEE_FROM_EMP_ID = """
+        UPDATE employee SET status = %s WHERE emp_id = %s
     """
     VIEW_EMPLOYEE_DETAIL = """
         SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
@@ -172,8 +177,8 @@ class QueryConfig:
         ) VALUES(%s, %s, %s)
     """
     FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type ORDER BY type_name ASC"
-    FETCH_PRICE_PER_HOUR_FROM_TYPE_ID = """
-        SELECT price_per_hour FROM vehicle_type
+    FETCH_VEHICLE_TYPE_NAME_FROM_TYPE_ID = """
+        SELECT type_name FROM vehicle_type
         WHERE type_id = %s
     """
     FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME = """
@@ -182,7 +187,7 @@ class QueryConfig:
     """
     UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID = """
         UPDATE vehicle_type SET
-        {} = %s WHERE type_id = %s
+        type_name = %s, price_per_hour = %s WHERE type_id = %s
     """
 
     # queries for parking_slot table
@@ -200,21 +205,19 @@ class QueryConfig:
             type_id
         ) VALUES(%s, %s)
     """
-    FETCH_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NO = """
-        SELECT * FROM parking_slot
-        WHERE parking_slot_no = ?
-    """
-    FETCH_STATUS_FROM_PARKING_SLOT_NUMBER = """
-        SELECT status FROM parking_slot
+    FETCH_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NUMBER = """
+        SELECT type_name, status FROM parking_slot
+        INNER JOIN vehicle_type ON
+        parking_slot.type_id = vehicle_type.type_id
         WHERE parking_slot_no = %s
     """
     FETCH_PARKING_SLOT_NO_FOR_BOOKING = """
         SELECT parking_slot_no FROM parking_slot
         WHERE type_id = %s and status = %s
     """
-    UPDATE_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NO = """
+    UPDATE_PARKING_SLOT_STATUS_FROM_PARKING_SLOT_NO = """
         UPDATE parking_slot SET 
-        {} = %s WHERE parking_slot_no = %s
+        status = %s WHERE parking_slot_no = %s
     """
     VIEW_PARKING_SLOT_DETAIL = """
         SELECT parking_slot_no, type_name, status
