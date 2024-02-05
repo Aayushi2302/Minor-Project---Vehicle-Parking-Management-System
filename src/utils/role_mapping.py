@@ -1,6 +1,6 @@
 import os
 
 RoleMapping = {
-    "ADMIN" : os.getenv("ADMIN_ROLE"),
-    "ATTENDANT" : os.getenv("EMPLOYEE_ROLE")
+    "admin" : os.getenv("ADMIN_ROLE"),
+    "attendant" : os.getenv("ATTENDANT_ROLE")
 }

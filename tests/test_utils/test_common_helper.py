@@ -22,11 +22,11 @@ class TestCommonHelper(unittest.TestCase):
 
     @patch("src.utils.common_helper.db")
     @patch('src.utils.common_helper.hashlib.sha256')
-    @patch('src.utils.common_helper.CommonHelper.input_validation')
+    @patch('src.utils.common_helper.CommonHelper.regex_validation')
     @patch('src.utils.common_helper.maskpass.askpass')
-    def test_create_new_password(self, mock_maskpass: Mock, mock_input_validation: Mock, mock_hashlib: Mock, mock_db: Mock)-> bool:
+    def test_create_new_password(self, mock_maskpass: Mock, mock_regex_validation: Mock, mock_hashlib: Mock, mock_db: Mock)-> bool:
         mock_maskpass.side_effect = ["123", "Aayushi@123", "Aayushi123", "Aayushi@123", "Aayushi@123"]
-        mock_input_validation.side_effect = [False, True, True]
+        mock_regex_validation.side_effect = [False, True, True]
         mock_hashlib().hexdigest.return_value = "PasswordHashed"
         mock_db.save_data_to_database.return_value = True
         self.assertEqual(self.common_helper_obj.create_new_password("demo"), None)
@@ -39,11 +39,11 @@ class TestCommonHelper(unittest.TestCase):
         mock_db.fetch_data_from_database.asset_called_once()
         
     @patch('src.utils.common_helper.re.match')
-    def test_input_validation_positive(self, mock_re: Mock)-> bool:
+    def test_regex_validation_positive(self, mock_re: Mock)-> bool:
         mock_re.return_value = "Matched"
-        self.assertTrue(self.common_helper_obj.input_validation("demo_regex", "demo_data"))
+        self.assertTrue(self.common_helper_obj.regex_validation("demo_regex", "demo_data"))
 
     @patch('src.utils.common_helper.re.match')
-    def test_input_validation_negative(self, mock_re: Mock)-> bool:
+    def test_regex_validation_negative(self, mock_re: Mock)-> bool:
         mock_re.return_value = None
-        self.assertFalse(self.common_helper_obj.input_validation("demo_regex", "demo_data"))
+        self.assertFalse(self.common_helper_obj.regex_validation("demo_regex", "demo_data"))

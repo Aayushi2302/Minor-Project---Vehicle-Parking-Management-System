@@ -64,6 +64,7 @@ class Database:
         """
         self.cursor.execute(QueryConfig.AUTHENTICATION_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_AUTHENTICATION_TABLE_CREATION_INFO)
+        self.cursor.execute(QueryConfig.TOKEN_TABLE_CREATION)
         self.cursor.execute(QueryConfig.EMPLOYEE_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_EMPLOYEE_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.VEHICLE_TYPE_TABLE_CREATION)
@@ -74,7 +75,6 @@ class Database:
         logger.info(LogPrompts.SUCCESSFUL_CUSTOMER_TABLE_CREATION_INFO)
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
         logger.info(LogPrompts.SUCCESSFUL_SLOT_BOOKING_TABLE_CREATION_INFO)
-        # self.connection.commit()
    
     def save_data_to_database(self, query: str | list, data: tuple | list) -> None:
         """

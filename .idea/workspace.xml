@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/business/employee_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/employee_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/parking_slot_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/parking_slot_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/vehicle_type_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/vehicle_type_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/query.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/regex_pattern.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/regex_pattern.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/add_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/add_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/update_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/update_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vehicle_type_controller/add_vehicle_type_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vehicle_type_controller/add_vehicle_type_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/auth_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/auth_resource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/employee_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/employee_resource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/common_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/common_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/input_validator/parking_controller_validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/input_validator/parking_controller_validator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/input_validator/user_controller_validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/input_validator/user_controller_validator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_utils/test_common_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils/test_common_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_utils/test_input_validator/test_parking_controller_validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils/test_input_validator/test_parking_controller_validator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_utils/test_input_validator/test_user_controller_validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils/test_input_validator/test_user_controller_validator.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2blil6kdb4xPOGy54u2oNtnQQ0T" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/aasharma/OneDrive - WatchGuard Technologies Inc/Python Workspace/Minor Project Repo Updated"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-5a2391486177-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13763.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="" />
+      <created>1706796216624</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706796216624</updated>
+    </task>
+    <servers />
+  </component>
+</project>

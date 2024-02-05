@@ -9,7 +9,14 @@ class AppConfig:
     MAXIMUM_LOGIN_ATTEMPTS = 3
     PROJECT_DB = "parking_management_system"
 
-    # constants fr shortuuid
+    BLP_DOC_PARAMETERS = {
+                            'name': 'Authorization',
+                            'in': 'header',
+                            'description': 'Authorization: Bearer <access_token>',
+                            'required': 'true'
+                        }
+
+    # constants for shortuuid
     VEHICLE_TYPE = "TYPE"
     
     # role specific constants

@@ -20,16 +20,16 @@ class ParkingSlotBusiness:
             if not data:
                 raise DataNotFound(404, Prompts.ERROR_STATUS_404, Prompts.VEHICLE_TYPE_NOT_FOUND)
 
-            type_id = data[AppConfig.TYPE_ID_ATTR]
+            type_id = data["type_id"]
 
             self.db.save_data_to_database(
                 QueryConfig.CREATE_PARKING_SLOT,
                 (parking_slot_no, type_id)
             )
             return  {
-                        AppConfig.PARKING_SLOT_NO_ATTR : parking_slot_no,
-                        AppConfig.TYPE_NAME_ATTR : type_name,
-                        AppConfig.STATUS_ATTR : AppConfig.PARKING_SLOT_STATUS_VACANT
+                        "parking_slot_no" : parking_slot_no,
+                        "type_name" : type_name,
+                        "status" : AppConfig.PARKING_SLOT_STATUS_VACANT
                     }
        
         except connector.IntegrityError as error:
@@ -68,7 +68,7 @@ class ParkingSlotBusiness:
             if not data:
                 raise DataNotFound(404, Prompts.ERROR_STATUS_404, Prompts.PARKING_SLOT_NOT_FOUND)
 
-            if type_name != data[AppConfig.TYPE_NAME_ATTR]:
+            if type_name != data["type_name"]:
                 raise CustomBaseException(400, Prompts.ERROR_STATUS_400, Prompts.CANNOT_UPDATE_VEHICLE_TYPE_NAME)
 
             self.db.save_data_to_database(
@@ -77,9 +77,9 @@ class ParkingSlotBusiness:
             )
 
             return  {
-                        AppConfig.PARKING_SLOT_NO_ATTR : parking_slot_no,
-                        AppConfig.TYPE_NAME_ATTR : type_name,
-                        AppConfig.STATUS_ATTR : new_status
+                        "parking_slot_no" : parking_slot_no,
+                        "type_name" : type_name,
+                        "status" : new_status
                     }
 
         except connector.Error:

@@ -1,23 +1,23 @@
-"""Module to invoke business logic for adding or registering employees."""
+"""Module to invoke business logic for updating details of employees."""
 
 from business.employee_business import EmployeeBusiness
 from models.database import db
 from utils.custom_error_handler import custom_error_handler
 from utils.responses import SuccessResponse
 
-class AddEmployeeController:
+class UpdateEmployeeController:
     """
-        Class for invoking business logic for registering employees.
+        Class for invoking business logic for updating employee details.
         ...
         Methods
         -------
-        add_employee(): dict -> method taking employee data and sending it to business layer.
+        update_employee(): dict -> method for updating employee data for a particular employee.
     """
     @custom_error_handler
-    def add_employee(self, employee_data: dict) -> dict:
+    def update_employee(self, emp_id: str, employee_data: dict) -> dict:
         """
-            Method taking employee data and sending it to business layer to save.
-            Parameter -> employee_data: dict
+            Method for updating employee data for a particular employee.
+            Parameter -> emp_id: str, employee_data: dict
             Return type -> dict
         """
         name = employee_data["name"]
@@ -32,6 +32,5 @@ class AddEmployeeController:
         employee_table_data = (name, age, gender, mobile_no, email)
 
         employee_business_obj = EmployeeBusiness(db)
-        employee_business_obj.register_employee(auth_table_data, employee_table_data)
-
-        return SuccessResponse.jsonify_data("Employee created successfully."), 200
+        employee_business_obj.update_employee_details(emp_id, auth_table_data, employee_table_data)
+        return SuccessResponse.jsonify_data("Employee updated successfully."), 200

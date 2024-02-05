@@ -10,8 +10,8 @@ class AddParkingSlotController:
     @custom_error_handler
     def add_parking_slot(self, parking_slot_data: dict) -> dict:
 
-        parking_slot_no = parking_slot_data[AppConfig.PARKING_SLOT_NO_ATTR].strip()
-        type_name = parking_slot_data[AppConfig.TYPE_NAME_ATTR].strip().capitalize()
+        parking_slot_no = parking_slot_data["parking_slot_no"].strip()
+        type_name = parking_slot_data["type_name"].strip().capitalize()
 
         parking_slot_business_obj = ParkingSlotBusiness(db)
         response = parking_slot_business_obj.register_parking_slot(parking_slot_no, type_name)

@@ -56,11 +56,33 @@ class QueryConfig:
 
     CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS {}"
     USE_DATABASE = "USE {}"
+    ROLLBACK_QUERY = "ROLLBACK"
+
+    # queries for token table
+    TOKEN_TABLE_CREATION = """
+        CREATE TABLE IF NOT EXISTS token(
+            access_token VARCHAR(600) PRIMARY KEY,
+            refresh_token VARCHAR(600) NOT NULL,
+            username VARCHAR(15),
+            status VARCHAR(20) DEFAULT "issued",
+            FOREIGN KEY(username) REFERENCES authentication(username) ON DELETE CASCADE
+        )
+    """
+    CREATE_TOKEN = """
+        INSERT INTO token(
+            username,
+            access_token,
+            refresh_token
+        ) VALUES(%s, %s, %s)
+    """
+    REVOKE_TOKEN = """
+        UPDATE token SET status = "revoked" WHERE username = %s
+    """
 
     # queries for authentication table
     AUTHENTICATION_TABLE_CREATION = """
         CREATE TABLE IF NOT EXISTS authentication(
-            emp_id VARCHAR(8) PRIMARY KEY,
+            user_id VARCHAR(8) PRIMARY KEY,
             username VARCHAR(15) UNIQUE,
             password VARCHAR(100),
             role VARCHAR(10),
@@ -69,7 +91,7 @@ class QueryConfig:
     """
     CREATE_EMPLOYEE_CREDENTIALS = """
         INSERT INTO authentication(
-            emp_id,
+            user_id,
             password,
             username,
             role
@@ -78,16 +100,16 @@ class QueryConfig:
     FETCH_EMPLOYEE_CREDENTIALS = """
         SELECT password, role, password_type
         FROM authentication INNER JOIN employee
-        ON authentication.emp_id = employee.emp_id
+        ON authentication.user_id = employee.emp_id
         WHERE authentication.username = %s and employee.status = %s
     """
     FETCH_AUTHENTICATION_TABLE = "SELECT * FROM authentication"
     FETCH_DEFAULT_PASSWORD_FROM_EMPID = """
         SELECT password_type, password FROM authentication
-        WHERE emp_id = %s
+        WHERE user_id = %s
     """
     FETCH_EMPID_FROM_USERNAME = """
-        SELECT emp_id FROM authentication
+        SELECT user_id FROM authentication
         WHERE username = %s
     """
     FETCH_PASSWORD_FROM_USERNAME = """
@@ -95,9 +117,9 @@ class QueryConfig:
         WHERE username = %s
     """
     FETCH_EMPID_FROM_ROLE_AND_STATUS = """
-        SELECT authentication.emp_id FROM authentication
+        SELECT authentication.user_id FROM authentication
         INNER JOIN employee ON
-        authentication.emp_id = employee.emp_id
+        authentication.user_id = employee.emp_id
         WHERE authentication.role = %s and employee.status = %s
     """
     UPDATE_DEFAULT_PASSWORD = """
@@ -105,7 +127,7 @@ class QueryConfig:
         password_type = %s WHERE username = %s
     """
     UPDATE_EMPLOYEE_CREDENTIAL_FROM_EMP_ID = """
-        UPDATE authentication SET username = %s, role = %s WHERE emp_id = %s
+        UPDATE authentication SET username = %s, role = %s WHERE user_id = %s
     """
 
     # queries for employee table
@@ -118,7 +140,7 @@ class QueryConfig:
             mobile_no VARCHAR(10) UNIQUE,
             email_address VARCHAR(15) UNIQUE,
             status VARCHAR(15) DEFAULT "active",
-            FOREIGN KEY(emp_id) REFERENCES authentication(emp_id) ON DELETE CASCADE
+            FOREIGN KEY(emp_id) REFERENCES authentication(user_id) ON DELETE CASCADE
         )
     """
     CREATE_EMPLOYEE_DETAILS = """
@@ -135,10 +157,14 @@ class QueryConfig:
         SELECT emp_id FROM employee
         WHERE email_address = %s
     """
+    FETCH_EMP_DETAIL_FROM_EMP_ID = """
+        SELECT * FROM employee
+        WHERE emp_id = %s
+    """
     FETCH_EMP_FROM_EMP_ID = """
         SELECT status, authentication.role from employee
         INNER JOIN authentication ON
-        employee.emp_id = authentication.emp_id
+        employee.emp_id = authentication.user_id
         WHERE employee.emp_id = %s
     """
     UPDATE_EMPLOYEE_DETAIL_FROM_EMP_ID = """
@@ -150,13 +176,13 @@ class QueryConfig:
     VIEW_EMPLOYEE_DETAIL = """
         SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
         FROM employee INNER JOIN authentication ON
-        employee.emp_id = authentication.emp_id
+        employee.emp_id = authentication.user_id
         WHERE authentication.role <> "admin"
     """
     VIEW_SINGLE_EMPLOYEE_DETAIL = """
         SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
         FROM employee INNER JOIN authentication ON
-        employee.emp_id = authentication.emp_id
+        employee.emp_id = authentication.user_id
         WHERE authentication.username = %s
         ORDER BY employee.name ASC
     """
@@ -179,6 +205,11 @@ class QueryConfig:
     FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type ORDER BY type_name ASC"
     FETCH_VEHICLE_TYPE_NAME_FROM_TYPE_ID = """
         SELECT type_name FROM vehicle_type
+        WHERE type_id = %s
+    """
+    FETCH_VEHICLE_TYPE_FROM_TYPE_ID = """
+        SELECT type_id, type_name, price_per_hour
+        FROM vehicle_type
         WHERE type_id = %s
     """
     FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME = """
@@ -237,6 +268,7 @@ class QueryConfig:
             mobile_no VARCHAR(10) UNIQUE,
             vehicle_no VARCHAR(10) UNIQUE,
             type_id VARCHAR(9),
+            status VARCHAR(15) DEFAULT "active",
             FOREIGN KEY(type_id) REFERENCES vehicle_type(type_id) ON DELETE CASCADE
         )
     """
@@ -253,15 +285,24 @@ class QueryConfig:
         SELECT customer_id, type_id FROM customer
         WHERE vehicle_no = %s
     """
+    FETCH_CUSTOMER_DATA_FROM_CUSTOMER_ID = """
+        SELECT vehicle_type.type_name, status FROM customer
+        INNER JOIN vehicle_type ON
+        customer.type_id = vehicle_type.type_id
+        WHERE customer_id = %s
+    """
     UPDATE_CUSTOMER_DETAIL = """
         UPDATE customer SET
-        {} = %s WHERE customer_id = %s
+        name = %s, mobile_no = %s, vehicle_no = %s WHERE customer_id = %s
     """
     VIEW_CUSTOMER_DETAIL = """
-        SELECT customer_id, name, mobile_no, vehicle_no, type_name
+        SELECT customer_id, name, mobile_no, vehicle_no, type_name, status
         FROM customer INNER JOIN vehicle_type ON
         customer.type_id = vehicle_type.type_id
         ORDER BY customer.name ASC
+    """
+    DELETE_CUSTOMER_FROM_CUSTOMER_ID = """
+        UPDATE customer SET status = %s WHERE customer_id = %s
     """
 
     # queries for slot_booking table

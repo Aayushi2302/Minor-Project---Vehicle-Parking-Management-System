@@ -1,7 +1,26 @@
+"""Module contaning request and response schemas for user related operations."""
+
 from marshmallow import Schema, fields, validate
 from config.regex_pattern import RegexPattern
 
 class UserProfileSchema(Schema):
+    """
+        Schema for user profile response body.
+        ...
+        Fields
+        ------
+        success -> bool
+        message -> str
+        employee_id -> str
+        name -> str
+        age -> int
+        gender -> str
+        mobile_no -> str
+        email -> str
+        username -> str
+        role -> str
+        status -> str
+    """
     success = fields.Bool(dump_only=True)
     message = fields.Str(dump_onlyt=True)
     employee_id = fields.Str(dump_only=True)
@@ -14,10 +33,32 @@ class UserProfileSchema(Schema):
     role = fields.Str(dump_only=True)
     status = fields.Str(dump_only=True)
 
-class ChangePasswordSchema(Schema):
+class ChangePasswordRequestSchema(Schema):
+    """
+        Schema for change password request body.
+        ...
+        Fields
+        ------
+        current_password -> mandatory, str
+        new_password -> mandatory, str
+    """
+    current_password = fields.Str(required=True, load_only=True,
+                                    validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
+    new_password = fields.Str(required=True, load_only=True,
+                                    validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
+
+class ChangePasswordResponseSchema(Schema):
+    """
+        Schema for change password response body.
+        ...
+        Fields
+        ------
+        success -> bool
+        message -> str
+        access_token -> str
+        refresh_token -> str
+    """
     success = fields.Bool(dump_only=True)
     message = fields.Str(dump_only=True)
-    current_password = fields.Str(required=True, load_only=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
-    new_password = fields.Str(required=True, load_only=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
-    confirm_password = fields.Str(required=True, load_only=True, validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
-   
+    access_token = fields.Str(dump_only=True)
+    refresh_token = fields.Str(dump_only=True)

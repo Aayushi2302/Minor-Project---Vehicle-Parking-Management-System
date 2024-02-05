@@ -11,9 +11,6 @@ class InvalidLogin(CustomBaseException):
 class DBException(CustomBaseException):
     ...
 
-class PasswordNotMatch(CustomBaseException):
-    ...
-
 class DataAlreadyExists(CustomBaseException):
     ...
 

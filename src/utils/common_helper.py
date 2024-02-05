@@ -16,102 +16,67 @@ from models.database import db
 
 logger = logging.getLogger(__name__)
 
-class CommonHelper:
-    """
-        This class contain helper methods to be shared throughout the project.
-        ...
-        Methods
-        -------
-        is_admin_registered() -> Method to check whether the admin is registered or not.
-        create_new_password() -> Method to create new password.
-        view_individual_employee_details() -> Method for viewing details of individual employee.
-        display_table() -> Method to print table using tabulate.
-        input_validation() -> Method to validate input on basis of regex.
-        get_current_date_and_time() -> Method to get current date and time using datetime library.
-    """
-    def is_admin_registered(self) -> bool:
-        """
-            Method for checking whether admin(first user of the system) is registered.
-            Parameter -> self
-            Return type -> bool
-        """
-        logger.info("Checking if admin exist in the system.")
-        user_data = db.fetch_data_from_database(
-                    QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,
-                    (AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
-                )
-        if user_data:
-            return True
-        else:
-            return False
 
-    @staticmethod
-    def display_table(data: list, headers: list) -> None:
-        """
-            Method to display data in tabular format using tabulate.
-            Parameter -> data: list, headers: list
-            Return type -> None
-        """
-        row_id = [i for i in range(1, len(data) + 1)]
-        print(
-            tabulate(
-                data,
-                headers,
-                showindex = row_id,
-                tablefmt = "simple_grid"
+def is_admin_registered() -> bool:
+    """
+        Method for checking whether admin(first user of the system) is registered.
+        Parameter -> self
+        Return type -> bool
+    """
+    logger.info("Checking if admin exist in the system.")
+    user_data = db.fetch_data_from_database(
+                QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,
+                (AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
             )
-        )
+    if user_data:
+        return True
+    else:
+        return False
 
-    @staticmethod
-    def hash_password(password) -> str:
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        return hashed_password
+def hash_password(password: str) -> str:
+    hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    return hashed_password
 
-    @staticmethod
-    def input_validation(regular_exp: str, input_field: str) -> bool:
-        """
-            Method to validate input on basis of regex.
-            Parameter -> regular_exp: str, input_field: str
-            Return type -> bool
-        """
-        logger.info("Validating input based on regex.")
-        result = re.match(regular_exp, input_field)
-        if result is not None:
-            return True
-        else:
-            print(Prompts.INVALID_INPUT + "\n")
-            logger.debug("Invalid input entered.")
-            return False
+def regex_validation(regular_exp: str, input_field: str) -> bool:
+    """
+        Method to validate input on basis of regex.
+        Parameter -> regular_exp: str, input_field: str
+        Return type -> bool
+    """
+    logger.info("Validating input based on regex.")
+    result = re.match(regular_exp, input_field)
+    if result is not None:
+        return True
+    else:
+        print(Prompts.INVALID_INPUT + "\n")
+        logger.debug("Invalid input entered.")
+        return False
 
-    @staticmethod
-    def get_current_date_and_time() -> tuple:
-        """
-            For recording current date and time.
-            Parameter -> None
-            Return type -> tuple
-        """
-        time_zone = pytz.timezone('Asia/Kolkata')
-        current = datetime.now(time_zone)
-        curr_time = current.strftime('%H:%M')
-        curr_date = current.strftime('%d-%m-%Y')
-        logger.info("Getting current date and time in IST format.")
-        return (curr_date, curr_time)
-    
-    @staticmethod
-    def generate_shortuuid(prefix: str) -> str:
-        id = prefix + shortuuid.ShortUUID().random(length = 5)
-        return id
+def get_current_date_and_time() -> tuple:
+    """
+        For recording current date and time.
+        Parameter -> None
+        Return type -> tuple
+    """
+    time_zone = pytz.timezone('Asia/Kolkata')
+    current = datetime.now(time_zone)
+    curr_time = current.strftime('%H:%M')
+    curr_date = current.strftime('%d-%m-%Y')
+    logger.info("Getting current date and time in IST format.")
+    return (curr_date, curr_time)
 
-    @staticmethod
-    def generate_random_password() -> str:
-        characters = string.ascii_letters + string.digits + "@#$&%"
-        emp_password = ''.join(random.choice(characters) for _ in range(8))
-        return emp_password
+def generate_shortuuid(prefix: str) -> str:
+    id = prefix + shortuuid.ShortUUID().random(length = 5)
+    return id
 
-    @staticmethod
-    def get_constraint_failed_attribute(error_msg: str) -> str:
-        msg = error_msg.split(" ")
-        msg = msg[-1].strip("'")
-        msg = msg.split(".")[-1]
-        error_column = msg.replace("_", " ").capitalize()
-        return error_column
+def generate_random_password() -> str:
+    characters = string.ascii_letters + string.digits + "@#$&%"
+    emp_password = ''.join(random.choice(characters) for _ in range(8))
+    return emp_password
+
+def get_constraint_failed_attribute(error_msg: str) -> str:
+    msg = error_msg.split(" ")
+    msg = msg[-1].strip("'")
+    msg = msg.split(".")[-1]
+    error_column = msg.replace("_", " ").capitalize()
+    return error_column
