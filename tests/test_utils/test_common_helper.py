@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch
-from src.utils.common_helper import CommonHelper
+from src.helpers.common_helper import CommonHelper
 
 class TestCommonHelper(unittest.TestCase):
     

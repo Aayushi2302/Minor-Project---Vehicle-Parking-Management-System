@@ -1,14 +1,14 @@
-"""Module contaning logic related to authorization tokens."""
+"""Module containing logic related to authorization tokens."""
 from mysql import connector
 from flask_jwt_extended import (create_access_token,
                                 create_refresh_token,
                                 get_jwt,
                                 get_jti)
 
-from config.query import QueryConfig
-from business.token_business.token_access import TokenAccess
-from models.database import Database
-from utils.custom_exceptions import DBException
+from src.config.query import QueryConfig
+from src.business.token_business.token_access import TokenAccess
+from src.models.database import Database
+from src.utils.custom_exceptions import DBException
 
 class AuthTokenBusiness(TokenAccess):
     """
@@ -51,7 +51,7 @@ class AuthTokenBusiness(TokenAccess):
         self.save_tokens_to_database(user_identity, access_token_jti, refresh_token_jti)
         return (access_token, refresh_token)
 
-    def get_user_claims(self) -> str:
+    def get_user_claims(self) -> dict:
         """
             Method to get user claims.
             Parameter -> None

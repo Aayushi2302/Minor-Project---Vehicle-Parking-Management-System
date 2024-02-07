@@ -1,12 +1,17 @@
 """Module contaning business logic for authentication related tasks."""
+import logging
 
 from mysql import connector
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from models.database import Database
-from utils.common_helper import hash_password
-from utils.custom_exceptions import DBException, InvalidLogin
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.models.database import Database
+from src.helpers.common_helper import hash_password
+from src.helpers.log_helper import get_request_id
+from src.utils.custom_exceptions import DBException, InvalidLogin
+
+logger = logging.getLogger(__name__)
+# logger.addFilter(CustomFilter())
 
 class AuthBusiness:
     """
@@ -33,8 +38,10 @@ class AuthBusiness:
                             (username, AppConfig.STATUS_ACTIVE)
                         )
             if not user_data:
+                logger.warning(f"[{get_request_id()}] : Invalid login by user.")
                 raise InvalidLogin(401, "Unauthorized", "Invalid user credentials.")
 
+            logger.info(f"[{get_request_id()}] : Valid login by user.")
             return user_data[0]
 
         except connector.Error:

@@ -52,7 +52,7 @@ class TableHeader:
     VEHICLE_TYPE_HEADER = (Prompts.VEHICLE_TYPE_NAME_HEADER, )
 
 class QueryConfig:
-    """This class contains all the queries of the project.""" 
+    """This class contains all the queries of the project."""
 
     CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS {}"
     USE_DATABASE = "USE {}"
@@ -207,19 +207,28 @@ class QueryConfig:
         SELECT type_name FROM vehicle_type
         WHERE type_id = %s
     """
+
     FETCH_VEHICLE_TYPE_FROM_TYPE_ID = """
         SELECT type_id, type_name, price_per_hour
         FROM vehicle_type
         WHERE type_id = %s
     """
+
     FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME = """
         SELECT type_id FROM vehicle_type
         WHERE type_name = %s
     """
+
+    FETCH_PRICE_PER_HOUR_FROM_TYPE_ID = """
+        SELECT price_per_hour FROM vehicle_type
+        WHERE type_id = %s
+    """
+
     UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID = """
         UPDATE vehicle_type SET
         type_name = %s, price_per_hour = %s WHERE type_id = %s
     """
+
 
     # queries for parking_slot table
     PARKING_SLOT_TABLE_CREATION = """
@@ -340,7 +349,8 @@ class QueryConfig:
         WHERE booking_id = %s
     """
     FETCH_DETAIL_FOR_VACATING_PARKING_SLOT = """
-        SELECT booking_id, parking_slot_no, in_date, in_time, out_time FROM slot_booking INNER JOIN customer
+        SELECT booking_id, parking_slot_no, type_id, in_date, in_time, out_time 
+        FROM slot_booking INNER JOIN customer
         ON slot_booking.customer_id = customer.customer_id 
         WHERE customer.vehicle_no = %s
     """

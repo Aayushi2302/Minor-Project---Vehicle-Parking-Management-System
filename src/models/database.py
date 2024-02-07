@@ -4,10 +4,11 @@ from mysql import connector
 import os
 from typing import Optional
 
-from config.app_config import AppConfig
-from config.log_prompts.log_prompts import LogPrompts
-from config.query import QueryConfig
-from utils.decorators import error_handler
+from src.config.app_config import AppConfig
+from src.config.log_prompts.log_prompts import LogPrompts
+from src.config.query import QueryConfig
+from src.helpers.log_helper import get_request_id
+from src.utils.decorators import error_handler
 
 logger = logging.getLogger('db_helper')
 
@@ -34,14 +35,13 @@ class Database:
     connection = None
     cursor = None
 
-    @error_handler
     def __init__(self) -> None:
         """
             Method for initializing the sqlite3 connection and cursor object
             Parameter -> self
             Return type -> None
         """
-        if Database.connection is None :
+        if Database.connection is None:
             try:
                 Database.connection = connector.connect(
                     user = MYSQL_USERNAME,
@@ -52,7 +52,7 @@ class Database:
                 Database.cursor.execute(QueryConfig.CREATE_DATABASE.format(AppConfig.PROJECT_DB))
                 Database.cursor.execute(QueryConfig.USE_DATABASE.format(AppConfig.PROJECT_DB))
 
-                logger.info(LogPrompts.SUCCESSFUL_CONNECTION_ESTABLISHED_INFO)
+                # logger.info(f"[{get_request_id()}] : Successful database connection established.")
             except Exception:
                 raise connector.Error
 
@@ -63,18 +63,19 @@ class Database:
             Return type -> None
         """
         self.cursor.execute(QueryConfig.AUTHENTICATION_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_AUTHENTICATION_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : Authentication table creation successful.")
         self.cursor.execute(QueryConfig.TOKEN_TABLE_CREATION)
+        # logger.info(f"[{get_request_id()}] : Token table creation successful.")
         self.cursor.execute(QueryConfig.EMPLOYEE_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_EMPLOYEE_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : Employee table creation successful.")
         self.cursor.execute(QueryConfig.VEHICLE_TYPE_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_VEHICLE_TYPE_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : VehicleType table creation successful.")
         self.cursor.execute(QueryConfig.PARKING_SLOT_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_PARKING_SLOT_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : ParkingSlot table creation successful.")
         self.cursor.execute(QueryConfig.CUSTOMER_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_CUSTOMER_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : Customer table creation successful.")
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
-        logger.info(LogPrompts.SUCCESSFUL_SLOT_BOOKING_TABLE_CREATION_INFO)
+        # logger.info(f"[{get_request_id()}] : SlotBooking table creation successful.")
    
     def save_data_to_database(self, query: str | list, data: tuple | list) -> None:
         """
@@ -88,7 +89,7 @@ class Database:
             for i in range(len(query)):
                 self.cursor.execute(query[i], data[i])
         self.connection.commit()
-        logger.info(LogPrompts.DATA_SAVED_TO_DATABASE_SUCCESSFUL_INFO)
+        # logger.info(f"[{get_request_id()}] :  Data saved to database successfully.")
 
     def fetch_data_from_database(self, query: str, data: Optional[tuple] = None) -> list:
         """
@@ -100,7 +101,7 @@ class Database:
             self.cursor.execute(query)
         else:
             self.cursor.execute(query, data)
-        logger.info(LogPrompts.DATA_FETCHED_FROM_DATABASE_SUCESSFUL_INFO)
+        # logger.info(f"[{get_request_id()}] :  Data fetched from database successfully.")
         return self.cursor.fetchall()
 
 db = Database()

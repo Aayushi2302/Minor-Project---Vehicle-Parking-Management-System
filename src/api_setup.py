@@ -1,9 +1,11 @@
 """Module contaning different functions for initializing app."""
 
 import os
-from flask import jsonify
+from flask import jsonify, g
 from flask_jwt_extended import JWTManager
+import logging
 
+from src.config.app_config import AppConfig
 from models.database import db
 from resources.auth_resource import blp as AuthBlueprint
 from resources.user_resource import blp as UserBlueprint
@@ -11,6 +13,13 @@ from resources.employee_resource import blp as EmployeeBlueprint
 # from resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 
 BASE_URL = "/parking-management/"
+
+def logging_configuration():
+    logging.basicConfig(
+        format='%(asctime)s %(levelname)-8s [%(filename)s %(funcName)s:%(lineno)d] %(message)s',
+        level=logging.DEBUG,
+        filename=AppConfig.LOG_FILE_PATH
+    )
 
 def app_setup(app):
     """Function having statements for setting of api and document related configuration."""

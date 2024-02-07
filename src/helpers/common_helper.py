@@ -25,17 +25,19 @@ def is_admin_registered() -> bool:
     """
     logger.info("Checking if admin exist in the system.")
     user_data = db.fetch_data_from_database(
-                QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,
-                (AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
-            )
+        QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,
+        (AppConfig.ADMIN_ROLE, AppConfig.STATUS_ACTIVE)
+    )
     if user_data:
         return True
     else:
         return False
 
+
 def hash_password(password: str) -> str:
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
     return hashed_password
+
 
 def regex_validation(regular_exp: str, input_field: str) -> bool:
     """
@@ -52,7 +54,8 @@ def regex_validation(regular_exp: str, input_field: str) -> bool:
         logger.debug("Invalid input entered.")
         return False
 
-def get_current_date_and_time() -> tuple:
+
+def get_current_date_and_time() -> dict:
     """
         For recording current date and time.
         Parameter -> None
@@ -63,16 +66,22 @@ def get_current_date_and_time() -> tuple:
     curr_time = current.strftime('%H:%M')
     curr_date = current.strftime('%d-%m-%Y')
     logger.info("Getting current date and time in IST format.")
-    return (curr_date, curr_time)
+    return {
+        "date": curr_date,
+        "time": curr_time
+    }
+
 
 def generate_shortuuid(prefix: str) -> str:
-    id = prefix + shortuuid.ShortUUID().random(length = 5)
+    id = prefix + shortuuid.ShortUUID().random(length=5)
     return id
+
 
 def generate_random_password() -> str:
     characters = string.ascii_letters + string.digits + "@#$&%"
     emp_password = ''.join(random.choice(characters) for _ in range(8))
     return emp_password
+
 
 def get_constraint_failed_attribute(error_msg: str) -> str:
     msg = error_msg.split(" ")
@@ -80,3 +89,4 @@ def get_constraint_failed_attribute(error_msg: str) -> str:
     msg = msg.split(".")[-1]
     error_column = msg.replace("_", " ").capitalize()
     return error_column
+

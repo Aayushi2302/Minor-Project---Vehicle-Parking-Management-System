@@ -2,14 +2,13 @@
 
 from mysql import connector
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from business.authentication_business.auth_business import AuthBusiness
-from business.token_business.token_access import TokenAccess
-from models.database import Database
-from utils.common_helper import hash_password
-from utils.custom_exceptions import DBException, InvalidLogin
-from utils.role_mapping import RoleMapping
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.business.authentication_business.auth_business import AuthBusiness
+from src.business.token_business.token_access import TokenAccess
+from src.models.database import Database
+from src.helpers.common_helper import hash_password
+from src.utils.custom_exceptions import DBException, InvalidLogin
 
 class UserBusiness:
     """

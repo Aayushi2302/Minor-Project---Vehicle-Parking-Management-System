@@ -84,6 +84,18 @@ class VehicleTypeBusiness:
         except connector.Error:
             raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
 
+
+    def get_vehicle_type_id_from_type_name(self, type_name: str) -> list:
+        try:
+            data = self.db.fetch_data_from_database(
+                QueryConfig.FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME,
+                (type_name,)
+            )
+            return data
+
+        except connector.Error:
+            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+
     def get_individual_vehicle_type(self, type_id: str) -> list:
         """
             Method to get individual vehicle type details.

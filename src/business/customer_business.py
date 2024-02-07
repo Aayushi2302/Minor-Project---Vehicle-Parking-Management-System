@@ -1,80 +1,114 @@
+"""Module containing business logic for operations on customer."""
+
 from mysql import connector
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from config.regex_pattern import RegexPattern
-from models.database import Database
-from utils.common_helper import CommonHelper
-from utils.custom_exceptions import DataAlreadyExists, DataNotFound, DBException, CustomBaseException, InvalidRegex
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.config.regex_pattern import RegexPattern
+from src.models.database import Database
+from src.helpers.common_helper import generate_shortuuid, get_constraint_failed_attribute, regex_validation
+from src.utils.custom_exceptions import DataAlreadyExists, DataNotFound, DBException, CustomBaseException, InvalidRegex
+
 
 class CustomerBusiness:
+    """
+        Class containing business logic for operations on customer.
+        ...
+        Attributes
+        ----------
+        db: Database Object
 
+        Methods
+        -------
+        __check_for_valid_customer_id(): None -> method to validate customer id.
+        register_customer(): None -> method to register a new customer.
+        get_all_customers(): list -> method to get a list of all existing customers.
+        get_individual_customer(): list -> method to get the details of a particular customer.
+        update_customer_details(): None -> method to update the details of existing customer.
+        deactivate_customer(): None -> method to deactivate existing customer.
+    """
     def __init__(self, db: Database) -> None:
+        """Constructor for customer business."""
         self.db = db
 
-    def register_customer(self, customer_data: tuple) -> str:
-        try:
-            customer_id = CommonHelper.generate_shortuuid("CUST")
+    def __check_for_valid_customer_id(self, customer_id: str) -> None:
+        """
+            Method to validate customer id.
+            Parameters -> customer_id: str
+            Returns -> None
+        """
+        result = regex_validation(RegexPattern.CUSTOMER_ID_REGEX, customer_id)
 
-            customer_data = (customer_id, ) + customer_data
+        if not result:
+            raise InvalidRegex(422, "Unprocessable Entity", "Customer ID is not as per required standard.")
+
+    def register_customer(self, customer_data: tuple) -> None:
+        """
+            Method to register a new customer.
+            Parameters -> customer_data: tuple
+            Returns -> str
+        """
+        try:
+            customer_id = generate_shortuuid("CUST")
+            customer_data = (customer_id,) + customer_data
 
             self.db.save_data_to_database(
                 QueryConfig.CREATE_CUSTOMER,
                 customer_data
             )
 
-            return customer_id
-        
         except connector.IntegrityError as error:
-            failed_attribute = CommonHelper.get_constraint_failed_attribute(error.msg)
+            failed_attribute = get_constraint_failed_attribute(error.msg)
             raise DataAlreadyExists(409, "Conflict", f"Customer {failed_attribute} already exist.")
-        
+
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
-    
     def get_all_customers(self) -> list:
+        """
+            Method to get the list of all existing customers.
+            Parameters -> None
+            Returns -> list
+        """
         try:
-            data =  self.db.fetch_data_from_database(QueryConfig.VIEW_CUSTOMER_DETAIL)
-
-            if not data:
-                raise DataNotFound(404, "Not Found", "Customer data not found.")
-
+            data = self.db.fetch_data_from_database(QueryConfig.VIEW_CUSTOMER_DETAIL)
             return data
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
-    def get_customer_details_from_customer_id(self, customer_id: str) -> dict:
+    def get_individual_customer(self, customer_id: str) -> list:
+        """
+            Method to get details of customer from customer id.
+            Parameters -> customer_id: str
+            Returns -> list
+        """
         try:
-            data =  self.db.fetch_data_from_database(
-                        QueryConfig.FETCH_CUSTOMER_DATA_FROM_CUSTOMER_ID,
-                        (customer_id, )
-                    )
-            return data[0]
+            data = self.db.fetch_data_from_database(
+                QueryConfig.FETCH_CUSTOMER_DATA_FROM_CUSTOMER_ID,
+                (customer_id,)
+            )
+            return data
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
-
-    def update_customer_details(self, customer_id: str, customer_data: tuple, vehicle_type_name: str) -> dict:
+    def update_customer_details(self, customer_id: str, customer_data: tuple) -> None:
+        """
+            Method to update customer details.
+            Parameters -> customer_id: str, customer_data: tuple
+            Returns -> None
+        """
         try:
-            
-            valid_id = CommonHelper.regex_validation(RegexPattern.CUSTOMER_ID_REGEX, customer_id)
 
-            if not valid_id:
-                raise InvalidRegex(422, "Unprocessable Entity", "Customer ID is not as per required standard.")
-
-            data = self.get_customer_details_from_customer_id(customer_id)
+            self.__check_for_valid_customer_id(customer_id)
+            data = self.get_individual_customer(customer_id)
 
             if not data:
                 raise DataNotFound(404, "Not Found", "Customer data not found.")
 
-            if data["status"] == "inactive":
-                raise  CustomBaseException(400, "Bad Request", "Cannot update deleted customer record.")
-
-            if data["type_name"] != vehicle_type_name:
-                raise CustomBaseException(400, "Bad Request", "Cannot update type name.")
+            if data[0]["status"] == "inactive":
+                raise CustomBaseException(403, "Forbidden", "Cannot update deleted customer record.")
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_CUSTOMER_DETAIL,
@@ -82,28 +116,29 @@ class CustomerBusiness:
             )
 
         except connector.IntegrityError as error:
-            failed_attribute = CommonHelper.get_constraint_failed_attribute(error.msg)
+            failed_attribute = get_constraint_failed_attribute(error.msg)
             raise DataAlreadyExists(409, "Conflict", f"Customer {failed_attribute} already exist.")
-  
+
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
-    
+
     def deactivate_customer(self, customer_id: str) -> None:
+        """
+            Method to deactivate customer.
+            Parameters -> customer_id: str
+            Returns -> None
+        """
         try:
 
-            valid_id = CommonHelper.regex_validation(RegexPattern.CUSTOMER_ID_REGEX, customer_id)
-
-            if not valid_id:
-                raise InvalidRegex(422, "Unprocessable Entity", "Customer ID is not as per required standard.")
-        
-            data = self.get_customer_details_from_customer_id(customer_id)
+            self.__check_for_valid_customer_id(customer_id)
+            data = self.get_individual_customer(customer_id)
 
             if not data:
                 raise DataNotFound(404, "Not Found", "Customer data not found.")
 
-            if data["status"] == "inactive":
-                raise  CustomBaseException(400, "Bad Request", "Customer does not exist.")
-        
+            if data[0]["status"] == "inactive":
+                raise CustomBaseException(403, "Forbidden", "Customer does not exist.")
+
             self.db.save_data_to_database(
                 QueryConfig.DELETE_CUSTOMER_FROM_CUSTOMER_ID,
                 (AppConfig.STATUS_INACTIVE, customer_id)
@@ -111,4 +146,3 @@ class CustomerBusiness:
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
-        
