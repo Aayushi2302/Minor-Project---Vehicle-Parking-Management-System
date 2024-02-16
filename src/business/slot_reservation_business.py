@@ -8,7 +8,7 @@ from src.models.database import Database
 from src.helpers.customer_helper import CustomerHelper
 from src.helpers.slot_reservation_helper import SlotReservationHelper
 from src.helpers.common_helper import generate_shortuuid, get_current_date_and_time
-from src.utils.custom_exceptions import DBException, DataNotFound, CustomBaseException
+from src.utils.custom_exceptions import AppException, DBException
 
 
 class SlotReservationBusiness:
@@ -23,9 +23,9 @@ class SlotReservationBusiness:
 
         Methods
         -------
-        save_reservation_details(): None -> method to save parking slot reservation details.
+        save_reservation_details(): list -> method to save parking slot reservation details.
         get_reservation_details(): list -> method to get all reservations.
-        save_vacating_details(): None -> method to save parking slot vacating details.
+        save_vacating_details(): list -> method to save parking slot vacating details.
     """
     def __init__(self, db: Database, slot_reservation_helper: SlotReservationHelper,
                  customer_helper: CustomerHelper) -> None:
@@ -34,7 +34,7 @@ class SlotReservationBusiness:
         self.slot_reservation_helper = slot_reservation_helper
         self.customer_helper = customer_helper
 
-    def save_reservation_details(self, cust_vehicle_no: str, cust_out_date: str) -> None:
+    def save_reservation_details(self, cust_vehicle_no: str, cust_out_date: str) -> list:
         """
             Method to save data for parking slot reservation.
             Parameters -> cust_vehicle_no: str, cust_out_date: str
@@ -45,12 +45,15 @@ class SlotReservationBusiness:
             data = self.customer_helper.get_cust_id_from_vehicle_no(cust_vehicle_no)
 
             if not data:
-                raise DataNotFound(404, "Data Not Found", "Given customer does not exist.")
+                raise AppException(404, "Data Not Found", "Given customer does not exist.")
 
             cust_id = data[0]["customer_id"]
             type_id = data[0]["type_id"]
 
             parking_slot_no = self.slot_reservation_helper.get_vacant_parking_slot_randomly(type_id)
+
+            if not parking_slot_no:
+                raise AppException(404, "Data Not Found", "Parking slots not found.")
 
             cust_in_date_time = get_current_date_and_time()
             cust_in_date = cust_in_date_time["date"]
@@ -65,6 +68,7 @@ class SlotReservationBusiness:
                 query,
                 [slot_booing_data, parking_slot_data]
             )
+            return [{"parking_slot_no" : parking_slot_no}]
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "...")
@@ -83,7 +87,7 @@ class SlotReservationBusiness:
         except connector.Error:
             raise DBException(500, "Internal Server Error", "...")
 
-    def save_vacating_details(self, vehicle_no: str) -> dict:
+    def save_vacating_details(self, vehicle_no: str) -> list:
         """
             Method to save parking slot vacating details.
             Parameters -> vehicle_no: str
@@ -93,7 +97,7 @@ class SlotReservationBusiness:
             data = self.slot_reservation_helper.get_details_for_vacating_parking_slot(vehicle_no)
 
             if not data:
-                raise DataNotFound(404, "Data Not Found", "...")
+                raise AppException(404, "Data Not Found", "...")
 
             booking_id = data[0]["booking_id"]
             parking_slot_no = data[0]["parking_slot_no"]
@@ -103,7 +107,7 @@ class SlotReservationBusiness:
             cust_out_time = data[0]["out_time"]
 
             if cust_out_time != AppConfig.DEFAULT_OUT_TIME:
-                raise CustomBaseException(403, "Forbidden", "Customer already left parking")
+                raise AppException(403, "Forbidden", "Customer already left parking")
 
             cust_out_date_time = get_current_date_and_time()
             cust_out_date = cust_out_date_time["date"]
@@ -125,9 +129,9 @@ class SlotReservationBusiness:
                 [slot_booking_data, parking_slot_data]
             )
 
-            return {
-                "hours_spent": hours_spent,
+            return [{
+                "hours": hours_spent,
                 "charges": charges
-            }
+            }]
         except connector.Error:
             raise DBException(500, "Internal Server Error", "...")

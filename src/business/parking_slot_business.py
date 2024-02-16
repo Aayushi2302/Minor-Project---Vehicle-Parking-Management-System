@@ -7,7 +7,7 @@ from src.config.prompts.prompts import Prompts
 from src.config.query import QueryConfig
 from src.business.vehicle_type_business import VehicleTypeBusiness
 from src.models.database import Database
-from src.utils.custom_exceptions import DataNotFound, DataAlreadyExists, DBException, CustomBaseException
+from src.utils.custom_exceptions import AppException, DBException
 
 class ParkingSlotBusiness:
     """
@@ -40,7 +40,7 @@ class ParkingSlotBusiness:
             data = self.vehicle_type_business_obj.get_vehicle_type_id_from_type_name(type_name)
 
             if not data:
-                raise DataNotFound(404, Prompts.ERROR_STATUS_404, Prompts.VEHICLE_TYPE_NOT_FOUND)
+                raise AppException(404, "Data Not Found", "Vehicle type not found.")
 
             type_id = data[0]["type_id"]
 
@@ -50,10 +50,10 @@ class ParkingSlotBusiness:
             )
 
         except connector.IntegrityError as error:
-            raise DataAlreadyExists(409, Prompts.ERROR_STATUS_409, Prompts.PARKING_SLOT_CONFLICT_MSG)
+            raise AppException(409, "Conflict", "Parking slot already exist.")
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_all_parking_slots(self) -> list:
         """
@@ -66,7 +66,7 @@ class ParkingSlotBusiness:
             return data
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_individual_parking_slot(self, parking_slot_number: str) -> list:
         """
@@ -82,7 +82,7 @@ class ParkingSlotBusiness:
             return data
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def update_parking_slot_status(self, parking_slot_no: str, new_status: str) -> None:
         """
@@ -94,7 +94,7 @@ class ParkingSlotBusiness:
             data = self.get_individual_parking_slot(parking_slot_no)
 
             if not data:
-                raise DataNotFound(404, Prompts.ERROR_STATUS_404, Prompts.PARKING_SLOT_NOT_FOUND)
+                raise AppException(404, "Data Not Found", "Parking slot not exist.")
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_PARKING_SLOT_STATUS_FROM_PARKING_SLOT_NO,
@@ -102,4 +102,4 @@ class ParkingSlotBusiness:
             )
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")

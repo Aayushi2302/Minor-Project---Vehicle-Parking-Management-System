@@ -24,8 +24,8 @@ class AddParkingSlotController:
             Returns -> dict
         """
         parking_slot_no = parking_slot_data["parking_slot_no"]
-        type_name = parking_slot_data["type_name"]
+        type_name = parking_slot_data["vehicle_type_name"]
 
         parking_slot_business_obj = ParkingSlotBusiness(db)
         parking_slot_business_obj.register_parking_slot(parking_slot_no, type_name)
-        return SuccessResponse.jsonify_data(Prompts.PARKING_SLOT_REGISTER_SUCCESS), 200
+        return SuccessResponse.jsonify_data("Parking slot created successfully."), 200

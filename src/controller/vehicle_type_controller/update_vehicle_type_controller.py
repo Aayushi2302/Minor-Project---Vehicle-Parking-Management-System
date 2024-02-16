@@ -16,16 +16,16 @@ class UpdateVehicleTypeController:
         update_vehicle_type(): dict -> method to update a particular vehicle type.
     """
     @custom_error_handler
-    def update_vehicle_type(self, type_id: str, vehicle_type_data: dict) -> dict:
+    def update_vehicle_type_details(self, type_id: str, vehicle_type_data: dict) -> tuple:
         """
             Method to invoke business logic for fetching updating a particular vehicle type.
             Parameter -> type_id: str, vehicle_type_data: dict
             Return type -> dict
         """
-        type_name = vehicle_type_data[AppConfig.TYPE_NAME_ATTR]
-        price_per_hour = vehicle_type_data[AppConfig.PRICE_PER_HOUR_ATTR]
+        vehicle_type_name = vehicle_type_data["vehicle_type_name"]
+        price_per_hour = vehicle_type_data["price_per_hour"]
 
         vehicle_type_business_obj = VehicleTypeBusiness(db)
-        vehicle_type_business_obj.update_vehicle_type(type_id, type_name, price_per_hour)
+        vehicle_type_business_obj.update_vehicle_type(type_id, vehicle_type_name, price_per_hour)
 
-        return SuccessResponse.jsonify_data(Prompts.VEHICLE_TYPE_UPDATE_SUCCESS), 200
+        return SuccessResponse.jsonify_data("Vehicle type updated successfully."), 200

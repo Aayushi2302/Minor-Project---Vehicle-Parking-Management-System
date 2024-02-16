@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class TokenAccess(ABC):
     """
         Abstract class having abstract methods related to creating and handling tokens.
@@ -9,21 +10,22 @@ class TokenAccess(ABC):
         Methods
         -------
         create_token() : tuple -> This method will be responsible for creating tokens.
-        get_user_claims() : str -> This method will be responsible for getting user related claims.
+        get_user_claims() : dict -> This method will be responsible for getting user related claims.
+        revoke_token(): None -> This method will be responsible for revoking of tokens.
     """
+
     @abstractmethod
     def create_token(self,
-        fresh_token: bool,
-        user_identity: str,
-        user_additional_claim: dict
-    ) -> tuple:
+                     fresh_token: bool,
+                     user_identity: str,
+                     user_additional_claim: dict
+                     ) -> tuple:
         """Method that will be responsible for creating tokens."""
 
     @abstractmethod
-    def get_user_claims(self) -> str:
+    def get_user_claims(self) -> dict:
         """Method that will be responsible for getting user related claims."""
 
     @abstractmethod
     def revoke_token(self, user_identity: str) -> None:
         """Method that will be responsible for revoking access and refresh tokens."""
-        

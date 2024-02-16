@@ -9,10 +9,11 @@ import pytz
 import shortuuid
 from tabulate import tabulate
 
-from config.app_config import AppConfig
-from config.prompts.prompts import Prompts
-from config.query import QueryConfig
-from models.database import db
+from src.config.regex_pattern import RegexPattern
+from src.config.app_config import AppConfig
+from src.config.prompts.prompts import Prompts
+from src.config.query import QueryConfig
+from src.models.database import db
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +51,6 @@ def regex_validation(regular_exp: str, input_field: str) -> bool:
     if result is not None:
         return True
     else:
-        print(Prompts.INVALID_INPUT + "\n")
         logger.debug("Invalid input entered.")
         return False
 
@@ -78,8 +78,10 @@ def generate_shortuuid(prefix: str) -> str:
 
 
 def generate_random_password() -> str:
-    characters = string.ascii_letters + string.digits + "@#$&%"
-    emp_password = ''.join(random.choice(characters) for _ in range(8))
+    emp_password = ""
+    while not regex_validation(RegexPattern.PASSWORD_PATTERN, emp_password):
+        characters = string.ascii_letters + string.digits + "@#$&%"
+        emp_password = ''.join(random.choice(characters) for _ in range(8))
     return emp_password
 
 

@@ -1,25 +1,26 @@
 """Module to invoke business logic for getting details of individual employee."""
 
-from business.employee_business import EmployeeBusiness
-from models.database import db
-from utils.custom_error_handler import custom_error_handler
-from utils.responses import SuccessResponse
+from src.business.employee_business import EmployeeBusiness
+from src.models.database import db
+from src.utils.custom_error_handler import custom_error_handler
+from src.utils.responses import SuccessResponse
+
 
 class GetIndividualEmployeeController:
     """
-        Class for invoking business logic for getting details of individula employee.
+        Class for invoking business logic for getting details of individual employee.
         ...
         Methods
         -------
-        get_individual_employee(): dict -> method for  getting details of individual employee.
+        get_individual_employee(): tuple -> method for  getting details of individual employee.
     """
     @custom_error_handler
-    def get_individual_employee(self, emp_id: str) -> dict:
+    def get_individual_employee(self, emp_id: str) -> tuple:
         """
             Method for  getting details of individual employee.
-            Parameter -> emp_id: str, employee_data: dict
-            Return type -> dict
+            Parameters -> emp_id: str
+            Returns -> tuple
         """
-        employee_business_obj = EmployeeBusiness(db)
-        employee_business_obj.get_employee_data(emp_id)
-        return SuccessResponse.jsonify_data("Employee data fetched successfully."), 200
+        employee_business = EmployeeBusiness(db)
+        data = employee_business.get_individual_employee_data(emp_id)
+        return SuccessResponse.jsonify_data("Employee data fetched successfully.", data), 200

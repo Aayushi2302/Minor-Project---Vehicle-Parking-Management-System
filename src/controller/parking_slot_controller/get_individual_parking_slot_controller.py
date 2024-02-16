@@ -24,4 +24,4 @@ class GetIndividualParkingSlotContainer:
         """
         parking_slot_business_obj = ParkingSlotBusiness(db)
         response = parking_slot_business_obj.get_individual_parking_slot(parking_slot_no)
-        return SuccessResponse.jsonify_data(Prompts.PARKING_SLOT_GET_SUCCESS, response), 200
+        return SuccessResponse.jsonify_data("Parking slot fetched successfully", response), 200

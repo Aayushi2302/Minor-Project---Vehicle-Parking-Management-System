@@ -15,16 +15,16 @@ class AddVehicleTypeController:
         add_vehicle_type(): dict -> method to add vehicle type.
     """
     @custom_error_handler
-    def add_vehicle_type(self, vehicle_type_data: dict) -> dict:
+    def add_vehicle_type(self, vehicle_type_data: dict) -> tuple:
         """
             Method to invoke business logic for adding vehicle type.
             Parameter -> vehicle_type_data: dict
             Return type -> dict
         """
-        type_name = vehicle_type_data["type_name"]
+        vehicle_type_name = vehicle_type_data["vehicle_type_name"]
         price_per_hour = vehicle_type_data["price_per_hour"]
 
         vehicle_type_business_obj = VehicleTypeBusiness(db)
-        vehicle_type_business_obj.register_vehicle_type(type_name, price_per_hour)
+        vehicle_type_business_obj.register_vehicle_type(vehicle_type_name, price_per_hour)
 
-        return SuccessResponse.jsonify_data(Prompts.VEHICLE_TYPE_REGISTER_SUCCESS), 200
+        return SuccessResponse.jsonify_data("Vehicle type registered successfully."), 200

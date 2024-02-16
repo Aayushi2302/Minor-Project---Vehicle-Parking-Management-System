@@ -1,21 +1,17 @@
-class CustomBaseException(Exception):
-    def __init__(self, error_code, error, message):
-        super().__init__(message)
-        self.error_code = error_code
-        self.error = error
-        self.message = message
+from dataclasses import dataclass
 
-class InvalidLogin(CustomBaseException):
-    ...
 
-class DBException(CustomBaseException):
-    ...
+@dataclass
+class AppException(Exception):
+    """Class containing properties associated with application level exception."""
+    error_code: int
+    error: str
+    message: str
 
-class DataAlreadyExists(CustomBaseException):
-    ...
 
-class DataNotFound(CustomBaseException):
-    ...
-
-class InvalidRegex(CustomBaseException):
-    ...
+@dataclass
+class DBException(Exception):
+    """Class containing properties associated with db level exception."""
+    error_code: int
+    error: str
+    message: str

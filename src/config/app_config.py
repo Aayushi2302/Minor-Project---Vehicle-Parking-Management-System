@@ -55,4 +55,17 @@ class AppConfig:
     TYPE_NAME_ATTR = "type_name",
     PRICE_PER_HOUR_ATTR = "price_per_hour"
     PARKING_SLOT_NO_ATTR = "parking_slot_no"
+
+    # token status
+    TOKEN_ISSUED = "issued"
+    TOKEN_REVOKED = "revoked"
+
+    # various HTTP status codes
+    HTTP_STATUS_OK = 200
+    HTTP_STATUS_CREATED = 201
+    HTTP_STATUS_CONFLICT = 409
+    HTTP_STATUS_NOT_FOUND = 404
+    HTTP_STATUS_BAD_REQUEST = 400
+    HTTP_STATUS_UNPROCESSABLE_ENTITY = 422
+    HTTP_STATUS_INTERNAL_SERVER_ERROR = 500
     

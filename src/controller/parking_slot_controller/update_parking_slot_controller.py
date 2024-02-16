@@ -22,8 +22,8 @@ class UpdateParkingSlotController:
             Parameters -> parking_slot_no: str, parking_slot_data: dict
             Returns -> tuple
         """
-        new_status = parking_slot_data["status"]
+        new_status = parking_slot_data["new_status"]
 
         parking_slot_business_obj = ParkingSlotBusiness(db)
         parking_slot_business_obj.update_parking_slot_status(parking_slot_no, new_status)
-        return SuccessResponse.jsonify_data(Prompts.PARKING_SLOT_UPDATE_SUCCESS), 200
+        return SuccessResponse.jsonify_data("Parking slot updated successfully."), 200

@@ -18,8 +18,8 @@ class UpdateCustomerController:
     def update_customer(self, customer_id: str, customer_data: dict) -> tuple:
         """
             Method for updating customer data for a particular customer.
-            Parameter -> customer_id: str, customer_data: dict
-            Return type -> tuple
+            Parameters -> customer_id: str, customer_data: dict
+            Returns -> tuple
         """
         name = customer_data["name"]
         mobile_no = customer_data["mobile_no"]
@@ -27,6 +27,6 @@ class UpdateCustomerController:
 
         cust_data = (name, mobile_no, vehicle_no)
 
-        customer_business_obj = CustomerBusiness(db)
-        customer_business_obj.update_customer_details(customer_id, cust_data)
+        customer_business = CustomerBusiness(db)
+        customer_business.update_customer_details(customer_id, cust_data)
         return SuccessResponse.jsonify_data("Customer updated successfully."), 200

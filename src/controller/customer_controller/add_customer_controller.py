@@ -19,17 +19,17 @@ class AddCustomerController:
     def add_customer(self, customer_data: dict) -> tuple:
         """
             Method taking customer data and sending it to business layer to save.
-            Parameter -> customer_data: dict
-            Return type -> tuple
+            Parameters -> customer_data: dict
+            Returns -> tuple
         """
         name = customer_data["name"]
         mobile_no = customer_data["mobile_no"]
         vehicle_no = customer_data["vehicle_no"]
-        type_name = customer_data["type_name"]
+        type_name = customer_data["vehicle_type_name"]
 
-        cust_data = (name, mobile_no, vehicle_no, type_name)
+        cust_data = (name, mobile_no, vehicle_no)
 
-        customer_business_obj = CustomerBusiness(db)
-        customer_business_obj.register_customer(cust_data)
+        customer_business = CustomerBusiness(db)
+        customer_business.register_customer(cust_data, type_name)
 
         return SuccessResponse.jsonify_data("Customer created successfully."), 200

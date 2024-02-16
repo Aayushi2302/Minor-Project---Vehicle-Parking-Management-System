@@ -19,9 +19,9 @@ class GetIndividualCustomerController:
     def get_individual_customer(self, customer_id: str) -> tuple:
         """
             Method for  getting details of individual customer.
-            Parameter -> customer_id: str
-            Return type -> tuple
+            Parameters -> customer_id: str
+            Returns -> tuple
         """
-        customer_business_obj = CustomerBusiness(db)
-        customer_business_obj.get_individual_customer(customer_id)
-        return SuccessResponse.jsonify_data("Customer data fetched successfully."), 200
+        customer_business = CustomerBusiness(db)
+        data = customer_business.get_individual_customer_details(customer_id)
+        return SuccessResponse.jsonify_data("Customer data fetched successfully.", data), 200

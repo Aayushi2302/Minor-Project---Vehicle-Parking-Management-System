@@ -78,6 +78,14 @@ class QueryConfig:
     REVOKE_TOKEN = """
         UPDATE token SET status = "revoked" WHERE username = %s
     """
+    FETCH_TOKEN_STATUS = """
+        SELECT status FROM token
+        WHERE {} = %s
+    """
+    FETCH_REFRESH_TOKEN = """
+        SELECT refresh_token FROM token
+        WHERE username = %s and status = %s
+    """
 
     # queries for authentication table
     AUTHENTICATION_TABLE_CREATION = """
@@ -158,7 +166,10 @@ class QueryConfig:
         WHERE email_address = %s
     """
     FETCH_EMP_DETAIL_FROM_EMP_ID = """
-        SELECT * FROM employee
+        SELECT emp_id, name, age, gender, mobile_no, email_address, username, role, status 
+        FROM employee
+        INNER JOIN authentication ON
+        employee.emp_id = authentication.user_id
         WHERE emp_id = %s
     """
     FETCH_EMP_FROM_EMP_ID = """
@@ -191,32 +202,32 @@ class QueryConfig:
     VEHICLE_TYPE_TABLE_CREATION = """
         CREATE TABLE IF NOT EXISTS vehicle_type(
             type_id VARCHAR(9) PRIMARY KEY,
-            type_name VARCHAR(15) UNIQUE,
+            vehicle_type_name VARCHAR(15) UNIQUE,
             price_per_hour FLOAT
         )
     """
     CREATE_VEHICLE_TYPE ="""
         INSERT INTO vehicle_type(
             type_id,
-            type_name,
+            vehicle_type_name,
             price_per_hour
         ) VALUES(%s, %s, %s)
     """
-    FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type ORDER BY type_name ASC"
+    FETCH_VEHICLE_TYPE = "SELECT * FROM vehicle_type ORDER BY vehicle_type_name ASC"
     FETCH_VEHICLE_TYPE_NAME_FROM_TYPE_ID = """
-        SELECT type_name FROM vehicle_type
+        SELECT vehicle_type_name FROM vehicle_type
         WHERE type_id = %s
     """
 
     FETCH_VEHICLE_TYPE_FROM_TYPE_ID = """
-        SELECT type_id, type_name, price_per_hour
+        SELECT vehicle_type_name, price_per_hour
         FROM vehicle_type
         WHERE type_id = %s
     """
 
     FETCH_VEHICLE_TYPE_ID_FROM_TYPE_NAME = """
         SELECT type_id FROM vehicle_type
-        WHERE type_name = %s
+        WHERE vehicle_type_name = %s
     """
 
     FETCH_PRICE_PER_HOUR_FROM_TYPE_ID = """
@@ -226,7 +237,7 @@ class QueryConfig:
 
     UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID = """
         UPDATE vehicle_type SET
-        type_name = %s, price_per_hour = %s WHERE type_id = %s
+        vehicle_type_name = %s, price_per_hour = %s WHERE type_id = %s
     """
 
 
@@ -246,7 +257,7 @@ class QueryConfig:
         ) VALUES(%s, %s)
     """
     FETCH_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NUMBER = """
-        SELECT type_name, status FROM parking_slot
+        SELECT vehicle_type_name, status FROM parking_slot
         INNER JOIN vehicle_type ON
         parking_slot.type_id = vehicle_type.type_id
         WHERE parking_slot_no = %s
@@ -260,7 +271,7 @@ class QueryConfig:
         status = %s WHERE parking_slot_no = %s
     """
     VIEW_PARKING_SLOT_DETAIL = """
-        SELECT parking_slot_no, type_name, status
+        SELECT parking_slot_no, vehicle_type_name, status
         FROM parking_slot INNER JOIN vehicle_type ON
         parking_slot.type_id = vehicle_type.type_id
         ORDER BY parking_slot.parking_slot_no ASC
@@ -294,8 +305,14 @@ class QueryConfig:
         SELECT customer_id, type_id FROM customer
         WHERE vehicle_no = %s
     """
+    FETCH_CUSTOMER_DETAILS_FROM_CUSTOMER_ID = """
+        SELECT vehicle_type.vehicle_type_name, name, mobile_no, vehicle_no, status FROM customer
+        INNER JOIN vehicle_type ON
+        customer.type_id = vehicle_type.type_id
+        WHERE customer_id = %s
+    """
     FETCH_CUSTOMER_DATA_FROM_CUSTOMER_ID = """
-        SELECT vehicle_type.type_name, status FROM customer
+        SELECT vehicle_type.vehicle_type_name, status FROM customer
         INNER JOIN vehicle_type ON
         customer.type_id = vehicle_type.type_id
         WHERE customer_id = %s
@@ -305,7 +322,7 @@ class QueryConfig:
         name = %s, mobile_no = %s, vehicle_no = %s WHERE customer_id = %s
     """
     VIEW_CUSTOMER_DETAIL = """
-        SELECT customer_id, name, mobile_no, vehicle_no, type_name, status
+        SELECT customer_id, name, mobile_no, vehicle_no, vehicle_type_name, status
         FROM customer INNER JOIN vehicle_type ON
         customer.type_id = vehicle_type.type_id
         ORDER BY customer.name ASC
@@ -361,7 +378,7 @@ class QueryConfig:
         WHERE slot_booking.booking_id = %s
     """
     FETCH_CURRENT_DATE_RECORD = """
-        SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+        SELECT customer.customer_id, name, mobile_no, vehicle_no, vehicle_type_name, 
         booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
         FROM customer INNER JOIN vehicle_type
         ON customer.type_id=vehicle_type.type_id
@@ -370,7 +387,7 @@ class QueryConfig:
         WHERE in_date = %s
     """
     FETCH_CURRENT_YEAR_RECORD = """
-        SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+        SELECT customer.customer_id, name, mobile_no, vehicle_no, vehicle_type_name, 
         booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
         FROM customer INNER JOIN vehicle_type
         ON customer.type_id=vehicle_type.type_id
@@ -392,7 +409,7 @@ class QueryConfig:
         WHERE booking_id = %s
     """
     VIEW_SLOT_BOOKING_DETAIL = """
-        SELECT customer.customer_id, name, mobile_no, vehicle_no, type_name, 
+        SELECT customer.customer_id, name, mobile_no, vehicle_no, vehicle_type_name, 
         booking_id, parking_slot_no, in_date, in_time, out_date, out_time, hours, charges 
         FROM customer INNER JOIN vehicle_type
         ON customer.type_id=vehicle_type.type_id

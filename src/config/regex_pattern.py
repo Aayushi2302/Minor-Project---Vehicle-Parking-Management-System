@@ -19,3 +19,4 @@ class RegexPattern:
     EMPLOYEE_ID_REGEX = r"^EMP[a-zA-Z0-9]{5}$"
     TYPE_NAME_REGEX = r"^[a-zA-Z -]{3,20}$"
     CUSTOMER_ID_REGEX = r"^CUST[a-zA-Z0-9]+$"
+    OUT_DATE_REGEX = r"(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[1,2])-(19|20)\d{2}"

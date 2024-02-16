@@ -2,12 +2,13 @@
 
 from mysql import connector
 
+from src.business.vehicle_type_business import VehicleTypeBusiness
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
 from src.config.regex_pattern import RegexPattern
 from src.models.database import Database
 from src.helpers.common_helper import generate_shortuuid, get_constraint_failed_attribute, regex_validation
-from src.utils.custom_exceptions import DataAlreadyExists, DataNotFound, DBException, CustomBaseException, InvalidRegex
+from src.utils.custom_exceptions import AppException, DBException
 
 
 class CustomerBusiness:
@@ -30,6 +31,7 @@ class CustomerBusiness:
     def __init__(self, db: Database) -> None:
         """Constructor for customer business."""
         self.db = db
+        self.vehicle_type_business = VehicleTypeBusiness(db)
 
     def __check_for_valid_customer_id(self, customer_id: str) -> None:
         """
@@ -40,17 +42,24 @@ class CustomerBusiness:
         result = regex_validation(RegexPattern.CUSTOMER_ID_REGEX, customer_id)
 
         if not result:
-            raise InvalidRegex(422, "Unprocessable Entity", "Customer ID is not as per required standard.")
+            raise AppException(422, "Unprocessable Entity", "Customer ID is not as per required standard.")
 
-    def register_customer(self, customer_data: tuple) -> None:
+    def register_customer(self, customer_data: tuple, type_name: str) -> None:
         """
             Method to register a new customer.
             Parameters -> customer_data: tuple
             Returns -> str
         """
         try:
+
+            data = self.vehicle_type_business.get_vehicle_type_id_from_type_name(type_name)
+
+            if not data:
+                raise AppException(403, "Forbidden", "Vehicle type does not exist")
+
+            type_id = data[0]["type_id"]
             customer_id = generate_shortuuid("CUST")
-            customer_data = (customer_id,) + customer_data
+            customer_data = (customer_id,) + customer_data + (type_id, )
 
             self.db.save_data_to_database(
                 QueryConfig.CREATE_CUSTOMER,
@@ -59,9 +68,10 @@ class CustomerBusiness:
 
         except connector.IntegrityError as error:
             failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise DataAlreadyExists(409, "Conflict", f"Customer {failed_attribute} already exist.")
+            raise AppException(409, "Conflict", f"Customer {failed_attribute} already exist.")
 
-        except connector.Error:
+        except connector.Error as error:
+            print(error)
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_all_customers(self) -> list:
@@ -93,6 +103,23 @@ class CustomerBusiness:
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
+    def get_individual_customer_details(self, customer_id: str) -> list:
+        """
+            Method to get details of customer from customer id.
+            Parameters -> customer_id: str
+            Returns -> list
+        """
+        try:
+            data = self.db.fetch_data_from_database(
+                QueryConfig.FETCH_CUSTOMER_DETAILS_FROM_CUSTOMER_ID,
+                (customer_id,)
+            )
+            return data
+
+        except connector.Error as error:
+            print(error)
+            raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
+
     def update_customer_details(self, customer_id: str, customer_data: tuple) -> None:
         """
             Method to update customer details.
@@ -105,10 +132,10 @@ class CustomerBusiness:
             data = self.get_individual_customer(customer_id)
 
             if not data:
-                raise DataNotFound(404, "Not Found", "Customer data not found.")
+                raise AppException(404, "Not Found", "Customer data not found.")
 
             if data[0]["status"] == "inactive":
-                raise CustomBaseException(403, "Forbidden", "Cannot update deleted customer record.")
+                raise AppException(403, "Forbidden", "Cannot update deleted customer record.")
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_CUSTOMER_DETAIL,
@@ -117,7 +144,7 @@ class CustomerBusiness:
 
         except connector.IntegrityError as error:
             failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise DataAlreadyExists(409, "Conflict", f"Customer {failed_attribute} already exist.")
+            raise AppException(409, "Conflict", f"Customer {failed_attribute} already exist.")
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
@@ -134,10 +161,10 @@ class CustomerBusiness:
             data = self.get_individual_customer(customer_id)
 
             if not data:
-                raise DataNotFound(404, "Not Found", "Customer data not found.")
+                raise AppException(404, "Not Found", "Customer data not found.")
 
             if data[0]["status"] == "inactive":
-                raise CustomBaseException(403, "Forbidden", "Customer does not exist.")
+                raise AppException(403, "Forbidden", "Customer does not exist.")
 
             self.db.save_data_to_database(
                 QueryConfig.DELETE_CUSTOMER_FROM_CUSTOMER_ID,

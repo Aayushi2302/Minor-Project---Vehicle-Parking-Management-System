@@ -17,7 +17,7 @@ class DeleteParkingSlotController:
         delete_parking_slots() : tuple -> method to delete existing parking slot.
     """
     @custom_error_handler
-    def delete_parking_slot(self, parking_slot_no: str, parking_slot_data: dict) -> tuple:
+    def delete_parking_slot(self, parking_slot_no: str) -> tuple:
         """
             Method to delete existing parking slot.
             Parameters -> None
@@ -27,4 +27,4 @@ class DeleteParkingSlotController:
 
         parking_slot_business_obj = ParkingSlotBusiness(db)
         parking_slot_business_obj.update_parking_slot_status(parking_slot_no, new_status)
-        return SuccessResponse.jsonify_data(Prompts.PARKING_SLOT_GET_SUCCESS), 200
+        return SuccessResponse.jsonify_data("Parking slot deleted successfully."), 200

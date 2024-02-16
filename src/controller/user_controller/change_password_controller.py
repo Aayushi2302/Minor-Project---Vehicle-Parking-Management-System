@@ -1,11 +1,12 @@
 """Module for changing password of user on first login."""
 
-from business.authentication_business.auth_business import AuthBusiness
-from business.token_business.auth_token_business import AuthTokenBusiness
-from business.user_business import UserBusiness
-from models.database import db
-from utils.custom_error_handler import custom_error_handler
-from utils.responses import SuccessResponse
+from src.business.authentication_business.auth_business import AuthBusiness
+from src.business.token_business.auth_token_business import AuthTokenBusiness
+from src.business.user_business import UserBusiness
+from src.models.database import db
+from src.utils.custom_error_handler import custom_error_handler
+from src.utils.responses import SuccessResponse
+
 
 class ChangePasswordController:
     """
@@ -13,21 +14,21 @@ class ChangePasswordController:
         ...
         Methods
         -------
-        change_user_password(): dict -> Method to change user password.
+        change_user_password(): tuple -> Method to change user password.
     """
     @custom_error_handler
-    def change_user_password(self, user_data: dict, username: str, role: str) -> dict:
+    def change_user_password(self, user_data: dict, username: str, role: str) -> tuple:
         """
             Method to change user password on first login.
-            Parameter -> user_data: dict, username: str, role: str
-            Return type -> dict
+            Parameters -> user_data: dict, username: str, role: str
+            Returns -> tuple
         """
         current_password = user_data["current_password"]
         new_password = user_data["new_password"]
 
-        auth_business_obj = AuthBusiness(db)
-        token_obj = AuthTokenBusiness(db)
-        user_business_obj = UserBusiness(db, auth_business_obj, token_obj, username, role)
+        auth_business = AuthBusiness(db)
+        token = AuthTokenBusiness(db)
+        user_business= UserBusiness(db, auth_business, token, username, role)
 
-        response = user_business_obj.change_password(current_password, new_password)
+        response = user_business.change_password(current_password, new_password)
         return SuccessResponse.jsonify_data("Password changed successfully.", response), 200

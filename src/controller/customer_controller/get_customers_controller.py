@@ -5,6 +5,7 @@ from src.models.database import db
 from src.utils.responses import SuccessResponse
 from src.utils.custom_error_handler import custom_error_handler
 
+
 class GetCustomersController:
     """
             Class for invoking business logic for getting all customer details.
@@ -18,9 +19,9 @@ class GetCustomersController:
     def get_all_customers(self) -> tuple:
         """
             Method getting customer data for all customers from business layer.
-            Parameter -> None
-            Return type -> tuple
+            Parameters -> None
+            Returns -> tuple
         """
-        customer_business_obj = CustomerBusiness(db)
-        response = customer_business_obj.get_all_customers()
+        customer_business = CustomerBusiness(db)
+        response = customer_business.get_all_customers()
         return SuccessResponse.jsonify_data("Customers fetched successfully.", response), 200

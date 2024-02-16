@@ -1,9 +1,9 @@
 """Module containing request and response schemas for customer related operations."""
 
 from marshmallow import Schema, fields, validate
-from marshmallow.validate import Range
 
 from src.config.regex_pattern import RegexPattern
+
 
 class CustomerSchema(Schema):
     """
@@ -26,8 +26,9 @@ class CustomerSchema(Schema):
     name = fields.Str(required=True, validate=validate.Regexp(RegexPattern.NAME_REGEX))
     mobile_no = fields.Str(required=True, validate=validate.Regexp(RegexPattern.MOBILE_NO_REGEX))
     vehicle_no = fields.Str(required=True, validate=validate.Regexp(RegexPattern.VEHICLE_NUMBER_REGEX))
-    type_name = fields.Str(required=True, validate=validate.Regexp(RegexPattern.TYPE_NAME_REGEX))
+    vehicle_type_name = fields.Str(required=True, validate=validate.Regexp(RegexPattern.TYPE_NAME_REGEX))
     status = fields.Str(dump_only=True)
+
 
 class CustomerResponseSchema(Schema):
     """

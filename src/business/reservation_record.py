@@ -1,48 +1,56 @@
 """Module containing business logic to show reservation record as according to year and date."""
 
-from datetime import datetime
-import pytz
 from mysql import connector
 
 from src.config.query import QueryConfig
 from src.models.database import Database
 from src.utils.custom_exceptions import DBException
 
+
 class ReservationRecord:
+    """
+        Class containing methods to show year-wise or date-wise reservation records.
+        ...
+        Attributes
+        ----------
+        db: Database Object
 
+        Methods
+        -------
+        get_date_record(): list -> method to get date wise record.
+        get_year_record(): list -> method to get year wise record.
+    """
     def __init__(self, db: Database) -> None:
+        """Constructor for reservation record"""
         self.db = db
-    def __get_current_date(self) -> str:
-        time_zone = pytz.timezone('Asia/Kolkata')
-        current = datetime.now(time_zone)
-        curr_date = current.strftime('%d-%m-%Y')
-        return curr_date
 
-    def __get_current_year(self) -> int:
-        time_zone = pytz.timezone('Asia/Kolkata')
-        current = datetime.now(time_zone)
-        curr_year = int(current.strftime('%Y'))
-        return curr_year
-
-    def get_current_date_record(self) -> list:
+    def get_date_record(self, date: str) -> list:
+        """
+            Method to get date-wise record.
+            Parameters -> date: str
+            Returns -> list
+        """
         try:
-            curr_date = self.__get_current_date()
             data = self.db.fetch_data_from_database(
                         QueryConfig.FETCH_CURRENT_DATE_RECORD,
-                        (curr_date, )
+                        (date, )
                     )
             return data
 
         except connector.Error:
             raise DBException(500, "Internal Server Error", "...")
 
-    def get_current_year_record(self) -> list:
+    def get_year_record(self, year: str) -> list:
+        """
+            Method to get year-wise record.
+            Parameters -> year: str
+            Returns -> list
+        """
         try:
-            curr_year = self.__get_current_year()
-            curr_year_query = f"%-%-{curr_year}"
+            year_query = f"%-%-{year}"
             data = self.db.fetch_data_from_database(
                         QueryConfig.FETCH_CURRENT_YEAR_RECORD,
-                        (curr_year_query, )
+                        (year_query, )
                     )
             return data
 

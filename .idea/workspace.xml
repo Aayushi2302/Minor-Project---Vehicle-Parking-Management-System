@@ -5,34 +5,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/add_parking_slot_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Minor Project Repo Updated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Minor Project Repo Updated.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api_setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/authentication_business/login_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/authentication_business/login_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/customer_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/customer_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/employee_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/employee_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/parking_slot_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/parking_slot_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/reservation_record.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/reservation_record.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/slot_reservation_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/slot_reservation_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/token_business/token_access.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/token_access.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/user_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/user_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/business/vehicle_type_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/vehicle_type_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/app_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/app_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/query.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/regex_pattern.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/regex_pattern.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/auth_controller/login_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/auth_controller/login_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_controller/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_controller/parking_status.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_controller/slot_booking.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/add_parking_slot_controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/get_all_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/get_all_parking_slot_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller.py/update_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/update_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller/add_customer_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/customer_controller/add_customer_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller/delete_customer_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/customer_controller/delete_customer_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller/get_customers_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/customer_controller/get_customers_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller/get_individual_customer_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/customer_controller/get_individual_customer_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller/update_customer_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/customer_controller/update_customer_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/customer_controller_ab.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/add_employee_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/add_employee_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/delete_employee_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/delete_employee_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/get_default_password_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/get_default_password_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/get_employees_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/get_employees_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/get_individual_employee_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/get_individual_employee_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/employee_controller/update_employee_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/employee_controller/update_employee_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller/add_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/add_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller/delete_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/delete_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller/get_all_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/get_all_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller/get_individual_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/get_individual_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/parking_slot_controller/update_parking_slot_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/parking_slot_controller/update_parking_slot_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/user_controller/change_password_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/user_controller/change_password_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/user_controller/user_profile_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/user_controller/user_profile_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vehicle_type_controller/add_vehicle_type_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vehicle_type_controller/add_vehicle_type_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vehicle_type_controller/get_all_vehicle_type_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vehicle_type_controller/get_all_vehicle_type_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vehicle_type_controller/get_individual_vehicle_type_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vehicle_type_controller/get_individual_vehicle_type_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vehicle_type_controller/update_vehicle_type_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vehicle_type_controller/update_vehicle_type_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/common_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/common_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/log_helper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/auth_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/auth_resource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/customer_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/customer_resource.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/employee_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/employee_resource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/parking_slot_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/parking_slot_resource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/slot_reservation_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/slot_reservation_resource.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/user_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/user_resource.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/vehicle_type_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/vehicle_type_resource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/common_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/common_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/auth_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/auth_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/customer_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/customer_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/employee_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/employee_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/parking_slot_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/parking_slot_schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/vehicle_type_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/vehicle_type_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/custom_error_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/custom_error_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/custom_exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/custom_exceptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/decorators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/input_validator/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/input_validator/parking_controller_validator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/input_validator/user_controller_validator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/rbac.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/route_access.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/responses.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/responses.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_utils/test_common_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils/test_common_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/role_mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/role_mapping.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,9 +137,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/resources/vehicle_type_resource.py</url>
+          <url>file://$PROJECT_DIR$/src/business/authentication_business/auth_business.py</url>
           <line>2</line>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

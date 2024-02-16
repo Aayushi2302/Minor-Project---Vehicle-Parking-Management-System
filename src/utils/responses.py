@@ -1,8 +1,10 @@
+"""Module containing response format for success and error."""
+
 from flask import jsonify, Response
-from typing import Optional
 
 
 class ErrorResponse:
+    """Class for error response format."""
     success = False
 
     @staticmethod
@@ -17,10 +19,11 @@ class ErrorResponse:
 
 
 class SuccessResponse:
+    """Class for success response format."""
     success = True
 
     @staticmethod
-    def jsonify_data(message, data: Optional[list] = {}) -> Response:
+    def jsonify_data(message, data: list = []) -> Response:
         return jsonify(
             {
                 "success": SuccessResponse.success,

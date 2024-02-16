@@ -10,8 +10,8 @@ from src.controller.parking_slot_controller.get_individual_parking_slot_controll
     GetIndividualParkingSlotContainer
 from src.controller.parking_slot_controller.update_parking_slot_controller import UpdateParkingSlotController
 from src.controller.parking_slot_controller.delete_parking_slot_controller import  DeleteParkingSlotController
-from src.schemas.parking_slot_schemas import ParkingSlotSchema, ParkingSlotWriteResponseSchema
-from src.utils.decorators import role_based_access
+from src.schemas.parking_slot_schemas import ParkingSlotSchema, ParkingSlotWriteResponseSchema, ParkingSlotUpdateSchema
+from src.utils.route_access import route_access
 from src.utils.role_mapping import RoleMapping
 
 blp = Blueprint("parking-slot", __name__, description="Parking Slot related operations")
@@ -31,7 +31,7 @@ class ParkingSlots(MethodView):
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
     @blp.arguments(ParkingSlotSchema)
     @blp.response(201, ParkingSlotWriteResponseSchema)
-    @role_based_access((RoleMapping["admin"]))
+    @route_access((RoleMapping["admin"], ))
     def post(self, parking_slot_data: dict) -> dict:
         """
             Method for creating parking slot.
@@ -43,7 +43,7 @@ class ParkingSlots(MethodView):
 
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
     @blp.response(200, ParkingSlotSchema(many=True))
-    @role_based_access((RoleMapping["admin"], RoleMapping["attendant"]))
+    @route_access((RoleMapping["admin"], RoleMapping["attendant"]))
     def get(self) -> dict:
         """
             Method for getting all existing parking slots.
@@ -54,7 +54,7 @@ class ParkingSlots(MethodView):
         return GetAllParkingSlotController().get_all_parking_slots()
 
 
-@blp.route("/v1/parking-slot/<string:parking_slot_no>")
+@blp.route("/v1/parking-slots/<string:parking_slot_no>")
 class VehicleTypeUpdate(MethodView):
     """
         Class containing various methods applicable to /v1/parking-slot/{parking_slot_no} route.
@@ -67,9 +67,9 @@ class VehicleTypeUpdate(MethodView):
     """
 
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
-    @blp.arguments(ParkingSlotSchema)
+    @blp.arguments(ParkingSlotUpdateSchema)
     @blp.response(200, ParkingSlotWriteResponseSchema)
-    @role_based_access((RoleMapping["admin"]))
+    @route_access((RoleMapping["admin"], ))
     def put(self, parking_slot_data: dict, parking_slot_no: str) -> dict:
         """
             Method for updating parking slot status.
@@ -77,11 +77,11 @@ class VehicleTypeUpdate(MethodView):
             On Success -> Follows ParkingSlotWriteResponseSchema and returns success message.
             On Failure -> Returns success = False and error message.
         """
-        return UpdateParkingSlotController.update_parking_slot(parking_slot_no, parking_slot_data)
+        return UpdateParkingSlotController().update_parking_slot(parking_slot_no, parking_slot_data)
 
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
     @blp.response(200, ParkingSlotSchema)
-    @role_based_access((RoleMapping["admin"]))
+    @route_access((RoleMapping["admin"], ))
     def get(self, parking_slot_no: str) -> dict:
         """
             Method for fetching a particular parking slot.
@@ -92,14 +92,13 @@ class VehicleTypeUpdate(MethodView):
         return GetIndividualParkingSlotContainer().get_individual_parking_slot(parking_slot_no)
 
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
-    @blp.arguments(ParkingSlotSchema)
     @blp.response(200, ParkingSlotWriteResponseSchema)
-    @role_based_access((RoleMapping["admin"]))
-    def delete(self, parking_slot_data: dict, parking_slot_no: str) -> dict:
+    @route_access((RoleMapping["admin"], ))
+    def delete(self, parking_slot_no: str) -> dict:
         """
             Method for deleting a particular parking slot.
             ...
             On Success -> Follows ParkingSlotWriteResponseSchema and returns a success message.
             On Failure -> Returns success = False and error message.
         """
-        return DeleteParkingSlotController().delete_parking_slot(parking_slot_no, parking_slot_data)
+        return DeleteParkingSlotController().delete_parking_slot(parking_slot_no)

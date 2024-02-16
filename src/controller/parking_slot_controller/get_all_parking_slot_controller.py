@@ -24,4 +24,4 @@ class GetAllParkingSlotController:
         """
         parking_slot_business_obj = ParkingSlotBusiness(db)
         response = parking_slot_business_obj.get_all_parking_slots()
-        return SuccessResponse.jsonify_data(Prompts.PARKING_SLOT_GET_SUCCESS, response), 200
+        return SuccessResponse.jsonify_data("Parking slot fetched successfully.", response), 200

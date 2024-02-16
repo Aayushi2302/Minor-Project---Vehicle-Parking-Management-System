@@ -2,19 +2,16 @@
 
 from mysql import connector
 
-from config.app_config import AppConfig
-from config.prompts.prompts import Prompts
-from config.query import QueryConfig
-from config.regex_pattern import RegexPattern
-from models.database import Database
-from utils.common_helper import (generate_shortuuid,
-                                 get_constraint_failed_attribute,
-                                 regex_validation)
-from utils.custom_exceptions import (DataAlreadyExists,
-                                     DBException,
-                                     DataNotFound,
-                                     CustomBaseException,
-                                     InvalidRegex)
+from src.config.app_config import AppConfig
+from src.config.prompts.prompts import Prompts
+from src.config.query import QueryConfig
+from src.config.regex_pattern import RegexPattern
+from src.models.database import Database
+from src.helpers.common_helper import (generate_shortuuid,
+                                       get_constraint_failed_attribute,
+                                       regex_validation)
+from src.utils.custom_exceptions import AppException, DBException
+
 
 class VehicleTypeBusiness:
     """
@@ -31,11 +28,23 @@ class VehicleTypeBusiness:
         get_particular_vehicle_type(): dict -> method to get a particular vehicle type.
         update_vehicle_type(): None -> method to update vehicle type.
     """
+
     def __init__(self, db: Database) -> None:
         """Constructor for vehicle type."""
         self.db = db
 
-    def register_vehicle_type(self, type_name: str, price_per_hour: float) -> None:
+    def __check_for_valid_type_id(self, type_id: str) -> None:
+        """
+            Method to check for invalid type id.
+            Parameters -> emp_id: str
+            Returns -> None
+        """
+        result = regex_validation(RegexPattern.TYPE_ID_REGEX, type_id)
+
+        if not result:
+            raise AppException(422, "Unprocessable Entity", "Type ID is not as per required standard.")
+
+    def register_vehicle_type(self, vehicle_type_name: str, price_per_hour: float) -> None:
         """
             Method for registering vehicle type.
             Parameter -> type_name: str, price_per_hour: float
@@ -45,16 +54,15 @@ class VehicleTypeBusiness:
             type_id = generate_shortuuid(AppConfig.VEHICLE_TYPE)
             self.db.save_data_to_database(
                 QueryConfig.CREATE_VEHICLE_TYPE,
-                (type_id, type_name, price_per_hour)
+                (type_id, vehicle_type_name, price_per_hour)
             )
 
         except connector.IntegrityError as error:
-            failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise DataAlreadyExists(409, Prompts.ERROR_STATUS_409,
-                                        Prompts.VEHICLE_TYPE_CONFLICT_MSG.format(failed_attribute))
+            constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
+            raise AppException(409, "Conflict", f"Entered {constraint_failed_attribute} already exist.")
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_all_vehicle_type(self) -> list:
         """
@@ -66,7 +74,7 @@ class VehicleTypeBusiness:
             data = self.db.fetch_data_from_database(QueryConfig.FETCH_VEHICLE_TYPE)
             return data
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def __get_vehicle_type_name_from_type_id(self, type_id: str) -> list:
         """
@@ -75,15 +83,14 @@ class VehicleTypeBusiness:
             Return type -> list
         """
         try:
-            data =  self.db.fetch_data_from_database(
-                        QueryConfig.FETCH_VEHICLE_TYPE_NAME_FROM_TYPE_ID,
-                        (type_id, )
-                    )
+            data = self.db.fetch_data_from_database(
+                QueryConfig.FETCH_VEHICLE_TYPE_NAME_FROM_TYPE_ID,
+                (type_id,)
+            )
             return data
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
-
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_vehicle_type_id_from_type_name(self, type_name: str) -> list:
         try:
@@ -94,7 +101,7 @@ class VehicleTypeBusiness:
             return data
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_individual_vehicle_type(self, type_id: str) -> list:
         """
@@ -103,41 +110,36 @@ class VehicleTypeBusiness:
             Return type -> list
         """
         try:
-            data =  self.db.fetch_data_from_database(
-                        QueryConfig.FETCH_VEHICLE_TYPE_FROM_TYPE_ID,
-                        (type_id, )
-                    )
+            self.__check_for_valid_type_id(type_id)
+            data = self.db.fetch_data_from_database(
+                QueryConfig.FETCH_VEHICLE_TYPE_FROM_TYPE_ID,
+                (type_id,)
+            )
             return data
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
-    def update_vehicle_type(self, type_id: str, type_name: str, new_price_per_hour: float) -> None:
+    def update_vehicle_type(self, type_id: str, vehicle_type_name: str, new_price_per_hour: float) -> None:
         """
             Method to update a particular vehicle type.
             Parameter -> type_id: str, type_name: str, new_price_per_hour: float
             Return type -> None
         """
         try:
-
-            result = regex_validation(RegexPattern.TYPE_ID_REGEX, type_id)
-
-            if not result:
-                raise InvalidRegex(422, Prompts.ERROR_STATUS_422,
-                                    Prompts.VEHICLE_TYPE_ID_REGEX_INVALID)
-
+            self.__check_for_valid_type_id(type_id)
             data = self.__get_vehicle_type_name_from_type_id(type_id)
 
             if not data:
-                raise DataNotFound(404, Prompts.ERROR_STATUS_404, Prompts.VEHICLE_TYPE_NOT_FOUND)
+                raise AppException(404, "Data Not Found", "Vehicle type does not exist.")
 
-            if type_name != data[0][AppConfig.TYPE_NAME_ATTR]:
-                raise CustomBaseException(403, "Forbidden", "Cannot update vehicle type name")
+            if vehicle_type_name != data[0]["vehicle_type_name"]:
+                raise AppException(403, "Forbidden", "Cannot update vehicle type name")
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_VEHICLE_TYPE_DETAIL_FROM_TYPE_ID,
-                (type_name, new_price_per_hour, type_id)
+                (vehicle_type_name, new_price_per_hour, type_id)
             )
 
         except connector.Error:
-            raise DBException(500, Prompts.ERROR_STATUS_500, Prompts.INTERNAL_SERVER_ERROR_MSG)
+            raise DBException(500, "Internal Server Error", "Something went wrong with server.")
