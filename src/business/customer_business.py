@@ -1,6 +1,6 @@
 """Module containing business logic for operations on customer."""
 
-from mysql import connector
+import pymysql
 
 from src.business.vehicle_type_business import VehicleTypeBusiness
 from src.config.app_config import AppConfig
@@ -66,11 +66,11 @@ class CustomerBusiness:
                 customer_data
             )
 
-        except connector.IntegrityError as error:
-            failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise AppException(409, "Conflict", f"Customer {failed_attribute} already exist.")
+        except pymysql.IntegrityError as error:
+            # failed_attribute = get_constraint_failed_attribute(error.)
+            raise AppException(409, "Conflict", "Customer {failed_attribute} already exist.")
 
-        except connector.Error as error:
+        except pymysql.Error as error:
             print(error)
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
@@ -84,7 +84,7 @@ class CustomerBusiness:
             data = self.db.fetch_data_from_database(QueryConfig.VIEW_CUSTOMER_DETAIL)
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_individual_customer(self, customer_id: str) -> list:
@@ -100,7 +100,7 @@ class CustomerBusiness:
             )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_individual_customer_details(self, customer_id: str) -> list:
@@ -116,7 +116,7 @@ class CustomerBusiness:
             )
             return data
 
-        except connector.Error as error:
+        except pymysql.Error as error:
             print(error)
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
@@ -142,11 +142,11 @@ class CustomerBusiness:
                 customer_data
             )
 
-        except connector.IntegrityError as error:
-            failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise AppException(409, "Conflict", f"Customer {failed_attribute} already exist.")
+        except pymysql.IntegrityError as error:
+            # failed_attribute = get_constraint_failed_attribute(error.msg)
+            raise AppException(409, "Conflict", "Customer {failed_attribute} already exist.")
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def deactivate_customer(self, customer_id: str) -> None:
@@ -171,5 +171,5 @@ class CustomerBusiness:
                 (AppConfig.STATUS_INACTIVE, customer_id)
             )
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")

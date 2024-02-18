@@ -1,6 +1,6 @@
 """Module containing logic related to user operations."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
@@ -55,7 +55,7 @@ class UserBusiness:
                             (self.username, )
                         )
             return emp_data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def validate_current_password(self, current_password: str) -> bool:
@@ -99,5 +99,5 @@ class UserBusiness:
                         "access_token" : access_token,
                         "refresh_token" : refresh_token
                     }]
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")

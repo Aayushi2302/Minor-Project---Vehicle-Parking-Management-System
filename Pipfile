@@ -20,6 +20,9 @@ flask-smorest = "*"
 python-dotenv = "*"
 flask-jwt-extended = "*"
 mysql-connector-python = "*"
+pymysql = "*"
+cryptography = "*"
+gunicorn = "*"
 
 [dev-packages]
 

@@ -1,6 +1,6 @@
 """Module containing business logic for authentication related tasks."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
@@ -38,12 +38,13 @@ class AuthBusiness:
                 QueryConfig.FETCH_EMPLOYEE_CREDENTIALS,
                 (username, AppConfig.STATUS_ACTIVE)
             )
+
             if not user_data:
                 raise AppException(401, "Unauthorized", "Invalid user credentials.")
 
             return user_data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something wrong with the server.")
 
     def verify_user_password(self,

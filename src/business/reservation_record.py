@@ -1,6 +1,6 @@
 """Module containing business logic to show reservation record as according to year and date."""
 
-from mysql import connector
+import pymysql
 
 from src.config.query import QueryConfig
 from src.models.database import Database
@@ -37,7 +37,7 @@ class ReservationRecord:
                     )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def get_year_record(self, year: str) -> list:
@@ -54,5 +54,5 @@ class ReservationRecord:
                     )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")

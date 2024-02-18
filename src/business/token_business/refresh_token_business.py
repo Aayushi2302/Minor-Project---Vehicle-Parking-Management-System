@@ -3,14 +3,13 @@
     and refresh token.
 """
 
-from mysql import connector
+import pymysql
 
 from src.business.token_business.token_access import TokenAccess
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
 from src.models.database import Database
 from src.utils.custom_exceptions import AppException, DBException
-from src.utils.role_mapping import RoleMapping
 
 
 class RefreshTokenBusiness:
@@ -55,6 +54,6 @@ class RefreshTokenBusiness:
                 "access_token": access_token,
                 "refresh_token": refresh_token
             }]
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something wrong with the server.")
 

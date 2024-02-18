@@ -1,6 +1,6 @@
 """This module contains the business logic related to parking slots."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.prompts.prompts import Prompts
@@ -49,10 +49,10 @@ class ParkingSlotBusiness:
                 (parking_slot_no, type_id)
             )
 
-        except connector.IntegrityError as error:
+        except pymysql.IntegrityError as error:
             raise AppException(409, "Conflict", "Parking slot already exist.")
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_all_parking_slots(self) -> list:
@@ -65,7 +65,7 @@ class ParkingSlotBusiness:
             data = self.db.fetch_data_from_database(QueryConfig.VIEW_PARKING_SLOT_DETAIL)
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_individual_parking_slot(self, parking_slot_number: str) -> list:
@@ -81,7 +81,7 @@ class ParkingSlotBusiness:
                     )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def update_parking_slot_status(self, parking_slot_no: str, new_status: str) -> None:
@@ -101,5 +101,5 @@ class ParkingSlotBusiness:
                 (new_status, parking_slot_no)
             )
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")

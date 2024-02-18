@@ -1,6 +1,6 @@
 """Module containing logic related to authorization tokens."""
 
-from mysql import connector
+import pymysql
 from flask_jwt_extended import (create_access_token,
                                 create_refresh_token,
                                 get_jwt,
@@ -84,7 +84,7 @@ class AuthTokenBusiness(TokenAccess):
                 QueryConfig.CREATE_TOKEN,
                 (user_identity, access_token, refresh_token)
             )
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something wrong with the server.")
 
     def revoke_token(self, user_identity: str) -> None:
@@ -98,7 +98,7 @@ class AuthTokenBusiness(TokenAccess):
                 QueryConfig.REVOKE_TOKEN,
                 (user_identity,)
             )
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something wrong with the server.")
 
     def is_token_revoked(self, token_jti: str, token_type: str) -> bool:
@@ -122,5 +122,5 @@ class AuthTokenBusiness(TokenAccess):
             else:
                 return False
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something wrong with the server.")

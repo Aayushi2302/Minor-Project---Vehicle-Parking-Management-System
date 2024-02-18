@@ -1,6 +1,6 @@
 """Module for performing database operations on data."""
 
-from mysql import connector
+import pymysql
 import os
 from typing import Optional
 
@@ -10,6 +10,7 @@ from src.config.query import QueryConfig
 MYSQL_HOSTNAME = os.getenv("MYSQL_HOSTNAME")
 MYSQL_USERNAME = os.getenv("MYSQL_USERNAME")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+MYSQL_PORT = 24164
 
 
 class Database:
@@ -38,17 +39,31 @@ class Database:
         """
         if Database.connection is None:
             try:
-                Database.connection = connector.connect(
-                    user = MYSQL_USERNAME,
-                    password = MYSQL_PASSWORD,
-                    host = MYSQL_HOSTNAME
+                # Database.connection = connector.connect(
+                #     user = MYSQL_USERNAME,
+                #     password = MYSQL_PASSWORD,
+                #     host = MYSQL_HOSTNAME
+                # )
+                # Database.cursor = Database.connection.cursor(dictionary=True)
+                # Database.cursor.execute(QueryConfig.CREATE_DATABASE.format(AppConfig.PROJECT_DB))
+                # Database.cursor.execute(QueryConfig.USE_DATABASE.format(AppConfig.PROJECT_DB))
+                timeout = 10
+                Database.connection = pymysql.connect(
+                    charset="utf8mb4",
+                    connect_timeout=timeout,
+                    cursorclass=pymysql.cursors.DictCursor,
+                    db="parking_management_system",
+                    host=MYSQL_HOSTNAME,
+                    password=MYSQL_PASSWORD,
+                    read_timeout=timeout,
+                    port=MYSQL_PORT,
+                    user=MYSQL_USERNAME,
+                    write_timeout=timeout,
                 )
-                Database.cursor = Database.connection.cursor(dictionary=True)
-                Database.cursor.execute(QueryConfig.CREATE_DATABASE.format(AppConfig.PROJECT_DB))
-                Database.cursor.execute(QueryConfig.USE_DATABASE.format(AppConfig.PROJECT_DB))
-
-            except Exception:
-                raise connector.Error
+                Database.cursor = Database.connection.cursor()
+            except pymysql.Error as err:
+                print(err)
+                raise pymysql.Error
 
     def create_all_tables(self) -> None:
         """ 
@@ -63,7 +78,7 @@ class Database:
         self.cursor.execute(QueryConfig.PARKING_SLOT_TABLE_CREATION)
         self.cursor.execute(QueryConfig.CUSTOMER_TABLE_CREATION)
         self.cursor.execute(QueryConfig.SLOT_BOOKING_TABLE_CREATION)
-   
+
     def save_data_to_database(self, query: str | list, data: tuple | list) -> None:
         """
             Method for saving data to single or multiple tables in database.
@@ -89,4 +104,6 @@ class Database:
             self.cursor.execute(query, data)
         return self.cursor.fetchall()
 
+
 db = Database()
+

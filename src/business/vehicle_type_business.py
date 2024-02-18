@@ -1,6 +1,6 @@
 """Module contating business logic for performing operations on vehicle type."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.prompts.prompts import Prompts
@@ -57,11 +57,11 @@ class VehicleTypeBusiness:
                 (type_id, vehicle_type_name, price_per_hour)
             )
 
-        except connector.IntegrityError as error:
-            constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
-            raise AppException(409, "Conflict", f"Entered {constraint_failed_attribute} already exist.")
+        except pymysql.IntegrityError as error:
+            # constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
+            raise AppException(409, "Conflict", "Entered {constraint_failed_attribute} already exist.")
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_all_vehicle_type(self) -> list:
@@ -73,7 +73,7 @@ class VehicleTypeBusiness:
         try:
             data = self.db.fetch_data_from_database(QueryConfig.FETCH_VEHICLE_TYPE)
             return data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def __get_vehicle_type_name_from_type_id(self, type_id: str) -> list:
@@ -89,7 +89,7 @@ class VehicleTypeBusiness:
             )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_vehicle_type_id_from_type_name(self, type_name: str) -> list:
@@ -100,7 +100,7 @@ class VehicleTypeBusiness:
             )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def get_individual_vehicle_type(self, type_id: str) -> list:
@@ -117,7 +117,7 @@ class VehicleTypeBusiness:
             )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")
 
     def update_vehicle_type(self, type_id: str, vehicle_type_name: str, new_price_per_hour: float) -> None:
@@ -141,5 +141,5 @@ class VehicleTypeBusiness:
                 (vehicle_type_name, new_price_per_hour, type_id)
             )
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with server.")

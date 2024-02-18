@@ -1,6 +1,6 @@
 """Module containing business logic related to employees."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
@@ -67,12 +67,12 @@ class EmployeeBusiness:
                 data
             )
 
-        except connector.IntegrityError as error:
-            constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
+        except pymysql.IntegrityError as error:
+            # constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
             self.db.cursor.execute(QueryConfig.ROLLBACK_QUERY)
-            raise AppException(409, "Conflict", f"Entered {constraint_failed_attribute} already exist.")
+            raise AppException(409, "Conflict", "Entered {constraint_failed_attribute} already exist.")
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_all_employees_details(self) -> list:
@@ -84,7 +84,7 @@ class EmployeeBusiness:
         try:
             data = self.db.fetch_data_from_database(QueryConfig.VIEW_EMPLOYEE_DETAIL)
             return data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_employee_default_password(self, emp_id: str) -> list:
@@ -106,7 +106,7 @@ class EmployeeBusiness:
             if data[0]["password_type"] != AppConfig.DEFAULT_PASSWORD:
                 raise AppException(403, "Forbidden", "Password for given employee has been already changed.")
             return [{"default_password": data[0]["password"]}]
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_employee_data(self, emp_id: str) -> list:
@@ -122,7 +122,7 @@ class EmployeeBusiness:
                 (emp_id,)
             )
             return data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
     def get_individual_employee_data(self, emp_id: str) -> list:
@@ -138,7 +138,7 @@ class EmployeeBusiness:
                 (emp_id,)
             )
             return data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
 
@@ -172,12 +172,12 @@ class EmployeeBusiness:
                 data
             )
 
-        except connector.IntegrityError as error:
-            constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
+        except pymysql.IntegrityError as error:
+            # constraint_failed_attribute = get_constraint_failed_attribute(error.msg)
             self.db.cursor.execute(QueryConfig.ROLLBACK_QUERY)
-            raise AppException(409, "Conflict", f"Entered {constraint_failed_attribute} already exist.")
+            raise AppException(409, "Conflict", "Entered {constraint_failed_attribute} already exist.")
 
-        except connector.Error as error:
+        except pymysql.Error as error:
             print(error)
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")
 
@@ -204,5 +204,5 @@ class EmployeeBusiness:
                 (AppConfig.STATUS_INACTIVE, emp_id)
             )
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")

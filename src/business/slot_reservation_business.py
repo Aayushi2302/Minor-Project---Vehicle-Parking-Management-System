@@ -1,6 +1,6 @@
 """Module containing business logic related to slot reservation."""
 
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
@@ -70,7 +70,7 @@ class SlotReservationBusiness:
             )
             return [{"parking_slot_no" : parking_slot_no}]
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def get_reservation_details(self) -> list:
@@ -84,7 +84,7 @@ class SlotReservationBusiness:
                 QueryConfig.VIEW_SLOT_BOOKING_DETAIL
             )
             return data
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def save_vacating_details(self, vehicle_no: str) -> list:
@@ -133,5 +133,5 @@ class SlotReservationBusiness:
                 "hours": hours_spent,
                 "charges": charges
             }]
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")

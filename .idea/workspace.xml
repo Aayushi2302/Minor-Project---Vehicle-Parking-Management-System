@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/customer_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/customer_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/employee_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/employee_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/parking_slot_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/parking_slot_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/reservation_record.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/reservation_record.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/slot_reservation_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/slot_reservation_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/token_business/refresh_token_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/refresh_token_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/user_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/user_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/business/vehicle_type_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/vehicle_type_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/query.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/customer_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/customer_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,21 +88,5 @@
       <updated>1706796216624</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/business/authentication_business/auth_business.py</url>
-          <line>2</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/resources/auth_resource.py</url>
-          <line>2</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -2,7 +2,7 @@
 
 from datetime import datetime
 import random
-from mysql import connector
+import pymysql
 
 from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
@@ -43,7 +43,7 @@ class SlotReservationHelper:
             )
             return data[0]["price_per_hour"]
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def get_vacant_parking_slot_randomly(self, type_id: str) -> str:
@@ -63,7 +63,7 @@ class SlotReservationHelper:
             random_index = random.randrange(len(parking_slot_no))
             return parking_slot_no[random_index]["parking_slot_no"]
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def get_details_for_vacating_parking_slot(self, vehicle_no: str) -> list:
@@ -79,7 +79,7 @@ class SlotReservationHelper:
             )
             return data
 
-        except connector.Error:
+        except pymysql.Error:
             raise DBException(500, "Internal Server Error", "...")
 
     def calculate_hours_spent_in_parking(self, in_date: str, in_time: str,
