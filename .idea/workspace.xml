@@ -8,24 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/authentication_business/auth_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/customer_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/customer_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/employee_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/employee_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/parking_slot_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/parking_slot_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/reservation_record.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/reservation_record.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/slot_reservation_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/slot_reservation_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/auth_token_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/token_business/refresh_token_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/token_business/refresh_token_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/user_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/user_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/business/vehicle_type_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/business/vehicle_type_business.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/query.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/customer_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/customer_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/slot_reservation_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

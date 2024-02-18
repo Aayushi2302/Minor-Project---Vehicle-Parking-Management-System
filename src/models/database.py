@@ -1,5 +1,4 @@
 """Module for performing database operations on data."""
-
 import pymysql
 import os
 from typing import Optional
