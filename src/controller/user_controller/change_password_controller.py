@@ -1,11 +1,11 @@
 """Module for changing password of user on first login."""
 
-from src.business.authentication_business.auth_business import AuthBusiness
-from src.business.token_business.auth_token_business import AuthTokenBusiness
-from src.business.user_business import UserBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from business.authentication_business.auth_business import AuthBusiness
+from business.token_business.auth_token_business import AuthTokenBusiness
+from business.user_business import UserBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 
 class ChangePasswordController:

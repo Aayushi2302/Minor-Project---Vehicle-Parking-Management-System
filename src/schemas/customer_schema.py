@@ -2,7 +2,7 @@
 
 from marshmallow import Schema, fields, validate
 
-from src.config.regex_pattern import RegexPattern
+from config.regex_pattern import RegexPattern
 
 
 class CustomerSchema(Schema):

@@ -4,8 +4,8 @@ from functools import wraps
 from typing import Callable
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
 
-from src.utils.custom_exceptions import AppException
-from src.utils.custom_error_handler import custom_error_handler
+from utils.custom_exceptions import AppException
+from utils.custom_error_handler import custom_error_handler
 
 
 def route_access(allowed_roles: tuple) -> Callable:

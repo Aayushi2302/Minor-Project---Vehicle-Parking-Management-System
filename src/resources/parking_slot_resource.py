@@ -3,16 +3,16 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from src.config.app_config import AppConfig
-from src.controller.parking_slot_controller.add_parking_slot_controller import AddParkingSlotController
-from src.controller.parking_slot_controller.get_all_parking_slot_controller import GetAllParkingSlotController
-from src.controller.parking_slot_controller.get_individual_parking_slot_controller import \
+from config.app_config import AppConfig
+from controller.parking_slot_controller.add_parking_slot_controller import AddParkingSlotController
+from controller.parking_slot_controller.get_all_parking_slot_controller import GetAllParkingSlotController
+from controller.parking_slot_controller.get_individual_parking_slot_controller import \
     GetIndividualParkingSlotContainer
-from src.controller.parking_slot_controller.update_parking_slot_controller import UpdateParkingSlotController
-from src.controller.parking_slot_controller.delete_parking_slot_controller import  DeleteParkingSlotController
-from src.schemas.parking_slot_schemas import ParkingSlotSchema, ParkingSlotWriteResponseSchema, ParkingSlotUpdateSchema
-from src.utils.route_access import route_access
-from src.utils.role_mapping import RoleMapping
+from controller.parking_slot_controller.update_parking_slot_controller import UpdateParkingSlotController
+from controller.parking_slot_controller.delete_parking_slot_controller import  DeleteParkingSlotController
+from schemas.parking_slot_schemas import ParkingSlotSchema, ParkingSlotWriteResponseSchema, ParkingSlotUpdateSchema
+from utils.route_access import route_access
+from utils.role_mapping import RoleMapping
 
 blp = Blueprint("parking-slot", __name__, description="Parking Slot related operations")
 

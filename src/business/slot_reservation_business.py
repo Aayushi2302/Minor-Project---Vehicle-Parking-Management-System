@@ -2,13 +2,13 @@
 
 import pymysql
 
-from src.config.app_config import AppConfig
-from src.config.query import QueryConfig
-from src.models.database import Database
-from src.helpers.customer_helper import CustomerHelper
-from src.helpers.slot_reservation_helper import SlotReservationHelper
-from src.helpers.common_helper import generate_shortuuid, get_current_date_and_time
-from src.utils.custom_exceptions import AppException, DBException
+from config.app_config import AppConfig
+from config.query import QueryConfig
+from models.database import Database
+from helpers.customer_helper import CustomerHelper
+from helpers.slot_reservation_helper import SlotReservationHelper
+from helpers.common_helper import generate_shortuuid, get_current_date_and_time
+from utils.custom_exceptions import AppException, DBException
 
 
 class SlotReservationBusiness:

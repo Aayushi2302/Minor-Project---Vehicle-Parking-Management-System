@@ -5,11 +5,11 @@
 
 import pymysql
 
-from src.business.token_business.token_access import TokenAccess
-from src.config.app_config import AppConfig
-from src.config.query import QueryConfig
-from src.models.database import Database
-from src.utils.custom_exceptions import AppException, DBException
+from business.token_business.token_access import TokenAccess
+from config.app_config import AppConfig
+from config.query import QueryConfig
+from models.database import Database
+from utils.custom_exceptions import AppException, DBException
 
 
 class RefreshTokenBusiness:

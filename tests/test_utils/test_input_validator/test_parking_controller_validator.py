@@ -2,7 +2,7 @@
 from datetime import datetime
 import unittest
 from unittest.mock import Mock, patch
-from src.utils.input_validator.parking_controller_validator import ParkingControllerValidator
+from utils.input_validator.parking_controller_validator import ParkingControllerValidator
 
 class TestParkingControllerValidator(unittest.TestCase):
     """
@@ -17,7 +17,7 @@ class TestParkingControllerValidator(unittest.TestCase):
         test_input_vehicle_number() -> Method for testing vehicle number input.
         test_input_out_date() -> Method for testing out date input.
     """
-    @patch("src.utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
+    @patch("utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
     @patch("builtins.input")
     def test_input_vehicle_type_name(self, mock_input: Mock, mock_regex_validation: Mock) -> bool:
         """
@@ -29,7 +29,7 @@ class TestParkingControllerValidator(unittest.TestCase):
         mock_regex_validation.side_effect = [False, False, True]
         self.assertEqual(ParkingControllerValidator.input_vehicle_type_name(), "Car")
 
-    @patch("src.utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
+    @patch("utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
     @patch("builtins.input")
     def test_input_price_per_hour(self, mock_input: Mock, mock_regex_validation: Mock) -> bool:
         """
@@ -41,7 +41,7 @@ class TestParkingControllerValidator(unittest.TestCase):
         mock_regex_validation.side_effect = [False, False, False, True]
         self.assertEqual(ParkingControllerValidator.input_price_per_hour(), 12)
 
-    @patch("src.utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
+    @patch("utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
     @patch("builtins.input")
     def test_input_vehicle_type_id(self, mock_input: Mock, mock_regex_validation: Mock) -> bool:
         """
@@ -53,7 +53,7 @@ class TestParkingControllerValidator(unittest.TestCase):
         mock_regex_validation.side_effect = [False, False, True]
         self.assertEqual(ParkingControllerValidator.input_vehicle_type_id(), "TYPE1234")
 
-    @patch("src.utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
+    @patch("utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
     @patch("builtins.input")
     def test_input_parking_slot_number(self, mock_input: Mock, mock_regex_validation: Mock) -> bool:
         """
@@ -65,7 +65,7 @@ class TestParkingControllerValidator(unittest.TestCase):
         mock_regex_validation.side_effect = [False, False, True]
         self.assertEqual(ParkingControllerValidator.input_parking_slot_number(), "PSN12")
 
-    @patch("src.utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
+    @patch("utils.input_validator.parking_controller_validator.CommonHelper.regex_validation")
     @patch("builtins.input")
     def test_input_vehicle_number(self, mock_input: Mock, mock_regex_validation: Mock) -> bool:
         """

@@ -1,1 +1,1 @@
-from src.views.auth_views import AuthViews
+from views.auth_views import AuthViews

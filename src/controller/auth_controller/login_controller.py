@@ -7,12 +7,12 @@
 
 from flask import current_app as app
 
-from src.business.authentication_business.auth_business import AuthBusiness
-from src.business.authentication_business.login_business import LoginBusiness
-from src.business.token_business.auth_token_business import AuthTokenBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from business.authentication_business.auth_business import AuthBusiness
+from business.authentication_business.login_business import LoginBusiness
+from business.token_business.auth_token_business import AuthTokenBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 
 class LoginController:

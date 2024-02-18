@@ -1,10 +1,10 @@
 """Module responsible for invoking business logic for adding parking slot.."""
 
-from src.config.prompts.prompts import Prompts
-from src.business.parking_slot_business import ParkingSlotBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from config.prompts.prompts import Prompts
+from business.parking_slot_business import ParkingSlotBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 
 class AddParkingSlotController:

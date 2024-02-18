@@ -6,11 +6,11 @@ from flask_jwt_extended import (create_access_token,
                                 get_jwt,
                                 get_jti)
 
-from src.config.app_config import AppConfig
-from src.config.query import QueryConfig
-from src.business.token_business.token_access import TokenAccess
-from src.models.database import Database
-from src.utils.custom_exceptions import DBException
+from config.app_config import AppConfig
+from config.query import QueryConfig
+from business.token_business.token_access import TokenAccess
+from models.database import Database
+from utils.custom_exceptions import DBException
 
 
 class AuthTokenBusiness(TokenAccess):

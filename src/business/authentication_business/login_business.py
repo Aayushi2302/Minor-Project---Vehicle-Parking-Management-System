@@ -2,12 +2,12 @@
 
 from flask import current_app as app
 
-from src.config.app_config import AppConfig
-from src.business.authentication_business.auth_business import AuthBusiness
-from src.business.token_business.token_access import TokenAccess
-from src.models.database import Database
-from src.utils.custom_exceptions import AppException
-from src.utils.role_mapping import RoleMapping
+from config.app_config import AppConfig
+from business.authentication_business.auth_business import AuthBusiness
+from business.token_business.token_access import TokenAccess
+from models.database import Database
+from utils.custom_exceptions import AppException
+from utils.role_mapping import RoleMapping
 
 
 class LoginBusiness:

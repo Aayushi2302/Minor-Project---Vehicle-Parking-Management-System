@@ -1,10 +1,10 @@
 """Module for generating access and refresh token."""
 
-from src.business.token_business.auth_token_business import AuthTokenBusiness
-from src.business.token_business.refresh_token_business import RefreshTokenBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from business.token_business.auth_token_business import AuthTokenBusiness
+from business.token_business.refresh_token_business import RefreshTokenBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 
 class RefreshTokenController:

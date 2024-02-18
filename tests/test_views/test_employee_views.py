@@ -1,1 +1,1 @@
-from src.views.employee_views import EmployeeViews
+from views.employee_views import EmployeeViews

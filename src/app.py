@@ -4,7 +4,7 @@ import logging
 from flask import Flask, g
 from flask_smorest import Api
 
-from src.helpers.common_helper import generate_shortuuid
+from helpers.common_helper import generate_shortuuid
 from api_setup import app_setup, jwt_setup, register_blueprint, logging_configuration
 
 logger = logging.getLogger(__name__)

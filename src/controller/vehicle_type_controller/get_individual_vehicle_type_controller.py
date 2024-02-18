@@ -1,9 +1,9 @@
 """Module responsible for invoking business logic for fecthing detail of a particular vehicle type."""
 
-from src.business.vehicle_type_business import VehicleTypeBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from business.vehicle_type_business import VehicleTypeBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 class GetIndividualVehicleTypeController:
     """

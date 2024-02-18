@@ -6,8 +6,8 @@
 from functools import wraps
 from typing import Callable
 
-from src.utils.custom_exceptions import AppException, DBException
-from src.utils.responses import ErrorResponse
+from utils.custom_exceptions import AppException, DBException
+from utils.responses import ErrorResponse
 
 
 def custom_error_handler(func: Callable) -> Callable:

@@ -1,9 +1,9 @@
 import pymysql
 
-from src.config.app_config import AppConfig
-from src.config.query import QueryConfig
-from src.models.database import Database
-from src.utils.custom_exceptions import DBException
+from config.app_config import AppConfig
+from config.query import QueryConfig
+from models.database import Database
+from utils.custom_exceptions import DBException
 
 
 class CustomerHelper:

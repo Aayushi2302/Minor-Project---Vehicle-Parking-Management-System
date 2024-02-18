@@ -1,9 +1,9 @@
 """Module to invoke business logic for adding or registering employees."""
 
-from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
-from src.utils.custom_error_handler import custom_error_handler
-from src.utils.responses import SuccessResponse
+from business.employee_business import EmployeeBusiness
+from models.database import db
+from utils.custom_error_handler import custom_error_handler
+from utils.responses import SuccessResponse
 
 
 class AddEmployeeController:
