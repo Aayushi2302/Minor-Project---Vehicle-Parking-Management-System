@@ -2,12 +2,15 @@
 
 class AppConfig:
     """This class contains all the constants of the project."""
-    DATABASE_PATH = "models\\parking_management.db"
+    # DATABASE_PATH = "models\\parking_management.db"
     LOG_FILE_PATH = "logs.log"
-    PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
-    LOG_FILE_YAML_PATH = "config\\log_prompts\\log_prompts.yaml"
+    # PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
+
+    import os
+    PROMPTS_FILE_YAML_PATH = os.path.abspath(os.curdir) + "/config/prompts/prompts.yaml"
+
     MAXIMUM_LOGIN_ATTEMPTS = 3
-    PROJECT_DB = "parking_management_system"
+    # PROJECT_DB = "parking_management_system"
 
     BLP_DOC_PARAMETERS = {
                             'name': 'Authorization',
