@@ -1,6 +1,7 @@
 """Module containing different functions for initializing app."""
 
 import logging
+from logging.handlers import SysLogHandler
 import os
 from flask import jsonify, g, Flask
 from flask.logging import default_handler
@@ -19,6 +20,8 @@ from resources.slot_reservation_resource import blp as SlotReservationBlueprint
 from resources.user_resource import blp as UserBlueprint
 from resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 
+PAPERTRAIL_HOSTNAME = "logs2.papertrailapp.com"
+PAPERTRAIL_PORT = 33514
 
 class CustomFormatter(logging.Formatter):
     """
@@ -52,8 +55,9 @@ def logging_configuration(app: Flask) -> None:
     formatter = CustomFormatter(
         fmt='%(asctime)s %(levelname)-8s [%(filename)s %(funcName)s:%(lineno)d] %(message)s - [%(request_id)s]'
     )
-    handler = logging.FileHandler(AppConfig.LOG_FILE_PATH)
+    handler = SysLogHandler(address=(PAPERTRAIL_HOSTNAME, PAPERTRAIL_PORT))
     handler.setFormatter(formatter)
+    handler.setLevel(logging.DEBUG)
 
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.DEBUG)
