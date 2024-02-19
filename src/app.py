@@ -33,6 +33,3 @@ def create_app() -> Flask:
         g.request_id = new_request_id
 
     return app
-
-
-app = create_app()

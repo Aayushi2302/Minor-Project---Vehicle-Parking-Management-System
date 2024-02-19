@@ -1,1 +1,0 @@
-from views.auth_views import AuthViews
