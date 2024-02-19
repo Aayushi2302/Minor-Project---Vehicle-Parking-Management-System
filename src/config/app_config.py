@@ -6,9 +6,10 @@ class AppConfig:
     # LOG_FILE_PATH = "logs.log"
     # PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
 
-    from os import path
-    path_current_directory = path.dirname(__file__)
-    PROMPTS_FILE_YAML_PATH = path.join(path_current_directory) + "prompts.yaml"
+    import os
+    current_directory = os.path.dirname(__file__)
+    # PROMPTS_FILE_YAML_PATH = os.path.abspath(os.curdir) + "/config/prompts/prompts.yaml"
+    PROMPTS_FILE_YAML_PATH = os.path.join(current_directory, './prompts/prompts.yaml')
 
     MAXIMUM_LOGIN_ATTEMPTS = 3
     # PROJECT_DB = "parking_management_system"
