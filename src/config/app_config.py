@@ -2,12 +2,9 @@
 
 class AppConfig:
     """This class contains all the constants of the project."""
-    # DATABASE_PATH = "models\\parking_management.db"
-    LOG_FILE_PATH = "logs.log"
-    # PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
 
     import os
-    PROMPTS_FILE_YAML_PATH = os.path.abspath(os.curdir) + "/config/prompts/prompts.yaml"
+    PROMPTS_FILE_YAML_PATH = "/config/prompts/prompts.yaml"
 
     MAXIMUM_LOGIN_ATTEMPTS = 3
     # PROJECT_DB = "parking_management_system"
