@@ -27,6 +27,17 @@ class LoginSchema(Schema):
     access_token = fields.Str(dump_only=True)
     refresh_token = fields.Str(dump_only=True)
 
+class LogoutSchema(Schema):
+    """
+        Schema for logout request and response body.
+        ...
+        Fields
+        ------
+        success -> bool (response)
+        message -> str (response)
+    """
+    success = fields.Bool(dump_only=True)
+    message = fields.Str(dump_only=True)
 
 # class LoginResponseSchema(Schema):
 #     """
