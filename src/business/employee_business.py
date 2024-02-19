@@ -2,15 +2,15 @@
 
 import pymysql
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from config.regex_pattern import RegexPattern
-from models.database import Database
-from helpers.common_helper import (generate_shortuuid,
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.config.regex_pattern import RegexPattern
+from src.models.database import Database
+from src.helpers.common_helper import (generate_shortuuid,
                                        generate_random_password,
                                        get_constraint_failed_attribute,
                                        regex_validation)
-from utils.custom_exceptions import AppException, DBException
+from src.utils.custom_exceptions import AppException, DBException
 
 
 class EmployeeBusiness:

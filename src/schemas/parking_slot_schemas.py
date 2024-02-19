@@ -1,7 +1,7 @@
 """Module containing request and response schema for parking slot resource."""
 
 from marshmallow import Schema, fields, validate
-from config.regex_pattern import RegexPattern
+from src.config.regex_pattern import RegexPattern
 
 
 class ParkingSlotSchema(Schema):

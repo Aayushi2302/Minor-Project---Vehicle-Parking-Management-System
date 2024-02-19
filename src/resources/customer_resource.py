@@ -3,15 +3,15 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from config.app_config import AppConfig
-from controller.customer_controller.add_customer_controller import AddCustomerController
-from controller.customer_controller.get_customers_controller import GetCustomersController
-from controller.customer_controller.get_individual_customer_controller import GetIndividualCustomerController
-from controller.customer_controller.update_customer_controller import UpdateCustomerController
-from controller.customer_controller.delete_customer_controller import DeleteCustomerController
-from schemas.customer_schema import CustomerSchema, CustomerResponseSchema
-from utils.route_access import route_access
-from utils.role_mapping import RoleMapping
+from src.config.app_config import AppConfig
+from src.controller.customer_controller.add_customer_controller import AddCustomerController
+from src.controller.customer_controller.get_customers_controller import GetCustomersController
+from src.controller.customer_controller.get_individual_customer_controller import GetIndividualCustomerController
+from src.controller.customer_controller.update_customer_controller import UpdateCustomerController
+from src.controller.customer_controller.delete_customer_controller import DeleteCustomerController
+from src.schemas.customer_schema import CustomerSchema, CustomerResponseSchema
+from src.utils.route_access import route_access
+from src.utils.role_mapping import RoleMapping
 
 blp = Blueprint("customer", __name__ , description="Customer related operations.")
 

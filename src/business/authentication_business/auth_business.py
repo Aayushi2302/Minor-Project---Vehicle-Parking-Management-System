@@ -2,11 +2,11 @@
 
 import pymysql
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from models.database import Database
-from helpers.common_helper import hash_password
-from utils.custom_exceptions import AppException, DBException
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.models.database import Database
+from src.helpers.common_helper import hash_password
+from src.utils.custom_exceptions import AppException, DBException
 
 
 class AuthBusiness:
@@ -16,7 +16,7 @@ class AuthBusiness:
         Attributes
         ----------
         db: Database Object
-
+src.
         Methods
         -------
         get_authentication_details() : list -> get the password, role and password type details.

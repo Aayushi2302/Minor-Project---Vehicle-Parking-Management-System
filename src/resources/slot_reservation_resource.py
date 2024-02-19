@@ -4,13 +4,13 @@ from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from config.app_config import AppConfig
-from controller.slot_reservation_controller.reserve_parking_slot_controller import ReserveParkingSlotController
-from controller.slot_reservation_controller.get_reservations_controller import GetReservationsController
-from controller.slot_reservation_controller.vacate_parking_slot_controller import VacateParkingSlotController
-from schemas.slot_reservation_schema import SlotReservationSchema, SlotReservationGetSchema, SlotVacateSchema
-from utils.route_access import route_access
-from utils.role_mapping import RoleMapping
+from src.config.app_config import AppConfig
+from src.controller.slot_reservation_controller.reserve_parking_slot_controller import ReserveParkingSlotController
+from src.controller.slot_reservation_controller.get_reservations_controller import GetReservationsController
+from src.controller.slot_reservation_controller.vacate_parking_slot_controller import VacateParkingSlotController
+from src.schemas.slot_reservation_schema import SlotReservationSchema, SlotReservationGetSchema, SlotVacateSchema
+from src.utils.route_access import route_access
+from src.utils.role_mapping import RoleMapping
 
 blp = Blueprint("slot-reservation", __name__, description="Parking Slot Reservation related operations")
 

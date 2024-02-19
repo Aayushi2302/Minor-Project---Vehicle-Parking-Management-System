@@ -1,9 +1,9 @@
 """Module responsible for invoking business logic for deleting a customer."""
 
-from business.customer_business import CustomerBusiness
-from models.database import db
-from utils.responses import SuccessResponse
-from utils.custom_error_handler import custom_error_handler
+from src.business.customer_business import CustomerBusiness
+from src.models.database import db
+from src.utils.responses import SuccessResponse
+from src.utils.custom_error_handler import custom_error_handler
 
 
 class DeleteCustomerController:

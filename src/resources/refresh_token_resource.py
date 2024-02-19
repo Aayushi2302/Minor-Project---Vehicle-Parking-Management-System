@@ -4,11 +4,11 @@ from flask_jwt_extended import jwt_required
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from config.app_config import AppConfig
-from business.token_business.auth_token_business import AuthTokenBusiness
-from controller.refresh_token_controller import RefreshTokenController
-from models.database import db
-from schemas.refresh_schema import RefreshSchema
+from src.config.app_config import AppConfig
+from src.business.token_business.auth_token_business import AuthTokenBusiness
+from src.controller.refresh_token_controller import RefreshTokenController
+from src.models.database import db
+from src.schemas.refresh_schema import RefreshSchema
 
 
 blp = Blueprint("refresh token", __name__, description="Refresh token related operations")

@@ -2,12 +2,12 @@
 
 import pymysql
 
-from config.app_config import AppConfig
-from config.prompts.prompts import Prompts
-from config.query import QueryConfig
-from business.vehicle_type_business import VehicleTypeBusiness
-from models.database import Database
-from utils.custom_exceptions import AppException, DBException
+from src.config.app_config import AppConfig
+from src.config.prompts.prompts import Prompts
+from src.config.query import QueryConfig
+from src.business.vehicle_type_business import VehicleTypeBusiness
+from src.models.database import Database
+from src.utils.custom_exceptions import AppException, DBException
 
 class ParkingSlotBusiness:
     """

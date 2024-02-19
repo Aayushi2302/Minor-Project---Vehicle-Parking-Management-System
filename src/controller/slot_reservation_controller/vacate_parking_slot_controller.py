@@ -1,12 +1,12 @@
 """Module responsible for invoking business logic for vacating a parking slot."""
 
-from config.prompts.prompts import Prompts
-from business.slot_reservation_business import SlotReservationBusiness
-from helpers.customer_helper import CustomerHelper
-from helpers.slot_reservation_helper import SlotReservationHelper
-from models.database import db
-from utils.custom_error_handler import custom_error_handler
-from utils.responses import SuccessResponse
+from src.config.prompts.prompts import Prompts
+from src.business.slot_reservation_business import SlotReservationBusiness
+from src.helpers.customer_helper import CustomerHelper
+from src.helpers.slot_reservation_helper import SlotReservationHelper
+from src.models.database import db
+from src.utils.custom_error_handler import custom_error_handler
+from src.utils.responses import SuccessResponse
 
 
 class VacateParkingSlotController:

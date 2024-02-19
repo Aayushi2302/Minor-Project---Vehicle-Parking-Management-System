@@ -3,8 +3,8 @@ import pymysql
 import os
 from typing import Optional
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
 
 MYSQL_HOSTNAME = os.getenv("MYSQL_HOSTNAME")
 MYSQL_USERNAME = os.getenv("MYSQL_USERNAME")

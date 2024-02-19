@@ -6,11 +6,11 @@ from flask_jwt_extended import (create_access_token,
                                 get_jwt,
                                 get_jti)
 
-from config.app_config import AppConfig
-from config.query import QueryConfig
-from business.token_business.token_access import TokenAccess
-from models.database import Database
-from utils.custom_exceptions import DBException
+from src.config.app_config import AppConfig
+from src.config.query import QueryConfig
+from src.business.token_business.token_access import TokenAccess
+from src.models.database import Database
+from src.utils.custom_exceptions import DBException
 
 
 class AuthTokenBusiness(TokenAccess):
@@ -27,7 +27,7 @@ class AuthTokenBusiness(TokenAccess):
         get_user_claims(): dict -> This method is responsible for getting user related claims.
         save_tokens_to_database(): None -> This method is responsible for saving tokens in database.
         revoke_token(): None -> This method is responsible for revoking access and refresh tokens.
-        is_token_revoked(): bool -> This method is responsible for checking whether the token is revoked or not.
+        is_token_revoked(): bool -> This method is responsible for checking src.whether the token is revoked or not.
     """
 
     def __init__(self, db: Database) -> None:

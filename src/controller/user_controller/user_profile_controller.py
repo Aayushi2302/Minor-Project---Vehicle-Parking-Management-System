@@ -1,11 +1,11 @@
 """Module for fetching loggedin user related details."""
 
-from models.database import db
-from business.authentication_business.auth_business import AuthBusiness
-from business.token_business.auth_token_business import AuthTokenBusiness
-from business.user_business import UserBusiness
-from utils.responses import SuccessResponse
-from utils.custom_error_handler import custom_error_handler
+from src.models.database import db
+from src.business.authentication_business.auth_business import AuthBusiness
+from src.business.token_business.auth_token_business import AuthTokenBusiness
+from src.business.user_business import UserBusiness
+from src.utils.responses import SuccessResponse
+from src.utils.custom_error_handler import custom_error_handler
 
 class UserProfileController:
     """

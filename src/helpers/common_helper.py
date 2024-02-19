@@ -9,11 +9,11 @@ import pytz
 import shortuuid
 from tabulate import tabulate
 
-from config.regex_pattern import RegexPattern
-from config.app_config import AppConfig
-from config.prompts.prompts import Prompts
-from config.query import QueryConfig
-from models.database import db
+from src.config.regex_pattern import RegexPattern
+from src.config.app_config import AppConfig
+from src.config.prompts.prompts import Prompts
+from src.config.query import QueryConfig
+from src.models.database import db
 
 logger = logging.getLogger(__name__)
 

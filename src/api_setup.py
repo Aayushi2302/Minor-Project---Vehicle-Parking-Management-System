@@ -8,17 +8,17 @@ from flask.logging import default_handler
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
 
-from business.token_business.auth_token_business import AuthTokenBusiness
-from config.app_config import AppConfig
-from models.database import db
-from resources.auth_resource import blp as AuthBlueprint
-from resources.customer_resource import blp as CustomerBlueprint
-from resources.employee_resource import blp as EmployeeBlueprint
-from resources.parking_slot_resource import blp as ParkingSlotBlueprint
-from resources.refresh_token_resource import blp as RefreshTokenBlueprint
-from resources.slot_reservation_resource import blp as SlotReservationBlueprint
-from resources.user_resource import blp as UserBlueprint
-from resources.vehicle_type_resource import blp as VehicleTypeBlueprint
+from src.business.token_business.auth_token_business import AuthTokenBusiness
+from src.config.app_config import AppConfig
+from src.models.database import db
+from src.resources.auth_resource import blp as AuthBlueprint
+from src.resources.customer_resource import blp as CustomerBlueprint
+from src.resources.employee_resource import blp as EmployeeBlueprint
+from src.resources.parking_slot_resource import blp as ParkingSlotBlueprint
+from src.resources.refresh_token_resource import blp as RefreshTokenBlueprint
+from src.resources.slot_reservation_resource import blp as SlotReservationBlueprint
+from src.resources.user_resource import blp as UserBlueprint
+from src.resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 
 PAPERTRAIL_HOSTNAME = "logs2.papertrailapp.com"
 PAPERTRAIL_PORT = 33514

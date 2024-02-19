@@ -2,9 +2,9 @@
 
 import pymysql
 
-from config.query import QueryConfig
-from models.database import Database
-from utils.custom_exceptions import DBException
+from src.config.query import QueryConfig
+from src.models.database import Database
+from src.utils.custom_exceptions import DBException
 
 
 class ReservationRecord:

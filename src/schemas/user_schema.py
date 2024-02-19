@@ -1,7 +1,7 @@
 """Module contaning request and response schemas for user related operations."""
 
 from marshmallow import Schema, fields, validate
-from config.regex_pattern import RegexPattern
+from src.config.regex_pattern import RegexPattern
 
 class UserProfileSchema(Schema):
     """
