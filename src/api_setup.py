@@ -19,8 +19,6 @@ from resources.slot_reservation_resource import blp as SlotReservationBlueprint
 from resources.user_resource import blp as UserBlueprint
 from resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 
-BASE_URL = "/parking-management"
-
 
 class CustomFormatter(logging.Formatter):
     """
@@ -163,11 +161,11 @@ def register_blueprint(api: Api) -> None:
         Parameters -> API
         Returns -> None
     """
-    api.register_blueprint(AuthBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(UserBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(EmployeeBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(VehicleTypeBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(ParkingSlotBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(CustomerBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(SlotReservationBlueprint, url_prefix=BASE_URL)
-    api.register_blueprint(RefreshTokenBlueprint, url_prefix=BASE_URL)
+    api.register_blueprint(AuthBlueprint)
+    api.register_blueprint(UserBlueprint)
+    api.register_blueprint(EmployeeBlueprint)
+    api.register_blueprint(VehicleTypeBlueprint)
+    api.register_blueprint(ParkingSlotBlueprint)
+    api.register_blueprint(CustomerBlueprint)
+    api.register_blueprint(SlotReservationBlueprint)
+    api.register_blueprint(RefreshTokenBlueprint)
