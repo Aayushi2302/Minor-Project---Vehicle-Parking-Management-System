@@ -110,3 +110,7 @@
 2024-02-19 01:17:59,189 INFO     [login_controller.py user_login:34] User credentials retrieved successfully : user@aayushi - [REQYLcMu]
 2024-02-19 01:17:59,465 INFO     [login_business.py authenticate_user:66] User logged in and token generated successfully : user@aayushi - [REQYLcMu]
 2024-02-19 01:17:59,465 INFO     [login_controller.py user_login:42] Successful user login : user@aayushi - [REQYLcMu]
+2024-02-19 10:57:33,486 INFO     [auth_resource.py post:37] User trying to login with username : user@aayushi - [REQXgBx5]
+2024-02-19 10:57:33,487 INFO     [login_controller.py user_login:34] User credentials retrieved successfully : user@aayushi - [REQXgBx5]
+2024-02-19 10:57:37,807 INFO     [login_business.py authenticate_user:63] User logged in and token generated successfully : user@aayushi - [REQXgBx5]
+2024-02-19 10:57:37,807 INFO     [login_controller.py user_login:42] Successful user login : user@aayushi - [REQXgBx5]
