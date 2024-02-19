@@ -1,7 +1,7 @@
 """Module for loading prompts of project."""
 import yaml
 
-from config.app_config import AppConfig
+from src.config.app_config import AppConfig
 
 class Prompts:
     """
