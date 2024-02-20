@@ -9,7 +9,7 @@ from src.controller.customer_controller.get_customers_controller import GetCusto
 from src.controller.customer_controller.get_individual_customer_controller import GetIndividualCustomerController
 from src.controller.customer_controller.update_customer_controller import UpdateCustomerController
 from src.controller.customer_controller.delete_customer_controller import DeleteCustomerController
-from src.schemas.customer_schema import CustomerSchema, CustomerResponseSchema
+from src.schemas.customer_schema import CustomerSchema, CustomerResponseSchema, CustomerUpdateSchema
 from src.utils.route_access import route_access
 from src.utils.role_mapping import RoleMapping
 
@@ -64,6 +64,7 @@ class EmployeeIndividualOperations(MethodView):
         DELETE
     """
     @blp.doc(parameters=[AppConfig.BLP_DOC_PARAMETERS])
+    @blp.arguments(CustomerUpdateSchema)
     @blp.response(200, CustomerResponseSchema)
     @route_access((RoleMapping["attendant"], ))
     def put(self, customer_data: dict, customer_id: str) -> dict:

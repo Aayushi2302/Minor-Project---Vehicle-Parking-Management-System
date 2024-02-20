@@ -10,7 +10,7 @@ from flask import current_app as app
 from src.business.authentication_business.auth_business import AuthBusiness
 from src.business.authentication_business.login_business import LoginBusiness
 from src.business.token_business.auth_token_business import AuthTokenBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -33,6 +33,7 @@ class LoginController:
 
         app.logger.info(f"User credentials retrieved successfully : {username}")
 
+        db = Database()
         token = AuthTokenBusiness(db)
         auth_business = AuthBusiness(db)
         login_business = LoginBusiness(db, token, auth_business)

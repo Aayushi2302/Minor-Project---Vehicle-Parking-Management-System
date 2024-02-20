@@ -7,7 +7,7 @@ from flask_smorest import Blueprint
 from src.config.app_config import AppConfig
 from src.business.token_business.auth_token_business import AuthTokenBusiness
 from src.controller.refresh_token_controller import RefreshTokenController
-from src.models.database import db
+from src.models.database import Database
 from src.schemas.refresh_schema import RefreshSchema
 
 
@@ -34,6 +34,7 @@ class RefreshToken(MethodView):
             On Success -> Follows ParkingSlotWriteResponseSchema and returns success message.
             On Failure -> Returns success = False and error message.
         """
+        db = Database()
         token_obj = AuthTokenBusiness(db)
         token_payload = token_obj.get_user_claims()
         refresh_jti = token_payload["jti"]

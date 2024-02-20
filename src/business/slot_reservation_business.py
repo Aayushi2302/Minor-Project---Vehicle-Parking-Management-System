@@ -41,7 +41,7 @@ class SlotReservationBusiness:
             Returns -> None
         """
         try:
-            booking_id = generate_shortuuid("BOOK")
+            booking_id = generate_shortuuid("RSR")
             data = self.customer_helper.get_cust_id_from_vehicle_no(cust_vehicle_no)
 
             if not data:
@@ -70,7 +70,8 @@ class SlotReservationBusiness:
             )
             return [{"parking_slot_no" : parking_slot_no}]
 
-        except pymysql.Error:
+        except pymysql.Error as error:
+            print(error)
             raise DBException(500, "Internal Server Error", "...")
 
     def get_reservation_details(self) -> list:

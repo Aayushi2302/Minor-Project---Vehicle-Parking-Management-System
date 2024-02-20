@@ -2,7 +2,7 @@
 
 class RegexPattern:
     """Class containing regex patterns used throughout the project."""
-    BOOKING_ID_REGEX = r"^BOOK[a-zA-Z0-9]+$"
+    BOOKING_ID_REGEX = r"^RSR[a-zA-Z0-9]+$"
     EMAIL_REGEX = r"^[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
     MOBILE_NO_REGEX = r"[6-9][0-9]{9}$"
     NAME_REGEX = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
@@ -10,7 +10,7 @@ class RegexPattern:
     PASSWORD_PATTERN = r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[@#$%&])(?!.*[\s\n\t\r]).{8,}$"
     ROLE_REGEX = r"^([a-z]){5,}$"
     STRING_REGEX = r"^[a-zA-Z]+\s*"
-    TYPE_ID_REGEX = r"^TYPE[a-zA-Z0-9]+$"
+    TYPE_ID_REGEX = r"^TYP[a-zA-Z0-9]+$"
     USERNAME_REGEX = r"(^user@)([a-z]{5,})$"
     VEHICLE_NUMBER_REGEX = r"^[A-Z]{2}[-][0-9]{2}[-][A-Z]{2}[-][0-9]{4}$"
     AGE_REGEX = r"(^[1][4-9]$)|(^[2-5][0-9]$)|60"
@@ -18,5 +18,5 @@ class RegexPattern:
     GENDER_REGEX = r"^(Male|Female|Other)$"
     EMPLOYEE_ID_REGEX = r"^EMP[a-zA-Z0-9]{5}$"
     TYPE_NAME_REGEX = r"^[a-zA-Z -]{3,20}$"
-    CUSTOMER_ID_REGEX = r"^CUST[a-zA-Z0-9]+$"
+    CUSTOMER_ID_REGEX = r"^CST[a-zA-Z0-9]+$"
     OUT_DATE_REGEX = r"(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[1,2])-(19|20)\d{2}"

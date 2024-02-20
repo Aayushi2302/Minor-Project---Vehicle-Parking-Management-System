@@ -3,14 +3,15 @@
 import logging
 from logging.handlers import SysLogHandler
 import os
-from flask import jsonify, g, Flask
+from flask import g, Flask
 from flask.logging import default_handler
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
 
 from src.business.token_business.auth_token_business import AuthTokenBusiness
 from src.config.app_config import AppConfig
-from src.models.database import db
+from src.config.prompts.prompts import Prompts
+from src.models.database import Database
 from src.resources.auth_resource import blp as AuthBlueprint
 from src.resources.customer_resource import blp as CustomerBlueprint
 from src.resources.employee_resource import blp as EmployeeBlueprint
@@ -19,9 +20,13 @@ from src.resources.refresh_token_resource import blp as RefreshTokenBlueprint
 from src.resources.slot_reservation_resource import blp as SlotReservationBlueprint
 from src.resources.user_resource import blp as UserBlueprint
 from src.resources.vehicle_type_resource import blp as VehicleTypeBlueprint
+from src.utils.custom_exceptions import AppException, DBException
+from src.utils.custom_error_handler import custom_error_handler
+from src.utils.responses import ErrorResponse
 
 PAPERTRAIL_HOSTNAME = "logs2.papertrailapp.com"
 PAPERTRAIL_PORT = 33514
+
 
 class CustomFormatter(logging.Formatter):
     """
@@ -69,6 +74,10 @@ def app_setup(app: Flask) -> None:
         Parameters -> Flask app
         Returns -> None
     """
+    logging_configuration(app)
+    app.logger.info("Logging configurations set successfully.")
+
+    app.logger.info("Setting application configuration.")
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Vehicle Parking Management System REST API"
     app.config["API_VERSION"] = "v1"
@@ -76,8 +85,15 @@ def app_setup(app: Flask) -> None:
     app.config["OPENAPI_URL_PREFIX"] = "/parking-management/v1"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+    app.logger.info("Swagger documentation configurations set successfully");
+
+    Prompts.load()
+    app.logger.info("Prompts config loaded successfully.")
+
+    db = Database()
     db.create_all_tables()
-    logging_configuration(app)
+    app.logger.info("Database tables created successfully.")
+
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 
@@ -88,6 +104,7 @@ def jwt_setup(app: Flask) -> None:
         Returns -> None
     """
     jwt = JWTManager(app)
+    db = Database()
     token = AuthTokenBusiness(db)
 
     @jwt.expired_token_loader
@@ -97,10 +114,10 @@ def jwt_setup(app: Flask) -> None:
             Parameters -> jwt_header: dict, jwt_payload: dict
             Returns -> tuple
         """
-        return (
-            jsonify({"message": "The token has expired.", "error": "token_expired"}),
-            401,
-        )
+        app.logger.warning("Expired token used by user.")
+        error = AppException(AppConfig.HTTP_STATUS_UNAUTHORIZED, "Token Expired",
+                             "The token has expired.")
+        return ErrorResponse.jsonify_error(error), error.error_code
 
     @jwt.invalid_token_loader
     def invalid_token_callback(error: str) -> tuple:
@@ -109,12 +126,10 @@ def jwt_setup(app: Flask) -> None:
             Parameters -> error: str
             Returns -> tuple
         """
-        return (
-            jsonify(
-                {"message": "Signature verification failed.", "error": "invalid_token"}
-            ),
-            401,
-        )
+        app.logger.warning("Signature verification failed for token. Invalid token given.")
+        error = AppException(AppConfig.HTTP_STATUS_UNAUTHORIZED, "Invalid Token",
+                             "Signature verification failed.")
+        return ErrorResponse.jsonify_error(error), error.error_code
 
     @jwt.unauthorized_loader
     def missing_token_callback(error: str) -> tuple:
@@ -123,15 +138,10 @@ def jwt_setup(app: Flask) -> None:
             Parameters -> error: str
             Returns -> tuple
         """
-        return (
-            jsonify(
-                {
-                    "description": "Request does not contain an access token.",
-                    "error": "authorization_required",
-                }
-            ),
-            401,
-        )
+        app.logger.warning("Access token not given.")
+        error = AppException(AppConfig.HTTP_STATUS_UNAUTHORIZED, "Authorization Required",
+                             "Request does not contain an access token.")
+        return ErrorResponse.jsonify_error(error), error.error_code
 
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload) -> bool:
@@ -142,7 +152,13 @@ def jwt_setup(app: Flask) -> None:
         """
         check_access_token = token.is_token_revoked(jwt_payload["jti"], "access_token")
         check_refresh_token = token.is_token_revoked(jwt_payload["jti"], "refresh_token")
-        return check_access_token or check_refresh_token
+        result = check_access_token or check_refresh_token
+        if not result:
+            app.logger.warning("Token given is already revoked.")
+            return False
+
+        app.logger.warning("Token not revoked.")
+        return True
 
     @jwt.revoked_token_loader
     def revoked_token_callback(jwt_header: dict, jwt_payload: dict) -> tuple:
@@ -151,13 +167,10 @@ def jwt_setup(app: Flask) -> None:
             Parameters -> jwt_header: dict, jwt_payload: dict
             Returns -> tuple
         """
-        return (
-            jsonify(
-                {"description": "The token has been revoked.", "error": "token_revoked"}
-            ),
-            401,
-        )
-
+        app.logger.warning("Token given is revoked.")
+        error = AppException(AppConfig.HTTP_STATUS_UNAUTHORIZED, "Token Revoked",
+                             "The token has been revoked.")
+        return ErrorResponse.jsonify_error(error), error.error_code
 
 def register_blueprint(api: Api) -> None:
     """
@@ -173,3 +186,16 @@ def register_blueprint(api: Api) -> None:
     api.register_blueprint(CustomerBlueprint)
     api.register_blueprint(SlotReservationBlueprint)
     api.register_blueprint(RefreshTokenBlueprint)
+
+
+def handle_errors(error):
+    if not hasattr(error, "error_code"):
+        error = AppException(error.code, error.name, error.description)
+    return ErrorResponse.jsonify_error(error), error.error_code
+
+
+def register_flask_custom_error_handler(app):
+    app.register_error_handler(400, handle_errors)
+    app.register_error_handler(404, handle_errors)
+    app.register_error_handler(AppException, handle_errors)
+    app.register_error_handler(DBException, handle_errors)

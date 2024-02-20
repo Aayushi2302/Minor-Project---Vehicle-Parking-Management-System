@@ -58,7 +58,7 @@ class CustomerBusiness:
                 raise AppException(403, "Forbidden", "Vehicle type does not exist")
 
             type_id = data[0]["type_id"]
-            customer_id = generate_shortuuid("CUST")
+            customer_id = generate_shortuuid("CST")
             customer_data = (customer_id,) + customer_data + (type_id, )
 
             self.db.save_data_to_database(
@@ -114,6 +114,10 @@ class CustomerBusiness:
                 QueryConfig.FETCH_CUSTOMER_DETAILS_FROM_CUSTOMER_ID,
                 (customer_id,)
             )
+
+            if not data:
+                raise AppException(404, "Data Not Found", "Employee does not exist.")
+
             return data
 
         except pymysql.Error as error:
@@ -132,10 +136,12 @@ class CustomerBusiness:
             data = self.get_individual_customer(customer_id)
 
             if not data:
-                raise AppException(404, "Not Found", "Customer data not found.")
+                raise AppException(404, "Data Not Found", "Customer data not found.")
 
             if data[0]["status"] == "inactive":
                 raise AppException(403, "Forbidden", "Cannot update deleted customer record.")
+
+            customer_data = customer_data + (customer_id, )
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_CUSTOMER_DETAIL,

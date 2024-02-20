@@ -1,7 +1,7 @@
 """Module to invoke business logic for getting details of all employees."""
 
 from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -21,6 +21,7 @@ class GetEmployeesController:
             Parameters -> None
             Returns -> dict
         """
+        db = Database()
         employee_business = EmployeeBusiness(db)
         response = employee_business.get_all_employees_details()
         return SuccessResponse.jsonify_data("Employees fetched successfully.", response), 200

@@ -137,6 +137,9 @@ class EmployeeBusiness:
                 QueryConfig.FETCH_EMP_DETAIL_FROM_EMP_ID,
                 (emp_id,)
             )
+            if not data:
+                raise AppException(404, "Data Not Found", "Given employee does not exist.")
+
             return data
         except pymysql.Error:
             raise DBException(500, "Internal Server Error", "Something went wrong with the server.")

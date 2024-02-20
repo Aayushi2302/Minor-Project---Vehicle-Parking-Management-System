@@ -1,9 +1,10 @@
 """Module containing request and response schemas for refresh purpose."""
 
 from marshmallow import Schema, fields
+from src.schemas.base_schema import BaseSchema
 
 
-class RefreshSchema(Schema):
+class RefreshSchema(BaseSchema):
     """
         Schema for login request and response body.
         ...

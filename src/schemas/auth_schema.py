@@ -2,9 +2,10 @@
 
 from marshmallow import Schema, fields, validate
 from src.config.regex_pattern import RegexPattern
+from src.schemas.base_schema import BaseSchema
 
 
-class LoginSchema(Schema):
+class LoginSchema(BaseSchema):
     """
         Schema for login request and response body.
         ...
@@ -27,7 +28,8 @@ class LoginSchema(Schema):
     access_token = fields.Str(dump_only=True)
     refresh_token = fields.Str(dump_only=True)
 
-class LogoutSchema(Schema):
+
+class LogoutSchema(BaseSchema):
     """
         Schema for logout request and response body.
         ...

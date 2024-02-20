@@ -115,6 +115,10 @@ class VehicleTypeBusiness:
                 QueryConfig.FETCH_VEHICLE_TYPE_FROM_TYPE_ID,
                 (type_id,)
             )
+
+            if not data:
+                raise AppException(404, "Data Not Found", "Vehicle type does not exist.")
+
             return data
 
         except pymysql.Error:

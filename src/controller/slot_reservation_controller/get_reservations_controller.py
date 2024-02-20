@@ -7,7 +7,7 @@ from src.business.reservation_record import ReservationRecord
 from src.business.slot_reservation_business import SlotReservationBusiness
 from src.helpers.customer_helper import CustomerHelper
 from src.helpers.slot_reservation_helper import SlotReservationHelper
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -28,6 +28,7 @@ class GetReservationsController:
             Parameters -> date_or_year : str | None
             Returns -> tuple
         """
+        db = Database()
         if date_or_year is None:
             customer_helper = CustomerHelper(db)
             slot_reservation_helper = SlotReservationHelper(db)

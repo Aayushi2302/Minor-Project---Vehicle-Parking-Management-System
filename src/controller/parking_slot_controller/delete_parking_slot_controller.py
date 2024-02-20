@@ -3,7 +3,7 @@
 from src.config.app_config import  AppConfig
 from src.config.prompts.prompts import Prompts
 from src.business.parking_slot_business import ParkingSlotBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -25,6 +25,7 @@ class DeleteParkingSlotController:
         """
         new_status = AppConfig.PARKING_SLOT_STATUS_DELETED
 
+        db = Database()
         parking_slot_business_obj = ParkingSlotBusiness(db)
         parking_slot_business_obj.update_parking_slot_status(parking_slot_no, new_status)
         return SuccessResponse.jsonify_data("Parking slot deleted successfully."), 200

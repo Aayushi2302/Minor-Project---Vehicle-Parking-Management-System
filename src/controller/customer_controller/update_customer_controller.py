@@ -1,7 +1,7 @@
 """Module responsible for invoking business logic for updating customer."""
 
 from src.business.customer_business import CustomerBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.responses import SuccessResponse
 from src.utils.custom_error_handler import custom_error_handler
 
@@ -27,6 +27,7 @@ class UpdateCustomerController:
 
         cust_data = (name, mobile_no, vehicle_no)
 
+        db = Database()
         customer_business = CustomerBusiness(db)
         customer_business.update_customer_details(customer_id, cust_data)
         return SuccessResponse.jsonify_data("Customer updated successfully."), 200

@@ -3,7 +3,7 @@
 from src.business.authentication_business.auth_business import AuthBusiness
 from src.business.token_business.auth_token_business import AuthTokenBusiness
 from src.business.user_business import UserBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -26,6 +26,7 @@ class ChangePasswordController:
         current_password = user_data["current_password"]
         new_password = user_data["new_password"]
 
+        db = Database()
         auth_business = AuthBusiness(db)
         token = AuthTokenBusiness(db)
         user_business= UserBusiness(db, auth_business, token, username, role)

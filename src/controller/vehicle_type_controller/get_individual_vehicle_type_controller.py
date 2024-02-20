@@ -1,7 +1,7 @@
 """Module responsible for invoking business logic for fecthing detail of a particular vehicle type."""
 
 from src.business.vehicle_type_business import VehicleTypeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -20,6 +20,7 @@ class GetIndividualVehicleTypeController:
             Parameter -> type_id: str
             Return type -> dict
         """
+        db = Database()
         vehicle_type_business_obj = VehicleTypeBusiness(db)
         data = vehicle_type_business_obj.get_individual_vehicle_type(type_id)
 

@@ -79,6 +79,9 @@ class ParkingSlotBusiness:
                         QueryConfig.FETCH_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NUMBER,
                         (parking_slot_number, )
                     )
+
+            if not data:
+                raise AppException(404, "Data Not Found", "Parking slot does not exist.")
             return data
 
         except pymysql.Error:
@@ -92,9 +95,6 @@ class ParkingSlotBusiness:
         """
         try:
             data = self.get_individual_parking_slot(parking_slot_no)
-
-            if not data:
-                raise AppException(404, "Data Not Found", "Parking slot not exist.")
 
             self.db.save_data_to_database(
                 QueryConfig.UPDATE_PARKING_SLOT_STATUS_FROM_PARKING_SLOT_NO,

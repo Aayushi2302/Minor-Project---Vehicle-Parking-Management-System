@@ -1,6 +1,6 @@
 """Module for fetching loggedin user related details."""
 
-from src.models.database import db
+from src.models.database import Database
 from src.business.authentication_business.auth_business import AuthBusiness
 from src.business.token_business.auth_token_business import AuthTokenBusiness
 from src.business.user_business import UserBusiness
@@ -22,6 +22,7 @@ class UserProfileController:
             Parameters -> username: str
             Returns -> tuple
         """
+        db = Database()
         auth_business = AuthBusiness(db)
         token = AuthTokenBusiness(db)
         user_business = UserBusiness(db, auth_business, token, username, role)

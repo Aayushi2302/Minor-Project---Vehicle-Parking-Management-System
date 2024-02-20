@@ -1,7 +1,7 @@
 """Module to invoke business logic for deleting employees."""
 
 from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -21,6 +21,7 @@ class DeleteEmployeeController:
             Parameters -> employee_id: str
             Returns -> tuple
         """
+        db = Database()
         employee_business = EmployeeBusiness(db)
         employee_business.deactivate_employee(emp_id)
         return SuccessResponse.jsonify_data("Employee deleted successfully."), 200

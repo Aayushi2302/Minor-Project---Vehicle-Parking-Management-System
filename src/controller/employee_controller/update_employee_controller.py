@@ -1,7 +1,7 @@
 """Module to invoke business logic for updating details of employees."""
 
 from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -32,6 +32,7 @@ class UpdateEmployeeController:
         auth_table_data = (username, role, emp_id)
         employee_table_data = (name, age, gender, mobile_no, email, emp_id)
 
+        db = Database()
         employee_business = EmployeeBusiness(db)
         employee_business.update_employee_details(emp_id, auth_table_data, employee_table_data)
         return SuccessResponse.jsonify_data("Employee updated successfully."), 200

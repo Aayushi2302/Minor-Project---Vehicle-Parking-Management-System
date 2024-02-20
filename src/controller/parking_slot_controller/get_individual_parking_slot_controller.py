@@ -2,7 +2,7 @@
 
 from src.config.prompts.prompts import Prompts
 from src.business.parking_slot_business import ParkingSlotBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -22,6 +22,7 @@ class GetIndividualParkingSlotContainer:
             Parameters -> parking_slot_no: str
             Returns -> tuple
         """
+        db = Database()
         parking_slot_business_obj = ParkingSlotBusiness(db)
         response = parking_slot_business_obj.get_individual_parking_slot(parking_slot_no)
         return SuccessResponse.jsonify_data("Parking slot fetched successfully", response), 200

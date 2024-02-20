@@ -1,58 +1,7 @@
-'''Module for storing queries of the project.'''
-
-from src.config.prompts.prompts import Prompts
-
-Prompts.load()
-
-class TableHeader:
-    """This class contains all the table headers for displaying tables using tabulate."""
-    EMPLOYEE_DETAIL_HEADER = (
-        Prompts.EMP_ID_HEADER,
-        Prompts.NAME_HEADER,
-        Prompts.AGE_HEADER,
-        Prompts.GENDER_HEADER,
-        Prompts.MOBILE_NO_HEADER,
-        Prompts.EMAIL_ADDRESS_HEADER,
-        Prompts.USERNAME_HEADER,
-        Prompts.ROLE_HEADER,
-        Prompts.STATUS_HEADER
-    )
-    CUSTOMER_DETAIL_HEADER = (
-        Prompts.CUSTOMER_ID_HEADER,
-        Prompts.NAME_HEADER,
-        Prompts.MOBILE_NO_HEADER,
-        Prompts.VEHICLE_NO_HEADER,
-        Prompts.VEHICLE_TYPE_NAME_HEADER
-    )
-    PARKING_SLOT_DETAIL_HEADER = (
-        Prompts.PARKING_SLOT_NO_HEADER,
-        Prompts.VEHICLE_TYPE_HEADER,
-        Prompts.STATUS_HEADER
-    )
-    SLOT_BOOKING_DETAIL_HEADER = (
-        Prompts.CUSTOMER_ID_HEADER,
-        Prompts.NAME_HEADER,
-        Prompts.MOBILE_NO_HEADER,
-        Prompts.VEHICLE_NO_HEADER,
-        Prompts.VEHICLE_TYPE_HEADER,
-        Prompts.BOOKING_ID_HEADER,
-        Prompts.PARKING_SLOT_NO_HEADER,
-        Prompts.IN_DATE_HEADER,
-        Prompts.IN_TIME_HEADER,
-        Prompts.OUT_DATE_HEADER,
-        Prompts.OUT_TIME_HEADER,
-        Prompts.HOURS_HEADER,
-        Prompts.CHARGES_HEADER
-    )
-    VEHICLE_TYPE_DETAIL_HEADER = (
-        Prompts.VEHICLE_TYPE_ID,
-        Prompts.VEHICLE_TYPE_NAME_HEADER,
-        Prompts.PRICE_PER_HOUR
-    )
-    VEHICLE_TYPE_HEADER = (Prompts.VEHICLE_TYPE_NAME_HEADER, )
+"""Module for storing queries of the project."""
 
 class QueryConfig:
-    '''This class contains all the queries of the project.'''
+    """This class contains all the queries of the project."""
 
     CREATE_DATABASE = 'CREATE DATABASE IF NOT EXISTS {}'
     USE_DATABASE = 'USE {}'
@@ -187,7 +136,6 @@ class QueryConfig:
         SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
         FROM employee INNER JOIN authentication ON
         employee.emp_id = authentication.user_id
-        WHERE authentication.role <> 'admin'
     '''
     VIEW_SINGLE_EMPLOYEE_DETAIL = '''
         SELECT employee.emp_id, name, age, gender, mobile_no, email_address, username, role, status
@@ -219,7 +167,7 @@ class QueryConfig:
     '''
 
     FETCH_VEHICLE_TYPE_FROM_TYPE_ID = '''
-        SELECT vehicle_type_name, price_per_hour
+        SELECT type_id, vehicle_type_name, price_per_hour
         FROM vehicle_type
         WHERE type_id = %s
     '''
@@ -256,7 +204,7 @@ class QueryConfig:
         ) VALUES(%s, %s)
     '''
     FETCH_PARKING_SLOT_DETAIL_FROM_PARKING_SLOT_NUMBER = '''
-        SELECT vehicle_type_name, status FROM parking_slot
+        SELECT parking_slot_no, vehicle_type_name, status FROM parking_slot
         INNER JOIN vehicle_type ON
         parking_slot.type_id = vehicle_type.type_id
         WHERE parking_slot_no = %s
@@ -285,7 +233,7 @@ class QueryConfig:
             customer_id VARCHAR(8) PRIMARY KEY,
             name VARCHAR(15),
             mobile_no VARCHAR(10),
-            vehicle_no VARCHAR(10) NOT NULL,
+            vehicle_no VARCHAR(18) NOT NULL,
             type_id VARCHAR(8) NOT NULL,
             status VARCHAR(15) DEFAULT 'active',
             FOREIGN KEY(type_id) REFERENCES vehicle_type(type_id) ON DELETE CASCADE
@@ -302,7 +250,7 @@ class QueryConfig:
     '''
     FETCH_CUSTOMER_ID_AND_TYPE_ID_FROM_VEHICLE_NO = '''
         SELECT customer_id, type_id FROM customer
-        WHERE vehicle_no = %s
+        WHERE vehicle_no = %s AND status = %s
     '''
     FETCH_CUSTOMER_DETAILS_FROM_CUSTOMER_ID = '''
         SELECT vehicle_type.vehicle_type_name, name, mobile_no, vehicle_no, status FROM customer

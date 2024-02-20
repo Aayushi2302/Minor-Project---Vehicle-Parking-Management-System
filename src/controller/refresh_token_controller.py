@@ -2,7 +2,7 @@
 
 from src.business.token_business.auth_token_business import AuthTokenBusiness
 from src.business.token_business.refresh_token_business import RefreshTokenBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -20,6 +20,7 @@ class RefreshTokenController:
            Parameters -> refresh_jti: str, username: str, role: str, p_type: str
            Returns -> tuple
         """
+        db = Database()
         token = AuthTokenBusiness(db)
         refresh_token_business = RefreshTokenBusiness(db, token)
 

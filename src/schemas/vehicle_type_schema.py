@@ -3,8 +3,9 @@
 from marshmallow import Schema, fields, validate
 from marshmallow.validate import Range
 from src.config.regex_pattern import RegexPattern
+from src.schemas.base_schema import BaseSchema
 
-class VehicleTypeSchema(Schema):
+class VehicleTypeSchema(BaseSchema):
     """
         Schema for vehicle type request or response body.
         ...
@@ -21,7 +22,7 @@ class VehicleTypeSchema(Schema):
     vehicle_type_name = fields.Str(required=True, validate=validate.Regexp(RegexPattern.TYPE_NAME_REGEX))
     price_per_hour = fields.Float(required=True, validate=Range(min=10.0))
 
-class VehicleTypeResponseSchema(Schema):
+class VehicleTypeResponseSchema(BaseSchema):
     """
         Schema for vehicle type response body.
         ...

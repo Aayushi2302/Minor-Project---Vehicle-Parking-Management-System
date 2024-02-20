@@ -4,7 +4,7 @@ from src.config.prompts.prompts import Prompts
 from src.business.slot_reservation_business import SlotReservationBusiness
 from src.helpers.customer_helper import CustomerHelper
 from src.helpers.slot_reservation_helper import SlotReservationHelper
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -28,9 +28,10 @@ class ReserveParkingSlotController:
         vehicle_no = customer_data["vehicle_no"]
         out_date = customer_data["out_date"]
 
+        db = Database()
         customer_helper = CustomerHelper(db)
         slot_reservation_helper = SlotReservationHelper(db)
         slot_reservation_business = SlotReservationBusiness(db, slot_reservation_helper, customer_helper)
 
         response = slot_reservation_business.save_reservation_details(vehicle_no, out_date)
-        return SuccessResponse.jsonify_data("Parking slot reserved successfully", response), 200
+        return SuccessResponse.jsonify_data("Parking slot reserved successfully", response), 201

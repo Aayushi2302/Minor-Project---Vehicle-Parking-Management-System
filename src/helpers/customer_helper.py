@@ -20,7 +20,7 @@ class CustomerHelper:
         try:
             data = self.db.fetch_data_from_database(
                         QueryConfig.FETCH_CUSTOMER_ID_AND_TYPE_ID_FROM_VEHICLE_NO,
-                        (vehicle_no, )
+                        (vehicle_no, AppConfig.STATUS_ACTIVE)
                     )
             return data
 

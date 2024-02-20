@@ -1,7 +1,7 @@
 """Module to invoke business logic for getting default password of a particular employee."""
 
 from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -21,6 +21,7 @@ class GetDefaultPasswordController:
             Parameters -> emp_id: str
             Returns -> tuple
         """
+        db = Database()
         employee_business = EmployeeBusiness(db)
         response = employee_business.get_employee_default_password(emp_id)
         return SuccessResponse.jsonify_data("Default password fetched successfully.", response), 200

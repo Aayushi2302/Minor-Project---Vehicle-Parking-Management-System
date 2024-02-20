@@ -1,10 +1,13 @@
 """Module containing request and response schema for parking slot reservation."""
 
-from marshmallow import Schema, fields, validate
+from datetime import datetime
+from marshmallow import Schema, fields, validate, validates_schema
 from src.config.regex_pattern import RegexPattern
+from src.schemas.base_schema import BaseSchema
+from src.utils.custom_exceptions import AppException
 
 
-class SlotReservationSchema(Schema):
+class SlotReservationSchema(BaseSchema):
     """
         Schema for parking slot reservation request and response body.
         ...
@@ -18,10 +21,21 @@ class SlotReservationSchema(Schema):
     success = fields.Bool(dump_only=True)
     message = fields.Str(dump_only=True)
     vehicle_no = fields.Str(required=True, load_only=True, validate=validate.Regexp(RegexPattern.VEHICLE_NUMBER_REGEX))
-    out_date = fields.Float(required=True, load_only=True)
+    out_date = fields.Str(required=True, load_only=True)
+
+    @validates_schema
+    def validate_out_date(self, data, **kwargs):
+        present = datetime.now().date()
+        try:
+            out_date = datetime.strptime(data["out_date"], "%d-%m-%Y").date()
+            if out_date < present:
+                raise AppException(422, "Unprocessable Entity", "You entered a date that has already passed.")
+        except ValueError:
+            raise AppException(422, "Unprocessable Entity", "Invalid date entered.")
 
 
-class SlotReservationGetSchema(Schema):
+
+class SlotReservationGetSchema(BaseSchema):
     """
         Schema for response body of get operations on reservation.
         ...
@@ -60,7 +74,7 @@ class SlotReservationGetSchema(Schema):
     charges = fields.Float(dump_only=True)
 
 
-class SlotVacateSchema(Schema):
+class SlotVacateSchema(BaseSchema):
     """
         Schema for request and response body for vacating parking slot.
         ...

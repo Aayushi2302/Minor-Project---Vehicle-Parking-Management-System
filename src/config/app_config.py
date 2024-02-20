@@ -2,17 +2,12 @@
 
 class AppConfig:
     """This class contains all the constants of the project."""
-    # DATABASE_PATH = "models\\parking_management.db"
-    # LOG_FILE_PATH = "logs.log"
-    # PROMPTS_FILE_YAML_PATH = "config\\prompts\\prompts.yaml"
 
     import os
     current_directory = os.path.dirname(__file__)
-    # PROMPTS_FILE_YAML_PATH = os.path.abspath(os.curdir) + "/config/prompts/prompts.yaml"
     PROMPTS_FILE_YAML_PATH = os.path.join(current_directory, './prompts/prompts.yaml')
 
     MAXIMUM_LOGIN_ATTEMPTS = 3
-    # PROJECT_DB = "parking_management_system"
 
     BLP_DOC_PARAMETERS = {
                             'name': 'Authorization',
@@ -22,7 +17,7 @@ class AppConfig:
                         }
 
     # constants for shortuuid
-    VEHICLE_TYPE = "TYPE"
+    VEHICLE_TYPE = "TYP"
     
     # role specific constants
     ADMIN_ROLE = "admin"
@@ -68,9 +63,10 @@ class AppConfig:
     # various HTTP status codes
     HTTP_STATUS_OK = 200
     HTTP_STATUS_CREATED = 201
+    HTTP_STATUS_BAD_REQUEST = 400
+    HTTP_STATUS_UNAUTHORIZED = 401
     HTTP_STATUS_CONFLICT = 409
     HTTP_STATUS_NOT_FOUND = 404
-    HTTP_STATUS_BAD_REQUEST = 400
     HTTP_STATUS_UNPROCESSABLE_ENTITY = 422
     HTTP_STATUS_INTERNAL_SERVER_ERROR = 500
     

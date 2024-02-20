@@ -3,9 +3,10 @@
 from marshmallow import Schema, fields, validate
 from marshmallow.validate import Range
 from src.config.regex_pattern import RegexPattern
+from src.schemas.base_schema import BaseSchema
 
 
-class EmployeeSchema(Schema):
+class EmployeeSchema(BaseSchema):
     """
         Schema for employee request or response body.
         ...
@@ -36,7 +37,7 @@ class EmployeeSchema(Schema):
     status = fields.Str(dump_only=True)
 
 
-class EmployeeResponseSchema(Schema):
+class EmployeeResponseSchema(BaseSchema):
     """
         Schema for employee response body.
         ...
@@ -49,7 +50,7 @@ class EmployeeResponseSchema(Schema):
     message = fields.Str(dump_only=True)
 
 
-class EmployeeDefaultPasswordSchema(Schema):
+class EmployeeDefaultPasswordSchema(BaseSchema):
     """
         Schema for default password response.
         ...

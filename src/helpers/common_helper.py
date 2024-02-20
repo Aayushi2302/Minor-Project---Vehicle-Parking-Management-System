@@ -13,7 +13,7 @@ from src.config.regex_pattern import RegexPattern
 from src.config.app_config import AppConfig
 from src.config.prompts.prompts import Prompts
 from src.config.query import QueryConfig
-from src.models.database import db
+from src.models.database import Database
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +24,7 @@ def is_admin_registered() -> bool:
         Parameter -> self
         Return type -> bool
     """
+    db = Database()
     logger.info("Checking if admin exist in the system.")
     user_data = db.fetch_data_from_database(
         QueryConfig.FETCH_EMPID_FROM_ROLE_AND_STATUS,

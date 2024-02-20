@@ -2,9 +2,12 @@
 import pymysql
 import os
 from typing import Optional
+from flask import current_app as app
 
-from src.config.app_config import AppConfig
 from src.config.query import QueryConfig
+from src.utils.custom_exceptions import DBException
+from src.utils.custom_error_handler import custom_error_handler
+from src.utils.responses import ErrorResponse
 
 MYSQL_HOSTNAME = os.getenv("MYSQL_HOSTNAME")
 MYSQL_USERNAME = os.getenv("MYSQL_USERNAME")
@@ -37,32 +40,21 @@ class Database:
             Returns -> None
         """
         if Database.connection is None:
-            try:
-                # Database.connection = connector.connect(
-                #     user = MYSQL_USERNAME,
-                #     password = MYSQL_PASSWORD,
-                #     host = MYSQL_HOSTNAME
-                # )
-                # Database.cursor = Database.connection.cursor(dictionary=True)
-                # Database.cursor.execute(QueryConfig.CREATE_DATABASE.format(AppConfig.PROJECT_DB))
-                # Database.cursor.execute(QueryConfig.USE_DATABASE.format(AppConfig.PROJECT_DB))
-                timeout = 10
-                Database.connection = pymysql.connect(
-                    charset="utf8mb4",
-                    connect_timeout=timeout,
-                    cursorclass=pymysql.cursors.DictCursor,
-                    db="parking_management_system",
-                    host=MYSQL_HOSTNAME,
-                    password=MYSQL_PASSWORD,
-                    read_timeout=timeout,
-                    port=MYSQL_PORT,
-                    user=MYSQL_USERNAME,
-                    write_timeout=timeout,
-                )
-                Database.cursor = Database.connection.cursor()
-            except pymysql.Error as err:
-                print(err)
-                raise pymysql.Error
+            timeout = 10
+            Database.connection = pymysql.connect(
+                charset="utf8mb4",
+                connect_timeout=timeout,
+                cursorclass=pymysql.cursors.DictCursor,
+                db="parking_management_system",
+                host=MYSQL_HOSTNAME,
+                password=MYSQL_PASSWORD,
+                read_timeout=timeout,
+                port=MYSQL_PORT,
+                user=MYSQL_USERNAME,
+                write_timeout=timeout,
+            )
+            Database.cursor = Database.connection.cursor()
+
 
     def create_all_tables(self) -> None:
         """ 
@@ -70,6 +62,7 @@ class Database:
             Parameter -> None
             Returns -> None
         """
+        app.logger.info("tables created")
         self.cursor.execute(QueryConfig.AUTHENTICATION_TABLE_CREATION)
         self.cursor.execute(QueryConfig.TOKEN_TABLE_CREATION)
         self.cursor.execute(QueryConfig.EMPLOYEE_TABLE_CREATION)
@@ -102,7 +95,3 @@ class Database:
         else:
             self.cursor.execute(query, data)
         return self.cursor.fetchall()
-
-
-db = Database()
-

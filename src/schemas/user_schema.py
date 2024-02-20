@@ -2,8 +2,9 @@
 
 from marshmallow import Schema, fields, validate
 from src.config.regex_pattern import RegexPattern
+from src.schemas.base_schema import BaseSchema
 
-class UserProfileSchema(Schema):
+class UserProfileSchema(BaseSchema):
     """
         Schema for user profile response body.
         ...
@@ -33,7 +34,7 @@ class UserProfileSchema(Schema):
     role = fields.Str(dump_only=True)
     status = fields.Str(dump_only=True)
 
-class ChangePasswordRequestSchema(Schema):
+class ChangePasswordRequestSchema(BaseSchema):
     """
         Schema for change password request body.
         ...
@@ -47,7 +48,7 @@ class ChangePasswordRequestSchema(Schema):
     new_password = fields.Str(required=True, load_only=True,
                                     validate=validate.Regexp(RegexPattern.PASSWORD_PATTERN))
 
-class ChangePasswordResponseSchema(Schema):
+class ChangePasswordResponseSchema(BaseSchema):
     """
         Schema for change password response body.
         ...

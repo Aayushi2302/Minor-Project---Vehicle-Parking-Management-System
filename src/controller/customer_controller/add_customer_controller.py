@@ -1,7 +1,7 @@
 """Module responsible for invoking business logic for adding a new customer."""
 
 from src.business.customer_business import CustomerBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -29,7 +29,8 @@ class AddCustomerController:
 
         cust_data = (name, mobile_no, vehicle_no)
 
+        db = Database()
         customer_business = CustomerBusiness(db)
         customer_business.register_customer(cust_data, type_name)
 
-        return SuccessResponse.jsonify_data("Customer created successfully."), 200
+        return SuccessResponse.jsonify_data("Customer created successfully."), 201

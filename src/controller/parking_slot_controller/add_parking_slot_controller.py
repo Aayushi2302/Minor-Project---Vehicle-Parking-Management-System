@@ -2,7 +2,7 @@
 
 from src.config.prompts.prompts import Prompts
 from src.business.parking_slot_business import ParkingSlotBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -26,6 +26,7 @@ class AddParkingSlotController:
         parking_slot_no = parking_slot_data["parking_slot_no"]
         type_name = parking_slot_data["vehicle_type_name"]
 
+        db = Database()
         parking_slot_business_obj = ParkingSlotBusiness(db)
         parking_slot_business_obj.register_parking_slot(parking_slot_no, type_name)
-        return SuccessResponse.jsonify_data("Parking slot created successfully."), 200
+        return SuccessResponse.jsonify_data("Parking slot created successfully."), 201

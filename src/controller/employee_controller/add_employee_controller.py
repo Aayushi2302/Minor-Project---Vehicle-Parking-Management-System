@@ -1,7 +1,7 @@
 """Module to invoke business logic for adding or registering employees."""
 
 from src.business.employee_business import EmployeeBusiness
-from src.models.database import db
+from src.models.database import Database
 from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import SuccessResponse
 
@@ -32,7 +32,8 @@ class AddEmployeeController:
         auth_table_data = (username, role)
         employee_table_data = (name, age, gender, mobile_no, email)
 
+        db = Database()
         employee_business = EmployeeBusiness(db)
         employee_business.register_employee(auth_table_data, employee_table_data)
 
-        return SuccessResponse.jsonify_data("Employee created successfully."), 200
+        return SuccessResponse.jsonify_data("Employee created successfully."), 201
