@@ -15,6 +15,7 @@ from src.models.database import Database
 from src.resources.auth_resource import blp as AuthBlueprint
 from src.resources.customer_resource import blp as CustomerBlueprint
 from src.resources.employee_resource import blp as EmployeeBlueprint
+from src.resources.health_resource import blp as HealthBlueprint
 from src.resources.parking_slot_resource import blp as ParkingSlotBlueprint
 from src.resources.refresh_token_resource import blp as RefreshTokenBlueprint
 from src.resources.slot_reservation_resource import blp as SlotReservationBlueprint
@@ -186,6 +187,7 @@ def register_blueprint(api: Api) -> None:
     api.register_blueprint(CustomerBlueprint)
     api.register_blueprint(SlotReservationBlueprint)
     api.register_blueprint(RefreshTokenBlueprint)
+    api.register_blueprint(HealthBlueprint)
 
 
 def handle_errors(error):

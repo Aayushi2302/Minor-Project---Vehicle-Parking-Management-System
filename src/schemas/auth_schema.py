@@ -40,19 +40,3 @@ class LogoutSchema(BaseSchema):
     """
     success = fields.Bool(dump_only=True)
     message = fields.Str(dump_only=True)
-
-# class LoginResponseSchema(Schema):
-#     """
-#         Schema for response after successful login.
-#         ...
-#         Fields
-#         ------
-#         success -> bool
-#         message -> str
-#         access_token -> str
-#         refresh_token -> str
-#     """
-#     success = fields.Bool(dump_only=True)
-#     message = fields.Str(dump_only=True)
-#     access_token = fields.Str(dump_only=True)
-#     refresh_token = fields.Str(dump_only=True)
