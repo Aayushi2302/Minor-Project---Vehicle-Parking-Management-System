@@ -1,0 +1,5234 @@
+{
+	"info": {
+		"_postman_id": "5e1a355b-36ac-42b6-8fc2-322cdd15850f",
+		"name": "Vehicle Parking Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32152078"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "check API health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/health",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "login(admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"        \"type\": \"array\",\r",
+									"        \"items\": [\r",
+									"            {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"access_token\": {\r",
+									"                \"type\": \"string\"\r",
+									"                },\r",
+									"                \"refresh_token\": {\r",
+									"                \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"required\": [\r",
+									"                \"access_token\",\r",
+									"                \"refresh_token\"\r",
+									"            ]\r",
+									"            }\r",
+									"        ]\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ]   \r",
+									"}\r",
+									"\r",
+									"pm.test(\"Valid data response\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+									"pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNzA3MzAwMjAwLCJqdGkiOiJlYzIwNDQ0NS1jMzBkLTQzNzAtYjFlOS1jYTk0MTEzNDAwZWUiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoidXNlckBhYXl1c2hpIiwibmJmIjoxNzA3MzAwMjAwLCJjc3JmIjoiODZmZjcxYWQtNGI4OC00ZDk0LTlhNDctYWI0NTIwNTEzNzEwIiwiZXhwIjoxNzA3MzAxMTAwLCJ1c3IiOiIyNTQyODQ2OTM4Mzc0NTEwODczNTg4NDA5NjEyMDc1NTIwMjU4NjkiLCJwdHkiOjF9.JuOcVHbBG4Aql1Sh4RYWH2z1ejtlwtzQiT_7_ZXhNqg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"user@aayushi\",\r\n    \"password\" : \"Aayushi@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login(attendant)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"        \"type\": \"array\",\r",
+									"        \"items\": [\r",
+									"            {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"access_token\": {\r",
+									"                \"type\": \"string\"\r",
+									"                },\r",
+									"                \"refresh_token\": {\r",
+									"                \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"required\": [\r",
+									"                \"access_token\",\r",
+									"                \"refresh_token\"\r",
+									"            ]\r",
+									"            }\r",
+									"        ]\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ]   \r",
+									"}\r",
+									"\r",
+									"pm.test(\"Valid data response\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+									"pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNzA3MzAwMjAwLCJqdGkiOiJlYzIwNDQ0NS1jMzBkLTQzNzAtYjFlOS1jYTk0MTEzNDAwZWUiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoidXNlckBhYXl1c2hpIiwibmJmIjoxNzA3MzAwMjAwLCJjc3JmIjoiODZmZjcxYWQtNGI4OC00ZDk0LTlhNDctYWI0NTIwNTEzNzEwIiwiZXhwIjoxNzA3MzAxMTAwLCJ1c3IiOiIyNTQyODQ2OTM4Mzc0NTEwODczNTg4NDA5NjEyMDc1NTIwMjU4NjkiLCJwdHkiOjF9.JuOcVHbBG4Aql1Sh4RYWH2z1ejtlwtzQiT_7_ZXhNqg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"user@vsakshi\",\r\n    \"password\" : \"Sakshi@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.collectionVariables.unset(\"access_token\");\r",
+									"pm.collectionVariables.unset(\"refresh_token\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Routes",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "get user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"success\");\r",
+											"\r",
+											"if (success === true){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"age\": {\r",
+											"                    \"type\": \"integer\"\r",
+											"                    },\r",
+											"                    \"email_address\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"emp_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"gender\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"role\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"username\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"age\",\r",
+											"                    \"email_address\",\r",
+											"                    \"emp_id\",\r",
+											"                    \"gender\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"role\",\r",
+											"                    \"status\",\r",
+											"                    \"username\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/my-profile",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"my-profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"success\");\r",
+											"\r",
+											"if (success === true){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"access_token\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"refresh_token\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"access_token\",\r",
+											"                    \"refresh_token\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]   \r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+											"    pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current_password\" : \"Aayushi@12345\",\r\n    \"new_password\" : \"Aayushi@12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/change-password",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "create employee",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"random_string = pm.collectionVariables.get(\"random_string\");\r",
+											"random_email = random_string + \"@gmail.com\";\r",
+											"pm.variables.set(\"randomEmail\", random_email);\r",
+											"\r",
+											"possible_gender = [\"Female\", \"Male\", \"Other\"];\r",
+											"index = _.random(0,1);\r",
+											"pm.variables.set(\"randomGender\", possible_gender[index]);\r",
+											"\r",
+											"pm.variables.set(\"randomMobileNumber\", _.random(6000000000, 9999999999));\r",
+											"\r",
+											"pm.variables.set(\"randomAge\", _.random(16, 60));\r",
+											"\r",
+											"random_string = pm.collectionVariables.get(\"random_string\");\r",
+											"random_username = \"user@\" + random_string;\r",
+											"pm.collectionVariables.set(\"username\", random_username);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 201\", () => {\r",
+											"        pm.response.to.have.status(201);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"age\" :  {{randomAge}},\r\n    \"gender\" : \"{{randomGender}}\",\r\n    \"mobile_no\" : \"{{randomMobileNumber}}\",\r\n    \"email_address\" : \"{{randomEmail}}\",\r\n    \"username\" : \"{{username}}\",\r\n    \"role\" : \"attendant\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/employees",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all employees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"age\": {\r",
+											"                    \"type\": \"integer\"\r",
+											"                    },\r",
+											"                    \"email_address\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"emp_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"gender\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"role\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"username\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"age\",\r",
+											"                    \"email_address\",\r",
+											"                    \"emp_id\",\r",
+											"                    \"gender\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"role\",\r",
+											"                    \"status\",\r",
+											"                    \"username\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"\r",
+											"    const response = pm.response.json();\r",
+											"    const employee = response.data.find((item) => item.username === pm.collectionVariables.get(\"username\"));\r",
+											"    pm.collectionVariables.set(\"emp_id\", employee.emp_id);\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/employees",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"random_string = pm.collectionVariables.get(\"random_string\");\r",
+											"random_email = random_string + \"@gmail.com\";\r",
+											"pm.variables.set(\"randomEmail\", random_email);\r",
+											"\r",
+											"possible_gender = [\"Female\", \"Male\", \"Other\"];\r",
+											"index = _.random(0,1);\r",
+											"pm.variables.set(\"randomGender\", possible_gender[index]);\r",
+											"\r",
+											"pm.variables.set(\"randomMobileNumber\", _.random(6000000000, 9999999999));\r",
+											"\r",
+											"pm.variables.set(\"randomAge\", _.random(16, 60));\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"age\" :  {{randomAge}},\r\n    \"gender\" : \"{{randomGender}}\",\r\n    \"mobile_no\" : \"{{randomMobileNumber}}\",\r\n    \"email_address\" : \"{{randomEmail}}\",\r\n    \"username\" : \"{{username}}\",\r\n    \"role\" : \"attendant\"\r\n}  ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/employees/:employee_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees",
+										":employee_id"
+									],
+									"variable": [
+										{
+											"key": "employee_id",
+											"value": "{{emp_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get individual employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"age\": {\r",
+											"                    \"type\": \"integer\"\r",
+											"                    },\r",
+											"                    \"email_address\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"emp_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"gender\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"role\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"username\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"age\",\r",
+											"                    \"email_address\",\r",
+											"                    \"emp_id\",\r",
+											"                    \"gender\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"role\",\r",
+											"                    \"status\",\r",
+											"                    \"username\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/employees/:employee_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees",
+										":employee_id"
+									],
+									"variable": [
+										{
+											"key": "employee_id",
+											"value": "{{emp_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get default password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"default_password\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"default_password\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/employees/default-password/:employee_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees",
+										"default-password",
+										":employee_id"
+									],
+									"variable": [
+										{
+											"key": "employee_id",
+											"value": "{{emp_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/employees/:employee_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"employees",
+										":employee_id"
+									],
+									"variable": [
+										{
+											"key": "employee_id",
+											"value": "{{emp_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Vehicle type",
+					"item": [
+						{
+							"name": "create vehicle type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 201\", () => {\r",
+											"        pm.response.to.have.status(201);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_type_name\" : \"{{$randomBsBuzz}}\",\r\n    \"price_per_hour\" : 30.25\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/vehicle-types",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"vehicle-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all vehicle types",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"price_per_hour\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"type_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"price_per_hour\",\r",
+											"                    \"type_id\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"\r",
+											"    const response = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"type_id\", response.data[1].type_id);\r",
+											"    pm.collectionVariables.set(\"type_name\", response.data[1].vehicle_type_name);\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/vehicle-types",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"vehicle-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update vehicle type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_type_name\" : \"{{type_name}}\",\r\n    \"price_per_hour\" : 30.28\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/vehicle-types/:type_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"vehicle-types",
+										":type_id"
+									],
+									"variable": [
+										{
+											"key": "type_id",
+											"value": "{{type_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get individual vehicle type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"price_per_hour\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"type_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"price_per_hour\",\r",
+											"                    \"type_id\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/vehicle-types/:type_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"vehicle-types",
+										":type_id"
+									],
+									"variable": [
+										{
+											"key": "type_id",
+											"value": "{{type_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Parking slot",
+					"item": [
+						{
+							"name": "create parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 201\", () => {\r",
+											"        pm.response.to.have.status(201);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"number = _.random(100, 200);\r",
+											"random_psn = \"PSN\" + number\r",
+											"pm.collectionVariables.set(\"parking_slot_no\", random_psn);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"parking_slot_no\" : \"{{parking_slot_no}}\",\r\n    \"vehicle_type_name\" : \"{{type_name}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/parking-slots",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"parking-slots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all parking slots",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"parking_slot_no\",\r",
+											"                    \"status\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/parking-slots",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"parking-slots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_type_name\" : \"{{type_name}}\",\r\n    \"new_status\" : \"vacant\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"parking-slots",
+										":parking_slot_no"
+									],
+									"variable": [
+										{
+											"key": "parking_slot_no",
+											"value": "{{parking_slot_no}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get individual parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"parking_slot_no\",\r",
+											"                    \"status\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"parking-slots",
+										":parking_slot_no"
+									],
+									"variable": [
+										{
+											"key": "parking_slot_no",
+											"value": "{{parking_slot_no}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"parking-slots",
+										":parking_slot_no"
+									],
+									"variable": [
+										{
+											"key": "parking_slot_no",
+											"value": "{{parking_slot_no}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "create customer",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"mobile_no\", String(_.random(6000000000, 9999999999)));\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 201\", () => {\r",
+											"        pm.response.to.have.status(201);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"mobile_no\" : \"{{mobile_no}}\",\r\n    \"vehicle_no\" : \"UP-12-AB-2345\",\r\n    \"vehicle_type_name\" : \"{{type_name}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/customers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all customers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"customer_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"status\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"customer_id\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"status\",\r",
+											"                    \"vehicle_no\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"\r",
+											"    const response = pm.response.json();\r",
+											"    const customer = response.data.findLast((item) => item.mobile_no === pm.collectionVariables.get(\"mobile_no\"));\r",
+											"\r",
+											"    pm.collectionVariables.set(\"customer_id\", customer.customer_id);\r",
+											"    pm.collectionVariables.set(\"vehicle_no\", customer.vehicle_no);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/customers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"Sneha Sharma\",\r\n   \"mobile_no\": \"7423695832\",\r\n   \"vehicle_no\" : \"UP-12-AB-2345\",\r\n   \"vehicle_type_name\":\"Car\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/customers/:customer_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"customers",
+										":customer_id"
+									],
+									"variable": [
+										{
+											"key": "customer_id",
+											"value": "{{customer_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get individual customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/customers/:customer_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"customers",
+										":customer_id"
+									],
+									"variable": [
+										{
+											"key": "customer_id",
+											"value": "{{customer_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/customers/:customer_id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"customers",
+										":customer_id"
+									],
+									"variable": [
+										{
+											"key": "customer_id",
+											"value": "{{customer_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Slot Reservation",
+					"item": [
+						{
+							"name": "reserve parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 201\", () => {\r",
+											"        pm.response.to.have.status(201);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"parking_slot_no\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_no\" : \"{{vehicle_no}}\",\r\n    \"out_date\": \"22-02-2030\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/reserve/parking-slot",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"reserve",
+										"parking-slot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all reservations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"booking_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"charges\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"customer_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"hours\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"in_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"in_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"booking_id\",\r",
+											"                    \"charges\",\r",
+											"                    \"customer_id\",\r",
+											"                    \"hours\",\r",
+											"                    \"in_date\",\r",
+											"                    \"in_time\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"out_date\",\r",
+											"                    \"out_time\",\r",
+											"                    \"parking_slot_no\",\r",
+											"                    \"vehicle_no\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/reservations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"reservations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get reservations by date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"booking_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"charges\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"customer_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"hours\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"in_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"in_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"booking_id\",\r",
+											"                    \"charges\",\r",
+											"                    \"customer_id\",\r",
+											"                    \"hours\",\r",
+											"                    \"in_date\",\r",
+											"                    \"in_time\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"out_date\",\r",
+											"                    \"out_time\",\r",
+											"                    \"parking_slot_no\",\r",
+											"                    \"vehicle_no\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/reservations?date=20-02-2024",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"reservations"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "20-02-2024"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get reservations by year",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"booking_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"charges\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"customer_id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"hours\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"in_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"in_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"mobile_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_date\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"out_time\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"parking_slot_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_no\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"vehicle_type_name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"booking_id\",\r",
+											"                    \"charges\",\r",
+											"                    \"customer_id\",\r",
+											"                    \"hours\",\r",
+											"                    \"in_date\",\r",
+											"                    \"in_time\",\r",
+											"                    \"mobile_no\",\r",
+											"                    \"name\",\r",
+											"                    \"out_date\",\r",
+											"                    \"out_time\",\r",
+											"                    \"parking_slot_no\",\r",
+											"                    \"vehicle_no\",\r",
+											"                    \"vehicle_type_name\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/reservations?year=2024",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"reservations"
+									],
+									"query": [
+										{
+											"key": "year",
+											"value": "2024"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "vacate parking slot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+											"\r",
+											"if (iteration_type === \"attendant routes\"){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema= {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"charges\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    },\r",
+											"                    \"hours\": {\r",
+											"                    \"type\": \"number\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"charges\",\r",
+											"                    \"hours\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]\r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vehicle_no\" : \"{{vehicle_no}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/vacate/parking-slot",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"vacate",
+										"parking-slot"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Refresh Token",
+					"item": [
+						{
+							"name": "refresh",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const success = pm.iterationData.get(\"success\");\r",
+											"\r",
+											"if (success === true){\r",
+											"    pm.test(\"Status code is 200\", () => {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"\r",
+											"    var schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"data\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"items\": [\r",
+											"                {\r",
+											"                \"type\": \"object\",\r",
+											"                \"properties\": {\r",
+											"                    \"access_token\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    },\r",
+											"                    \"refresh_token\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                    }\r",
+											"                },\r",
+											"                \"required\": [\r",
+											"                    \"access_token\",\r",
+											"                    \"refresh_token\"\r",
+											"                ]\r",
+											"                }\r",
+											"            ]\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"            \"data\"\r",
+											"        ]   \r",
+											"    }\r",
+											"\r",
+											"    pm.test(\"Valid data response\", () => {\r",
+											"        pm.response.to.have.jsonSchema(schema);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+											"    pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{refresh_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/refresh",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.iterationData.get(\"iteration_type\")){",
+							"",
+							"    success = pm.iterationData.get(\"success\");",
+							"    iteration_type = pm.iterationData.get(\"iteration_type\");",
+							"    const response = pm.response.json();",
+							"",
+							"    if (success == true){",
+							"        pm.test(\"Valid response\", () => {",
+							"            pm.expect(response).to.be.an(\"object\");",
+							"            pm.expect(response).to.haveOwnProperty(\"success\").to.be.an(\"boolean\");",
+							"            pm.expect(response).to.haveOwnProperty(\"message\").to.be.a(\"string\");",
+							"            pm.expect(response).to.haveOwnProperty(\"data\").to.be.an(\"array\");",
+							"            ",
+							"        });",
+							"    }",
+							"    else{",
+							"        pm.test(\"Valid response\", () => {",
+							"            pm.expect(response).to.be.an(\"object\");",
+							"            pm.expect(response).to.haveOwnProperty(\"success\").to.be.an(\"boolean\");",
+							"            pm.expect(response).to.haveOwnProperty(\"error\").to.be.a(\"string\");",
+							"            pm.expect(response).to.haveOwnProperty(\"message\").to.be.a(\"string\");",
+							"            ",
+							"        });",
+							"",
+							"        if (iteration_type == \"unauthenticated\"){",
+							"            pm.test(\"Status code is 401\", () => {",
+							"                pm.response.to.have.status(401);",
+							"            });",
+							"            ",
+							"        }",
+							"        else if (iteration_type == \"unauthorized\"){",
+							"            pm.test(\"Status code is 403\", () => {",
+							"                pm.response.to.have.status(403);",
+							"            });",
+							"        }",
+							"    }",
+							"}"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Negative Tests",
+			"item": [
+				{
+					"name": "Token Missing",
+					"item": [
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "get user profile-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"success\");\r",
+													"\r",
+													"if (success === true){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"age\": {\r",
+													"                    \"type\": \"integer\"\r",
+													"                    },\r",
+													"                    \"email_address\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"emp_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"gender\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"role\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"username\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"age\",\r",
+													"                    \"email_address\",\r",
+													"                    \"emp_id\",\r",
+													"                    \"gender\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"role\",\r",
+													"                    \"status\",\r",
+													"                    \"username\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/my-profile",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"my-profile"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change password-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"success\");\r",
+													"\r",
+													"if (success === true){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"access_token\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"refresh_token\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"access_token\",\r",
+													"                    \"refresh_token\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]   \r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"\r",
+													"    pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+													"    pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\" : \"Aayushi@12345\",\r\n    \"new_password\" : \"Aayushi@12345\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/change-password",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"change-password"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Employee",
+							"item": [
+								{
+									"name": "create employee-token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"random_string = pm.collectionVariables.get(\"random_string\");\r",
+													"random_email = random_string + \"@gmail.com\";\r",
+													"pm.variables.set(\"randomEmail\", random_email);\r",
+													"\r",
+													"possible_gender = [\"Female\", \"Male\", \"Other\"];\r",
+													"index = _.random(0,1);\r",
+													"pm.variables.set(\"randomGender\", possible_gender[index]);\r",
+													"\r",
+													"pm.variables.set(\"randomMobileNumber\", _.random(6000000000, 9999999999));\r",
+													"\r",
+													"pm.variables.set(\"randomAge\", _.random(16, 60));\r",
+													"\r",
+													"random_string = pm.collectionVariables.get(\"random_string\");\r",
+													"random_username = \"user@\" + random_string;\r",
+													"pm.collectionVariables.set(\"username\", random_username);\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 201\", () => {\r",
+													"        pm.response.to.have.status(201);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"age\" :  {{randomAge}},\r\n    \"gender\" : \"{{randomGender}}\",\r\n    \"mobile_no\" : \"{{randomMobileNumber}}\",\r\n    \"email_address\" : \"{{randomEmail}}\",\r\n    \"username\" : \"{{username}}\",\r\n    \"role\" : \"attendant\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/employees",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all employees-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"age\": {\r",
+													"                    \"type\": \"integer\"\r",
+													"                    },\r",
+													"                    \"email_address\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"emp_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"gender\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"role\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"username\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"age\",\r",
+													"                    \"email_address\",\r",
+													"                    \"emp_id\",\r",
+													"                    \"gender\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"role\",\r",
+													"                    \"status\",\r",
+													"                    \"username\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"\r",
+													"    const response = pm.response.json();\r",
+													"    const employee = response.data.find((item) => item.username === pm.collectionVariables.get(\"username\"));\r",
+													"    pm.collectionVariables.set(\"emp_id\", employee.emp_id);\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/employees",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update employee-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"random_string = pm.collectionVariables.get(\"random_string\");\r",
+													"random_email = random_string + \"@gmail.com\";\r",
+													"pm.variables.set(\"randomEmail\", random_email);\r",
+													"\r",
+													"possible_gender = [\"Female\", \"Male\", \"Other\"];\r",
+													"index = _.random(0,1);\r",
+													"pm.variables.set(\"randomGender\", possible_gender[index]);\r",
+													"\r",
+													"pm.variables.set(\"randomMobileNumber\", _.random(6000000000, 9999999999));\r",
+													"\r",
+													"pm.variables.set(\"randomAge\", _.random(16, 60));\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"age\" :  {{randomAge}},\r\n    \"gender\" : \"{{randomGender}}\",\r\n    \"mobile_no\" : \"{{randomMobileNumber}}\",\r\n    \"email_address\" : \"{{randomEmail}}\",\r\n    \"username\" : \"{{username}}\",\r\n    \"role\" : \"attendant\"\r\n}  ",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/employees/:employee_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees",
+												":employee_id"
+											],
+											"variable": [
+												{
+													"key": "employee_id",
+													"value": "{{emp_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get individual employee-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"age\": {\r",
+													"                    \"type\": \"integer\"\r",
+													"                    },\r",
+													"                    \"email_address\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"emp_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"gender\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"role\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"username\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"age\",\r",
+													"                    \"email_address\",\r",
+													"                    \"emp_id\",\r",
+													"                    \"gender\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"role\",\r",
+													"                    \"status\",\r",
+													"                    \"username\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/employees/:employee_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees",
+												":employee_id"
+											],
+											"variable": [
+												{
+													"key": "employee_id",
+													"value": "{{emp_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get default password-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"default_password\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"default_password\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/employees/default-password/:employee_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees",
+												"default-password",
+												":employee_id"
+											],
+											"variable": [
+												{
+													"key": "employee_id",
+													"value": "{{emp_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete employee-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/employees/:employee_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"employees",
+												":employee_id"
+											],
+											"variable": [
+												{
+													"key": "employee_id",
+													"value": "{{emp_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Vehicle type",
+							"item": [
+								{
+									"name": "create vehicle type-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 201\", () => {\r",
+													"        pm.response.to.have.status(201);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_type_name\" : \"{{$randomBsBuzz}}\",\r\n    \"price_per_hour\" : 30.25\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/vehicle-types",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"vehicle-types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all vehicle types-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"price_per_hour\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"type_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"price_per_hour\",\r",
+													"                    \"type_id\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"\r",
+													"    const response = pm.response.json();\r",
+													"    pm.collectionVariables.set(\"type_id\", response.data[1].type_id);\r",
+													"    pm.collectionVariables.set(\"type_name\", response.data[1].vehicle_type_name);\r",
+													"}\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/vehicle-types",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"vehicle-types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update vehicle type-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_type_name\" : \"{{type_name}}\",\r\n    \"price_per_hour\" : 30.28\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/vehicle-types/:type_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"vehicle-types",
+												":type_id"
+											],
+											"variable": [
+												{
+													"key": "type_id",
+													"value": "{{type_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get individual vehicle type-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"price_per_hour\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"type_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"price_per_hour\",\r",
+													"                    \"type_id\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/vehicle-types/:type_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"vehicle-types",
+												":type_id"
+											],
+											"variable": [
+												{
+													"key": "type_id",
+													"value": "{{type_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Parking slot",
+							"item": [
+								{
+									"name": "create parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 201\", () => {\r",
+													"        pm.response.to.have.status(201);\r",
+													"    });\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"number = _.random(100, 200);\r",
+													"random_psn = \"PSN\" + number\r",
+													"pm.collectionVariables.set(\"parking_slot_no\", random_psn);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"parking_slot_no\" : \"{{parking_slot_no}}\",\r\n    \"vehicle_type_name\" : \"{{type_name}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/parking-slots",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"parking-slots"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all parking slots-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"parking_slot_no\",\r",
+													"                    \"status\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/parking-slots",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"parking-slots"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_type_name\" : \"{{type_name}}\",\r\n    \"new_status\" : \"vacant\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"parking-slots",
+												":parking_slot_no"
+											],
+											"variable": [
+												{
+													"key": "parking_slot_no",
+													"value": "{{parking_slot_no}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get individual parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"parking_slot_no\",\r",
+													"                    \"status\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"parking-slots",
+												":parking_slot_no"
+											],
+											"variable": [
+												{
+													"key": "parking_slot_no",
+													"value": "{{parking_slot_no}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/parking-slots/:parking_slot_no",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"parking-slots",
+												":parking_slot_no"
+											],
+											"variable": [
+												{
+													"key": "parking_slot_no",
+													"value": "{{parking_slot_no}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Customer",
+							"item": [
+								{
+									"name": "create customer-token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"mobile_no\", String(_.random(6000000000, 9999999999)));\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 201\", () => {\r",
+													"        pm.response.to.have.status(201);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\" : \"{{$randomFullName}}\",\r\n    \"mobile_no\" : \"{{mobile_no}}\",\r\n    \"vehicle_no\" : \"UP-12-AB-2345\",\r\n    \"vehicle_type_name\" : \"{{type_name}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/customers",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"customers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all customers-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"customer_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"status\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"customer_id\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"status\",\r",
+													"                    \"vehicle_no\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"\r",
+													"    const response = pm.response.json();\r",
+													"    const customer = response.data.findLast((item) => item.mobile_no === pm.collectionVariables.get(\"mobile_no\"));\r",
+													"\r",
+													"    pm.collectionVariables.set(\"customer_id\", customer.customer_id);\r",
+													"    pm.collectionVariables.set(\"vehicle_no\", customer.vehicle_no);\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/customers",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"customers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update customer-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"Sneha Sharma\",\r\n   \"mobile_no\": \"7423695832\",\r\n   \"vehicle_no\" : \"UP-12-AB-2345\",\r\n   \"vehicle_type_name\":\"Car\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/customers/:customer_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"customers",
+												":customer_id"
+											],
+											"variable": [
+												{
+													"key": "customer_id",
+													"value": "{{customer_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get individual customer-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/customers/:customer_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"customers",
+												":customer_id"
+											],
+											"variable": [
+												{
+													"key": "customer_id",
+													"value": "{{customer_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete customer-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/customers/:customer_id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"customers",
+												":customer_id"
+											],
+											"variable": [
+												{
+													"key": "customer_id",
+													"value": "{{customer_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Slot Reservation",
+							"item": [
+								{
+									"name": "reserve parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 201\", () => {\r",
+													"        pm.response.to.have.status(201);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"parking_slot_no\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_no\" : \"{{vehicle_no}}\",\r\n    \"out_date\": \"22-02-2030\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/reserve/parking-slot",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"reserve",
+												"parking-slot"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all reservations-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"booking_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"charges\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"customer_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"hours\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"in_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"in_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"booking_id\",\r",
+													"                    \"charges\",\r",
+													"                    \"customer_id\",\r",
+													"                    \"hours\",\r",
+													"                    \"in_date\",\r",
+													"                    \"in_time\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"out_date\",\r",
+													"                    \"out_time\",\r",
+													"                    \"parking_slot_no\",\r",
+													"                    \"vehicle_no\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/reservations",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"reservations"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get reservations by date-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"booking_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"charges\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"customer_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"hours\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"in_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"in_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"booking_id\",\r",
+													"                    \"charges\",\r",
+													"                    \"customer_id\",\r",
+													"                    \"hours\",\r",
+													"                    \"in_date\",\r",
+													"                    \"in_time\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"out_date\",\r",
+													"                    \"out_time\",\r",
+													"                    \"parking_slot_no\",\r",
+													"                    \"vehicle_no\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/reservations?date=20-02-2024",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"reservations"
+											],
+											"query": [
+												{
+													"key": "date",
+													"value": "20-02-2024"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get reservations by year-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"admin routes\" || iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"booking_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"charges\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"customer_id\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"hours\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"in_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"in_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"mobile_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_date\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"out_time\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"parking_slot_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_no\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"vehicle_type_name\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"booking_id\",\r",
+													"                    \"charges\",\r",
+													"                    \"customer_id\",\r",
+													"                    \"hours\",\r",
+													"                    \"in_date\",\r",
+													"                    \"in_time\",\r",
+													"                    \"mobile_no\",\r",
+													"                    \"name\",\r",
+													"                    \"out_date\",\r",
+													"                    \"out_time\",\r",
+													"                    \"parking_slot_no\",\r",
+													"                    \"vehicle_no\",\r",
+													"                    \"vehicle_type_name\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/reservations?year=2024",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"reservations"
+											],
+											"query": [
+												{
+													"key": "year",
+													"value": "2024"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "vacate parking slot-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const iteration_type = pm.iterationData.get(\"iteration_type\");\r",
+													"\r",
+													"if (iteration_type === \"attendant routes\"){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema= {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"charges\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    },\r",
+													"                    \"hours\": {\r",
+													"                    \"type\": \"number\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"charges\",\r",
+													"                    \"hours\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]\r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicle_no\" : \"{{vehicle_no}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/v1/vacate/parking-slot",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"vacate",
+												"parking-slot"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Refresh Token",
+							"item": [
+								{
+									"name": "refresh-token missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const success = pm.iterationData.get(\"success\");\r",
+													"\r",
+													"if (success === true){\r",
+													"    pm.test(\"Status code is 200\", () => {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"\r",
+													"    var schema = {\r",
+													"        \"type\": \"object\",\r",
+													"        \"properties\": {\r",
+													"            \"data\": {\r",
+													"            \"type\": \"array\",\r",
+													"            \"items\": [\r",
+													"                {\r",
+													"                \"type\": \"object\",\r",
+													"                \"properties\": {\r",
+													"                    \"access_token\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    },\r",
+													"                    \"refresh_token\": {\r",
+													"                    \"type\": \"string\"\r",
+													"                    }\r",
+													"                },\r",
+													"                \"required\": [\r",
+													"                    \"access_token\",\r",
+													"                    \"refresh_token\"\r",
+													"                ]\r",
+													"                }\r",
+													"            ]\r",
+													"            }\r",
+													"        },\r",
+													"        \"required\": [\r",
+													"            \"data\"\r",
+													"        ]   \r",
+													"    }\r",
+													"\r",
+													"    pm.test(\"Valid data response\", () => {\r",
+													"        pm.response.to.have.jsonSchema(schema);\r",
+													"    });\r",
+													"\r",
+													"    pm.collectionVariables.set(\"access_token\", pm.response.json().data[0].access_token);\r",
+													"    pm.collectionVariables.set(\"refresh_token\", pm.response.json().data[0].refresh_token);\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/v1/refresh",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"v1",
+												"refresh"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.iterationData.get(\"iteration_type\")){",
+									"",
+									"    success = pm.iterationData.get(\"success\");",
+									"    iteration_type = pm.iterationData.get(\"iteration_type\");",
+									"    const response = pm.response.json();",
+									"",
+									"    if (success == true){",
+									"        pm.test(\"Valid response\", () => {",
+									"            pm.expect(response).to.be.an(\"object\");",
+									"            pm.expect(response).to.haveOwnProperty(\"success\").to.be.an(\"boolean\");",
+									"            pm.expect(response).to.haveOwnProperty(\"message\").to.be.a(\"string\");",
+									"            pm.expect(response).to.haveOwnProperty(\"data\").to.be.an(\"array\");",
+									"            ",
+									"        });",
+									"    }",
+									"    else{",
+									"        pm.test(\"Valid response\", () => {",
+									"            pm.expect(response).to.be.an(\"object\");",
+									"            pm.expect(response).to.haveOwnProperty(\"success\").to.be.an(\"boolean\");",
+									"            pm.expect(response).to.haveOwnProperty(\"error\").to.be.a(\"string\");",
+									"            pm.expect(response).to.haveOwnProperty(\"message\").to.be.a(\"string\");",
+									"            ",
+									"        });",
+									"",
+									"        if (iteration_type == \"unauthenticated\" || iteration_type == \"token missing\"){",
+									"            pm.test(\"Status code is 401\", () => {",
+									"                pm.response.to.have.status(401);",
+									"            });",
+									"            ",
+									"        }",
+									"        else if (iteration_type == \"unauthorized\"){",
+									"            pm.test(\"Status code is 403\", () => {",
+									"                pm.response.to.have.status(403);",
+									"            });",
+									"        }",
+									"    }",
+									"}"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "collections",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.postman.com/collections/32152078-5e1a355b-36ac-42b6-8fc2-322cdd15850f?apikey=PMAK-65d47aee899b160001e3bb61-f22112c556c271b2c36ee5dba01c141e32",
+					"protocol": "https",
+					"host": [
+						"api",
+						"postman",
+						"com"
+					],
+					"path": [
+						"collections",
+						"32152078-5e1a355b-36ac-42b6-8fc2-322cdd15850f"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "PMAK-65d47aee899b160001e3bb61-f22112c556c271b2c36ee5dba01c141e32"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"(function(){",
+					"    let characters = \"abcdefghijklmnopqrstuvwxyz\";",
+					"    let char_length = 5;",
+					"    let result = \"\"",
+					"    for(i=0; i<char_length; i++){",
+					"        result += characters.charAt(Math.floor(Math.random() * char_length));",
+					"    }",
+					"    pm.collectionVariables.set(\"random_string\", result);",
+					"})();",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if (pm.iterationData.get(\"iteration_type\")){",
+					"",
+					"    postman.setNextRequest(getNextRequest());",
+					"                ",
+					"    function getNextRequest() {",
+					"        let routes;",
+					"        if (Array.isArray(pm.collectionVariables.get(\"remainingRoutes\")) === true) {",
+					"            routes = pm.collectionVariables.get(\"remainingRoutes\");",
+					"        } else {",
+					"            routes = pm.iterationData.get(\"routes\");",
+					"        }",
+					"        const nextRequest = routes.shift();",
+					"        pm.collectionVariables.set(\"remainingRoutes\", routes);",
+					"        if (nextRequest === undefined) {",
+					"            pm.collectionVariables.unset(\"remainingRoutes\");",
+					"            return null;",
+					"        }",
+					"    ",
+					"        return nextRequest;",
+					"    }",
+					"}",
+					"",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://parking-management-system-mqs6.onrender.com",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "localhost_url",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"key": "random_string",
+			"value": ""
+		},
+		{
+			"key": "employee_id",
+			"value": ""
+		},
+		{
+			"key": "emp_id",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "type_id",
+			"value": ""
+		},
+		{
+			"key": "type_name",
+			"value": ""
+		},
+		{
+			"key": "parking_slot_no",
+			"value": ""
+		},
+		{
+			"key": "customer_id",
+			"value": ""
+		},
+		{
+			"key": "vehicle_no",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "randomUsername",
+			"value": ""
+		},
+		{
+			"key": "mobile_no",
+			"value": ""
+		}
+	]
+}
