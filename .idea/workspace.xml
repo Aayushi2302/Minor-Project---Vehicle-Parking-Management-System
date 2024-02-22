@@ -9,7 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/happy_path_iterations.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/newman/Vehicle Parking Management System-2024-02-21-09-54-54-571-0.html" beforeDir="false" afterPath="$PROJECT_DIR$/postman_tests/Vehicle Parking Management System-2024-02-21-09-54-54-571-0.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
