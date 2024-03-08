@@ -24,7 +24,7 @@ class SlotReservationSchema(BaseSchema):
     out_date = fields.Str(required=True, load_only=True)
 
     @validates_schema
-    def validate_out_date(self, data, **kwargs):
+    def validate_out_date(self, data):
         present = datetime.now().date()
         try:
             out_date = datetime.strptime(data["out_date"], "%d-%m-%Y").date()

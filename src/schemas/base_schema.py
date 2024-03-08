@@ -5,7 +5,6 @@ from src.utils.custom_exceptions import AppException
 
 
 class BaseSchema(Schema):
-
     def handle_error(
         self, error: ValidationError, data: typing.Any, *, many: bool, **kwargs
     ):

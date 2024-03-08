@@ -22,7 +22,6 @@ from src.resources.slot_reservation_resource import blp as SlotReservationBluepr
 from src.resources.user_resource import blp as UserBlueprint
 from src.resources.vehicle_type_resource import blp as VehicleTypeBlueprint
 from src.utils.custom_exceptions import AppException, DBException
-from src.utils.custom_error_handler import custom_error_handler
 from src.utils.responses import ErrorResponse
 
 PAPERTRAIL_HOSTNAME = "logs2.papertrailapp.com"

@@ -8,8 +8,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b9e1d9-39c5-4f7b-a13e-b8e3005aeadd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.flaskenv" beforeDir="false" afterPath="$PROJECT_DIR$/.flaskenv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newman/Vehicle Parking Management System-2024-02-21-09-54-54-571-0.html" beforeDir="false" afterPath="$PROJECT_DIR$/postman_tests/Vehicle Parking Management System-2024-02-21-09-54-54-571-0.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api_setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/base_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/base_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schemas/slot_reservation_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/schemas/slot_reservation_schema.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +54,7 @@
       <recent name="C:\Users\aasharma\OneDrive - WatchGuard Technologies Inc\Python Workspace\Minor Project Repo Updated\src\schemas" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aasharma\OneDrive - WatchGuard Technologies Inc\Python Workspace\Minor Project Repo Updated\postman_tests" />
       <recent name="C:\Users\aasharma\OneDrive - WatchGuard Technologies Inc\Python Workspace\Minor Project Repo Updated" />
       <recent name="C:\Users\aasharma\OneDrive - WatchGuard Technologies Inc\Python Workspace\Minor Project Repo Updated\src\helpers" />
     </key>
@@ -95,6 +99,11 @@
           <url>file://$PROJECT_DIR$/src/schemas/vehicle_type_schema.py</url>
           <line>2</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/resources/auth_resource.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
