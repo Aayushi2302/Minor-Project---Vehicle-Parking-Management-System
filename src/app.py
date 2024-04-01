@@ -2,6 +2,7 @@
 
 from flask import Flask, g
 from flask_smorest import Api
+from flask_cors import CORS
 
 
 def create_app() -> Flask:
@@ -11,6 +12,7 @@ def create_app() -> Flask:
         Returns -> Flask application
     """
     app = Flask(__name__)
+    CORS(app)
 
     app.logger.info("Application server started.")
 
